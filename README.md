@@ -2,9 +2,7 @@
 
 ## What is this?
 
-PHPUnit was conceived in a world where anonymous functions were taboo in PHP. Back then, PHP tried to be like its statically-typed big brother, Java. But, in realizing that it was significantly handicapped (think Humpback of Notre Dame meets Cookie Monster), PHP finally acknowledged it could never aspire to be that anal of a language. Nowadays, PHP mingles with the other freaks, like the banana-phone talking, hallucination-inducing Ruby and the perpetually cracked-out and, in recent years, highly aspirational Javascript.
-
-Shmock was born after an impromptu Infected Mushroom show at Burning Man. Shmock is a smooth alternative for creating mocks with PHPUnit that uses the mock/replay concept from EasyMock but uses closures to define the scope for mocking.
+Shmock is a smooth alternative for creating mocks with PHPUnit that uses the mock/replay concept from EasyMock but uses closures to define the scope for mocking.
 
   ```php
 	<?php
