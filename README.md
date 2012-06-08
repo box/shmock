@@ -28,14 +28,15 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 	}
 	
 	/**
-	* Our test case
+	* Our test case runs the same test case twice - once with the original PHPUnit mocking
+	* syntax and a second time with Shmock syntax. 
 	*/
 	class My_Class_Test extends PHPUnit_Framework_TestCase
 	{
 		public function test_phpunit_original_mocking_syntax()
 		{
-			// we want incrementing service to be mocked out.
-			
+			// this is the original PHPUnit mock syntax
+
 			$incrementing_service_mock = $this->getMock('Incrementing_Service', array('increment'));
 			$incrementing_service_mock->expects($this->once())
 				->method('increment')
@@ -48,6 +49,7 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 		
 		public function test_shmock_syntax()
 		{
+			// here's shmock. Neat huh?
 			$incrementing_service_mock = $this->shmock('Incrementing_Service', function($shmock)
 			{
 				$shmock->increment(0)->return_value(1);
