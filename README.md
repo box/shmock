@@ -83,8 +83,10 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 			
 			$another_class->method_dies_horribly()->throw_exception(new InvalidArgumentException()); // [10]
 			
-			$another_class->method_gets_stubbed(1,2)->will(function($a, $b)
+			$another_class->method_gets_stubbed(1,2)->will(function(PHPUnit_Framework_MockObject_Invocation $invocation)
 			{
+			        $a = $invocation->parameters[0];
+			        $b = $invocation->parameters[1];
 				return $a + $b; // [11]
 			});
 		});
