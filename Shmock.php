@@ -131,7 +131,16 @@ class Shmock
 		}
 		if ($this->preserve_original_methods)
 		{
-			$builder->setMethods(array_unique($this->methods));
+			if (count($this->methods) == 0)
+			{
+				/*
+				* If you pass an empty array of methods to the PHPUnit mock builder,
+				* it's effectively like saying don't preserve any methods at all. Instead
+				* we tell the builder to mock a single fake method when necessary.
+				*/
+				$this->methods[] = "__fake_method_for_shmock_to_preserve_methods"; 
+			}
+			$builder->setMethods(array_unique($this->methods));	
 		}
 		if ($this->constructor_arguments)
 		{
@@ -324,6 +333,21 @@ class Shmock_PHPUnit_Spec
 			throw $e;
 		});
 	}
+	
+	public function return_value_map($map_of_args_to_values)
+    {
+            $limit = count($map_of_args_to_values);
+            $this->test_case->assertGreaterThan(0, $limit, 'Must specify at least one return value');
+            $this->times($limit);
+
+            $stub = new PHPUnit_Framework_MockObject_Stub_ReturnValueMap($map_of_args_to_values);
+            return $this->will(function($invocation) use ($stub)
+            {
+                    return $stub->invoke($invocation);
+            });
+            return $this;
+    }
+    
 
 	public function return_consecutively($array_of_values, $keep_returning_last_value=false)
 	{
