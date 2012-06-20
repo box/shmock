@@ -1,5 +1,7 @@
 <?php
 
+// PHP 5.3 or later. 
+// The 'Shmockers' helper trait is available in PHP 5.4
 // PHPUnit 3.6 or later should be in the path
 require_once 'PHPUnit/Autoload.php';
 
@@ -462,4 +464,9 @@ class Shmock_Closure_Invoker implements PHPUnit_Framework_MockObject_Stub
 	{
 		return "Closure invoker";
 	}
+}
+
+if (phpversion() >= 5.4)
+{
+	require_once 'Shmockers.php';
 }
