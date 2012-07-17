@@ -1,9 +1,9 @@
 {
-  "name": "box/Shmock",
+  "name": "box/shmock",
   "type": "library",
   "description": "Shorthand for (PHPUnit) Mocking",
   "keywords": ["shmock","mock","phpunit"],
-  "homepage": "http://github.com/box/Shmock",
+  "homepage": "http://github.com/box/shmock",
   "license": "Apache 2.0",
   "authors": [
     {
