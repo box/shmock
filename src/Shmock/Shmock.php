@@ -8,22 +8,6 @@ require_once 'PHPUnit/Autoload.php';
 
 /**
 *
-* Introducing Shmock - so luscious!
-*
-* $mock = $this->shmock('Box_File', function($shmock) use ($user)
-* {
-*	$shmock->set_user($user)->once()->return_value(true);
-* });
-*
-* $mock_file = $this->shmock('Box_File', function($shmock_file)
-* {
-*		$shmock_file->user()->return_mock('Box_Account', function($shmock_user)
-* 		{
-*			$shmock_user->user_id()->return_value(5);
-*		});
-*  });
-*
-*
 * Questions:
 * - Hamcrest matchers?
 */
