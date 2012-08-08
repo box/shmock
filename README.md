@@ -45,7 +45,7 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 				->will($this->returnValue(1));
 
 			$foo = new Foo($incrementing_service_mock);
-			$this->assertEquals(1, $foo->next_foo());
+			$this->assertEquals(1, $foo->next_foo(0));
 		}
 
 		/**
@@ -67,7 +67,7 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 			});
 
 			$foo = new Foo($incrementing_service_mock);
-			$this->assertEquals(1, $foo->next_foo());
+			$this->assertEquals(1, $foo->next_foo(0));
 		}
 	}
   ```
