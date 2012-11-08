@@ -54,7 +54,7 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 		 * Create a shmock representation for $class_name and configure expected
 		 * mock interaction with $conf_closure
 		 * @return Shmock A fully configured mock object
-                 * @note You do not need this protected method if you use the Shmockers trait, shown above
+		 * @note You do not need this protected method if you use the Shmockers trait, shown above
 		 */
 		protected function shmock($class_name, $conf_closure)
 		{
