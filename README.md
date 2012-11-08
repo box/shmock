@@ -34,7 +34,9 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 	 */
 	class Foo_Test extends PHPUnit_Framework_TestCase
 	{
-		public function test_phpunit_original_mocking_syntax()
+                use \Shmock\Shmockers; // This enables the use of the Shmock helper methods (replicated below)
+
+                public function test_phpunit_original_mocking_syntax()
 		{
 			// this is the original PHPUnit mock syntax
 
@@ -52,6 +54,7 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 		 * Create a shmock representation for $class_name and configure expected
 		 * mock interaction with $conf_closure
 		 * @return Shmock A fully configured mock object
+                 * @note You do not need this protected method if you use the Shmockers trait, shown above
 		 */
 		protected function shmock($class_name, $conf_closure)
 		{
@@ -71,6 +74,23 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 		}
 	}
   ```
+## Installation
+
+Shmock can be installed directly from [Packagist](https://packagist.org/packages/box/shmock).
+
+   "require": {
+        "box/shmock": "1.0.0-dev"
+   }
+
+Alternatively you can download Shmock.php and Shmockers.php into your test directory and run
+
+  require_once 'Shmock.php';
+
+PHPUnit should already be on the load path for this to work.
+
+## 5.3 compatible, 5.4 approved
+
+For users of PHP 5.3, you will need to use the static methods `Shmock::create` and `Shmock::create_class` directly and write your own helper functions. >=5.4 users should use the Shmockers trait for optimal helperness. 
 
 ## Full list of Shmock features:
   ```php
@@ -128,4 +148,6 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 11. Even more sophisticated, you can execute an arbitrary closure when the function gets called.
 12. If you want to mock static functions, you call `shmock_class` which will give you all the same Shmock semantics as instances (where it makes sense). This is particularly useful when you want to partially mock an object, keeping some of the original behavior, but mocking out static / protected methods that may exist that the method you are testing is dependent on.
 13. You can also mock a class independently of a mock instance.
+
+
 
