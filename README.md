@@ -78,10 +78,10 @@ Shmock is a smooth alternative for creating mocks with PHPUnit that uses the moc
 
 Shmock can be installed directly from [Packagist](https://packagist.org/packages/box/shmock).
 
-```
-   "require": {
-        "box/shmock": "1.0.0-dev"
-   }
+```json
+"require": {
+    "box/shmock": "1.0.0-dev"
+}
 ```
 Alternatively you can download Shmock.php and Shmockers.php into your test directory and run
 
