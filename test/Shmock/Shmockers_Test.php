@@ -1,13 +1,15 @@
 <?php
+namespace Shmock;
 
-class Shmockers_Test extends PHPUnit_Framework_TestCase
+
+class Shmockers_Test extends \PHPUnit_Framework_TestCase
 {
 	use Shmockers;
 	
 	public function test_this_test_can_use_the_shmock_helper_methods()
 	{
 		
-		$shmock_email_service = $this->shmock('Email_Service', function($user)
+		$shmock_email_service = $this->shmock('Shmock\Email_Service', function($user)
 		{
 			$user->send('user@gmail.com', $this->stringContains("a message"));
 		});
