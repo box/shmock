@@ -167,7 +167,7 @@ class Shmock
 
 	protected function do_strict_method_test($method)
 	{
-		$err_msg = "Attempted to expect #$method, which is not defined as a non-static method in the class {$this->class}. If you wish to disable this check, call \$shmock->disable_strict_method_checking()";
+		$err_msg = "Attempted to expect #$method, which is not defined or is a static method in the class {$this->class}. If you wish to disable this check, call \$shmock->disable_strict_method_checking()";
 		try
 		{
 			$reflection_method = new \ReflectionMethod($this->class, $method);
@@ -204,7 +204,7 @@ class Shmock_Class extends Shmock
 
 	protected function do_strict_method_test($method)
 	{
-		$err_msg = "Attempted to expect #$method, which is not defined statically in the class {$this->class}. You may implement __callStatic or, if you wish to disable this check, call \$shmock->disable_strict_method_checking()";
+		$err_msg = "Attempted to expect #$method, which is not defined or is not static in the class {$this->class}. You may implement __callStatic or, if you wish to disable this check, call \$shmock->disable_strict_method_checking()";
 		try
 		{
 			$reflection_method = new \ReflectionMethod($this->class, $method);
