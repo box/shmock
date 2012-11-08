@@ -94,6 +94,16 @@ PHPUnit should already be on the load path for this to work.
 
 For users of PHP 5.3, you will need to use the static methods `Shmock::create` and `Shmock::create_class` directly and write your own helper functions. >=5.4 users should use the Shmockers trait for optimal helperness. 
 
+## Type Safety
+
+Shmock is typesafe by default and will attempt to tell you when you're using the wrong mocking approach. Shmock will throw errors in cases where:
+
+* You mock a static method as though it were an instance method or vice versa.
+* You mock a private method as though it were protected or public.
+* You mock a method that does not exist _and_ there is no __call / __callStatic magic method provided.
+
+These checks can be disabled by calling `$mock_object->disable_strict_method_checking()` inside the shmock closure. We also plan on supporting parameter and return value checking if it complies with yet-to-be-defined PHPDoc conventions.
+
 ## Full list of Shmock features:
   ```php
   <?php
