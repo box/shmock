@@ -80,7 +80,7 @@ Shmock can be installed directly from [Packagist](https://packagist.org/packages
 
 ```json
 "require": {
-    "box/shmock": "1.0.0-dev"
+    "box/shmock": "1.0.0.x-dev"
 }
 ```
 Alternatively you can download Shmock.php and Shmockers.php into your test directory and run
