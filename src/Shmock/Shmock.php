@@ -13,7 +13,7 @@ require_once 'PHPUnit/Autoload.php';
 */
 class Shmock
 {
-
+	/** @var PHPUnit_Framework_TestCase */
 	protected $test_case = null;
 	protected $specs = array();
 	protected $class = null;
@@ -167,7 +167,14 @@ class Shmock
 
 	protected function do_strict_method_test($method)
 	{
-		$err_msg = "Attempted to expect #$method, which is not defined or is a static method in the class {$this->class}. If you wish to disable this check, call \$shmock->disable_strict_method_checking()";
+		if (!class_exists($this->class))
+		{
+			$this->test_case->fail("Class {$this->class} not found.");
+		}
+
+		$err_msg = "Attempted to expect #$method, which is a static method in the {$this->class} class. "
+			. 'If you wish to disable this check, call $shmock->disable_strict_method_checking().';
+
 		try
 		{
 			$reflection_method = new \ReflectionMethod($this->class, $method);
