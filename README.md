@@ -110,15 +110,15 @@ These checks can be disabled by calling `$mock_object->disable_strict_method_che
   // This code could conceptually be part of a test method from the above Foo_Test class
 	$inc_service = $this->shmock('\Foo\Incrementing_Service', function($my_class_shmock) // [1]
 	{
-		$inc_service->no_args_method(); // [2]
-		$inc_service->two_arg_method('param1', 'param2'); // [3]
-		$inc_service->method_that_returns_a_number()->return_value(100); // [4]
-		$inc_service->method_that_gets_run_twice()->times(2); // [5]
-		$inc_service->method_that_gets_run_any_times()->any(); // [6]
+		$my_class_shmock->no_args_method(); // [2]
+		$my_class_shmock->two_arg_method('param1', 'param2'); // [3]
+		$my_class_shmock->method_that_returns_a_number()->return_value(100); // [4]
+		$my_class_shmock->method_that_gets_run_twice()->times(2); // [5]
+		$my_class_shmock->method_that_gets_run_any_times()->any(); // [6]
 
-		$inc_service->method_puts_it_all_together('with', 'args')->times(2)->return_value(false);
+		$my_class_shmock->method_puts_it_all_together('with', 'args')->times(2)->return_value(false);
 
-		$inc_service->method_returns_another_mock()->return_shmock('\Another_Namespace\Another_Class', function($another_class) // [7]
+		$my_class_shmock->method_returns_another_mock()->return_shmock('\Another_Namespace\Another_Class', function($another_class) // [7]
 		{
 			$another_class->order_matters(); // [8]
 			$another_class->disable_original_constructor(); // [9a]
@@ -134,7 +134,7 @@ These checks can be disabled by calling `$mock_object->disable_strict_method_che
 			});
 		});
 
-		$inc_service->shmock_class(function($Inc_Service)
+		$my_class_shmock->shmock_class(function($Inc_Service)
 		{
 			$Inc_Service->my_static_method()->any()->return_value('This was returned inside the mock instance using the static:: prefix'); // [12]
 		});
