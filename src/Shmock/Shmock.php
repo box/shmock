@@ -13,7 +13,7 @@ require_once 'PHPUnit/Autoload.php';
 */
 class Shmock
 {
-	/** @var PHPUnit_Framework_TestCase */
+	/** @var \PHPUnit_Framework_TestCase */
 	protected $test_case = null;
 	protected $specs = array();
 	protected $class = null;
