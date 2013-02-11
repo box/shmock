@@ -21,10 +21,12 @@ class Shmock
 	protected $disable_original_constructor = false;
 	protected $strict_method_checking = true;
 
-	/* If we want to shmock the static context of a shmock'd object
-	* we need to call get_class() on the final mock, so we save
-	* any configuration closure until after everything is done.
-	*/
+	/**
+	 * @var callable
+	 * If we want to shmock the static context of a shmock'd object
+	 * we need to call get_class() on the final mock, so we save
+	 * any configuration closure until after everything is done.
+	 */
 	protected $shmock_class_closure = null;
 
 	protected $order_matters = false;
@@ -313,7 +315,6 @@ class Shmock_PHPUnit_Spec
 		{
 			return $value;
 		});
-		return $this;
 	}
 
 	public function throw_exception($e=null)
@@ -322,7 +323,7 @@ class Shmock_PHPUnit_Spec
 		{
 			if (!$e)
 			{
-				$e = new Exception();
+				$e = new \Exception();
 			}
 			throw $e;
 		});
@@ -335,11 +336,11 @@ class Shmock_PHPUnit_Spec
             $this->times($limit);
 
             $stub = new \PHPUnit_Framework_MockObject_Stub_ReturnValueMap($map_of_args_to_values);
+
             return $this->will(function($invocation) use ($stub)
             {
                     return $stub->invoke($invocation);
             });
-            return $this;
     }
 
 
@@ -361,10 +362,12 @@ class Shmock_PHPUnit_Spec
 				return $array_of_values[$counter];
 			}
 		});
+
 		if (!$keep_returning_last_value)
 		{
 			$this->times(count($array_of_values));
 		}
+
 		return $this;
 	}
 
@@ -440,6 +443,7 @@ class Shmock_PHPUnit_Spec
 
 class Shmock_Closure_Invoker implements \PHPUnit_Framework_MockObject_Stub
 {
+    /** @var callable */
 	private $closure = null;
 
 	public function __construct($closure)
