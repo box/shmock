@@ -104,6 +104,18 @@ Shmock is typesafe by default and will attempt to tell you when you're using the
 
 These checks can be disabled by calling `$mock_object->disable_strict_method_checking()` inside the shmock closure. We also plan on supporting parameter and return value checking if it complies with yet-to-be-defined PHPDoc conventions.
 
+## Shmock object methods:
+* times($times)
+* once()
+* any()
+* never()
+* will($will_closure)
+* return_value($value)
+* throw_exception($e=null)
+* return_value_map($map_of_args_to_values)
+* return_consecutively($array_of_values, $keep_returning_last_value=false)
+* return_shmock($class, $shmock_closure=null)
+
 ## Full list of Shmock features:
   ```php
   <?php
