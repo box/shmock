@@ -28,7 +28,7 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
         // We expect that a \Shmock\Shmock_Exception will be thrown
         // as a result of using a non-integer here
 
-        $this->shmock('Shmock\Even_Calculator', function($calculator) {
+        $this->shmock('Shmock\Even_Calculator', function ($calculator) {
             $calculator->raise_to_even(4.4)->return_value(6);
         });
 
@@ -37,7 +37,7 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
 
     public function test_policies_allow_valid_parameters()
     {
-        $calculator = $this->shmock('Shmock\Even_Calculator', function($calculator) {
+        $calculator = $this->shmock('Shmock\Even_Calculator', function ($calculator) {
             $calculator->raise_to_even(5)->return_value(6);
         });
 
@@ -49,7 +49,7 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
      */
     public function test_policy_prevents_odd_return_values()
     {
-        $calculator = $this->shmock('Shmock\Even_Calculator', function($calculator) {
+        $calculator = $this->shmock('Shmock\Even_Calculator', function ($calculator) {
             $calculator->raise_to_even(5)->return_value(7);
         });
 
@@ -59,26 +59,26 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Shmock\Shmock_Exception
      */
-	public function test_policy_prevents_unexpected_throws()
-	{
-        $calculator = $this->shmock('Shmock\Even_Calculator', function($calculator) {
+    public function test_policy_prevents_unexpected_throws()
+    {
+        $calculator = $this->shmock('Shmock\Even_Calculator', function ($calculator) {
             $calculator->raise_to_even(5)->throw_exception(new \Exception());
         });
 
         $this->fail("should not reach here");
-	}
+    }
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function test_policy_allows_valid_throws()
-	{
-        $calculator = $this->shmock('Shmock\Even_Calculator', function($calculator) {
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_policy_allows_valid_throws()
+    {
+        $calculator = $this->shmock('Shmock\Even_Calculator', function ($calculator) {
             $calculator->raise_to_even(5)->throw_exception(new \InvalidArgumentException());
         });
 
-		$calculator->raise_to_even(5);
-	}
+        $calculator->raise_to_even(5);
+    }
 
 }
 

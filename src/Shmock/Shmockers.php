@@ -6,13 +6,13 @@ namespace Shmock;
 */
 trait Shmockers
 {
-	public function shmock($clazz, $closure=null)
-	{
-		return Shmock::create($this, $clazz, $closure);
-	}
+    public function shmock($clazz, $closure=null)
+    {
+        return Shmock::create($this, $clazz, $closure);
+    }
 
-	public function shmock_class($clazz, $closure=null)
-	{
-		return Shmock::create_class($this, $clazz, $closure);
-	}
+    public function shmock_class($clazz, $closure=null)
+    {
+        return Shmock::create_class($this, $clazz, $closure);
+    }
 }
