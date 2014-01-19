@@ -1,4 +1,12 @@
 <?php
+/**
+ * Shmock provides a stricter, more fluid interface on top of vanilla PHPUnit mockery. In
+ * addition to a fluent builder syntax, it will do stricter inspection of mock objects to
+ * ensure that they meet important criteria. Out of the box, Shmock will enforce that static
+ * methods cannot be mocked non-statically, that private methods cannot be mocked at all,
+ * and that the class or interface being mocked must exist. You can even program custom
+ * checks that will apply to every mock object you create using Shmock Policies.
+ */
 
 namespace Shmock;
 

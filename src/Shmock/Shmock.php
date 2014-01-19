@@ -1,18 +1,53 @@
 <?php
+
+/**
+ * @package \Shmock provides a stricter, more fluid interface on top of vanilla PHPUnit mockery. In
+ * addition to a fluent builder syntax, it will do stricter inspection of mock objects to
+ * ensure that they meet important criteria. Out of the box, Shmock will enforce that static
+ * methods cannot be mocked non-statically, that private methods cannot be mocked at all,
+ * and that the class or interface being mocked must exist. You can even program custom
+ * checks that will apply to every mock object you create using Shmock Policies.
+ */
 namespace Shmock;
 
 require_once 'PHPUnit/Autoload.php';
 require_once __DIR__ . '/Shmockers.php';
 require_once __DIR__ . '/Policy.php';
 
+/**
+ * The Shmock\Shmock class is the entry point to the fluent Shmock interface. You may use this class
+ * directly to create mocks. Alternatively, use the Shmockers trait to include shorthand versions
+ * of {create()} and {create_class()} in your test cases.
+ */
 class Shmock
 {
-	/**
-	 * @var \Shmock\Policy[] Do not modify this directly, use {add_policy()} and {clear_policies()}
-	 */
-	public static $policies = [];
+    /**
+     * @var \Shmock\Policy[] Do not modify this directly, use {add_policy()} and {clear_policies()}
+     */
+    public static $policies = [];
 
-    public static function create($test_case, $class, $closure)
+    /**
+     * Create an instance of a mock object. Shmock uses a build / replay model for building mock objects.
+     * The third argument to the create method is a callable that acts as the mock's build phase. The resulting
+     * object from the create method is the object in the replay phase. You may easily design your own
+     * build / replay lifecycle to meet your needs by using the Shmock_Instance and Shmock_Class classes directly.
+     *
+     * <pre>
+     * $shmock = new Shmock_Instance($this, 'MyCalculator');
+     * $shmock->add(1,2)->return_value(3);
+     * $mock = $shmock->replay();
+     * </pre>
+     *
+     * @param  \PHPUnit_Framework_TestCase $test_case
+     * @param  string                      $class     the class being mocked
+     * @param  callable                    $closure   the build phase of the mock
+     * @return mixed                       An instance of a subclass of $class. PHPUnit mocks require that all mocks
+     * be subclasses of the target class in order to replace target methods. For this reason, mocking
+     * will fail if the class is final.
+     * @see \Shmock\Shmock_Instance
+     * @see \Shmock\Shmock_Class
+     */
+    public static function create(\PHPUnit_Framework_TestCase $test_case, $class, callable $closure)
     {
         $shmock = new Shmock_Instance($test_case, $class);
         if ($closure) {
@@ -22,6 +57,14 @@ class Shmock
         return $shmock->replay();
     }
 
+    /**
+     * Create a mock class. Mock classes go through the build / replay lifecycle like mock instances do.
+     * @param  \PHPUnit_Framework_TestCase $test_case
+     * @param  string                      $class     the class to be mocked
+     * @param  callable                    $closure   the closure to apply to the class mock in its build phase.
+     * @return string                      a subclass of $class that has mock expectations set on it.
+     * @see \Shmock\Shmock::create()
+     */
     public static function create_class($test_case, $class, $closure)
     {
         $shmock_class = new Shmock_Class($test_case, $class);
@@ -32,17 +75,27 @@ class Shmock
         return $shmock_class->replay();
     }
 
-	public static function add_policy(Policy $policy)
-	{
-		self::$policies[] = $policy;
-	}
+    /**
+     * Add a policy to Shmock that ensures qualities about mock objects as they are created. Policies
+     * allow you to highly customize the behavior of Shmock.
+     * @param  \Shmock\Policy $policy
+     * @return void
+     * @see \Shmock\Policy
+     */
+    public static function add_policy(Policy $policy)
+    {
+        self::$policies[] = $policy;
+    }
 
-	public function clear_policies()
-	{
-		self::$policies = [];
-	}
+    /**
+     * Clears any set policies.
+     * @return void
+     */
+    public function clear_policies()
+    {
+        self::$policies = [];
+    }
 }
-
 
 /**
 * PHP 5.4 or later
@@ -76,6 +129,14 @@ class Shmock_Instance
         $this->class = $class;
     }
 
+    /**
+     * Prevent the original constructor from being called when
+     * the replay phase begins. This can be important if the
+     * constructor of the class being mocked takes complex arguments or
+     * performs work that cannot be intercepted.
+     * @return \Shmock\Shmock_Instance
+     * @see \Shmock\Shmock_Instance::set_constructor_arguments()
+     */
     public function disable_original_constructor()
     {
         $this->disable_original_constructor = true;
@@ -83,6 +144,10 @@ class Shmock_Instance
         return $this;
     }
 
+    /**
+     * @deprecated
+     * @throws \BadMethodCallException
+     */
     public function disable_strict_method_checking()
     {
         throw new \BadMethodCallException("Shmock no longer allows you to disable strict method checking. If you are unsure of how to solve your issue, please talk to someone in qual-ed.");
@@ -91,6 +156,9 @@ class Shmock_Instance
     /**
      * Any arguments passed in here will be included in the
      * constructor call for the mocked class.
+     * @param *mixed|null Arguments to the target constructor
+     * @return void
+     * @see \Shmock\Shmock_Instance::disable_original_constructor()
      */
     public function set_constructor_arguments()
     {
@@ -202,7 +270,6 @@ class Shmock_Instance
         return $spec;
     }
 }
-
 
 class Shmock_Class extends Shmock_Instance
 {
