@@ -5,10 +5,49 @@ require_once 'PHPUnit/Autoload.php';
 require_once __DIR__ . '/Shmockers.php';
 require_once __DIR__ . '/Policy.php';
 
+class Shmock
+{
+	/**
+	 * @var \Shmock\Policy[] Do not modify this directly, use {add_policy()} and {clear_policies()}
+	 */
+	public static $policies = [];
+
+    public static function create($test_case, $class, $closure)
+    {
+        $shmock = new Shmock_Instance($test_case, $class);
+        if ($closure) {
+            $closure($shmock);
+        }
+
+        return $shmock->replay();
+    }
+
+    public static function create_class($test_case, $class, $closure)
+    {
+        $shmock_class = new Shmock_Class($test_case, $class);
+        if ($closure) {
+            $closure($shmock_class);
+        }
+
+        return $shmock_class->replay();
+    }
+
+	public static function add_policy(Policy $policy)
+	{
+		self::$policies[] = $policy;
+	}
+
+	public function clear_policies()
+	{
+		self::$policies = [];
+	}
+}
+
+
 /**
 * PHP 5.4 or later
 */
-class Shmock
+class Shmock_Instance
 {
 
     /** @var \PHPUnit_Framework_TestCase */
@@ -30,41 +69,6 @@ class Shmock
 
     protected $constructor_arguments = array();
     protected $methods = array();
-
-    /**
-    * @var Shmock\Policy[]
-    */
-    protected static $policies = array();
-
-    public static function add_policy(Policy $policy)
-    {
-        self::$policies[] = $policy;
-    }
-
-    public static function clear_policies()
-    {
-        self::$policies = array();
-    }
-
-    public static function create($test_case, $class, $closure)
-    {
-        $shmock = new Shmock($test_case, $class);
-        if ($closure) {
-            $closure($shmock);
-        }
-
-        return $shmock->replay();
-    }
-
-    public static function create_class($test_case, $class, $closure)
-    {
-        $shmock_class = new Shmock_Class($test_case, $class);
-        if ($closure) {
-            $closure($shmock_class);
-        }
-
-        return $shmock_class->replay();
-    }
 
     public function __construct($test_case, $class)
     {
@@ -159,7 +163,7 @@ class Shmock
         }
 
         foreach ($this->specs as $spec) {
-            $spec->finalize_expectations($mock, self::$policies, false, $this->class);
+            $spec->finalize_expectations($mock, Shmock::$policies, false, $this->class);
         }
 
         return $mock;
@@ -200,7 +204,7 @@ class Shmock
 }
 
 
-class Shmock_Class extends Shmock
+class Shmock_Class extends Shmock_Instance
 {
 
     protected function do_strict_method_test($method, $with)
@@ -224,7 +228,7 @@ class Shmock_Class extends Shmock
         $mock_class = get_class($this->construct_mock());
 
         foreach ($this->specs as $spec) {
-            $spec->finalize_expectations($mock_class, self::$policies, true, $this->class);
+            $spec->finalize_expectations($mock_class, Shmock::$policies, true, $this->class);
         }
 
         return $mock_class;
@@ -232,7 +236,8 @@ class Shmock_Class extends Shmock
 }
 
 /**
-* This is a private class, do not use.
+* This class is only used when in the context of mocked instance and the shmock_class function is used.
+* For example
 */
 class Shmock_Instance_Class extends Shmock_Class
 {
@@ -400,7 +405,7 @@ class Shmock_PHPUnit_Spec
 
     public function throw_exception($e=null)
     {
-        $this->thrown_exceptions[] = $e ?: 'Exception';
+        $this->thrown_exceptions[] = $e ?: new \Exception();
 
         return $this->will(function () use ($e) {
             if (!$e) {
