@@ -233,15 +233,15 @@ class PHPUnit_Spec
     *
     * @param mixed[][] an array of arrays of arguments with the final value
     * of the array being the return value.
-    *
+    * @return \Shmock\PHPUnit_Spec
     * For example, if you were simulating addition:
-    *
+    * <pre>
     * $shmock_calculator->add()->return_value_map([
     * 	[1, 2, 3], // 1 + 2 = 3
     * 	[10, 15, 25],
     * 	[11, 11, 22]
     * ]);
-    *
+    * </pre>
     */
     public function return_value_map($map_of_args_to_values)
     {
@@ -310,11 +310,28 @@ class PHPUnit_Spec
         });
     }
 
+    /**
+     * Specifies that the method will return the invocation target. This is
+     * useful for mocking other objects that have fluent interfaces.
+     * <pre>
+     *  $latte->add_foam()->return_this();
+     *  $latte->caffeine_free()->return_this();
+     * </pre>
+     * @return \Shmock\PHPUnit_Spec
+     */
     public function return_this()
     {
         $this->return_this = true;
+
+        return $this;
     }
 
+    /**
+     * Throws an exception on invocation.
+     * @param \Exception|void $e the exception to throw. If not specified, Shmock will provide an instance of
+     * the base \Exception.
+     * @return \Shmock\PHPUnit_Spec
+     */
     public function throw_exception($e=null)
     {
         $this->thrown_exceptions[] = $e ?: new \Exception();
@@ -327,6 +344,25 @@ class PHPUnit_Spec
         });
     }
 
+    /**
+     * Specifies that each subsequent invocation of this method will take the subsequent value from the array as the return value.
+     *
+     * The sequence of values to return is not affected by ordering constraints on the mock (ie, order_matters()).
+     *
+     * <pre>
+     *  $shmock->notify()->return_consecutively(["called!", "called again!", "called a third time!"]);
+     *
+     *  $mock = $shmock->replay(); // replay is automatically called at the end of \Shmock\Shmock::create()
+     *
+     *  $mock->notify(); // called!
+     *  $mock->notify(); // called again!
+     *  $mock->notify(); // called a third time!
+     * </pre>
+     * @param mixed[] the sequence of values to return.
+     * @param boolean|void whether to continue returning the last element in the sequence
+     * or to fail the count expectation after every sequence element has been used. Defaults to false.
+     * @return \Shmock\PHPUnit_Spec
+     */
     public function return_consecutively($array_of_values, $keep_returning_last_value=false)
     {
         $this->returned_values = array_merge($this->returned_values, $array_of_values);
@@ -348,17 +384,32 @@ class PHPUnit_Spec
         return $this;
     }
 
-    public function return_shmock($class, $shmock_closure=null)
+    /**
+     * Specifies that the return value from this function will be a new mock object, which is
+     * built and replayed as soon as the invocation has occurred.
+     * The signature of <code>return_shmock()</code> is similar to <code>\Shmock\Shmock::create()</code>
+     * except that the test case argument is omitted
+     *
+     * <pre>
+     *  $user = \Shmock\Shmock::create($this, 'User', function ($user) {
+     *    $user->supervisor()->return_shmock('Supervisor', function ($supervisor) {
+     *      $supervisor->send_angry_email("I need you to work this weekend");
+     *    });
+     *  });
+     * </pre>
+     * @param string $class the name of the class to mock.
+     * @param callable a closure that will act as the class's build phase.
+     * @return \Shmock\PHPUnit_Spec
+     */
+    public function return_shmock($class, $shmock_closure)
     {
         $test_case = $this->test_case;
-        if ($shmock_closure) {
-            return $this->return_value(Shmock::create($test_case, $class, $shmock_closure));
-        } else {
-            return $this;
-        }
+
+        return $this->return_value(Shmock::create($test_case, $class, $shmock_closure));
     }
 
     /**
+    * @internal invoked at the end of the build() phase
     * @param mixed $mock
     * @param \Shmock\Policy[] $policies
     * @param boolean $static

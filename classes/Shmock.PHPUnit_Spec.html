@@ -114,7 +114,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">71</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">63</span>
                                 </a>
                             </li>
                             <li>
@@ -139,19 +139,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1331628799"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1378134629"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1331628799" class="accordion-body collapse in">
+            <div id="namespace-1378134629" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-580323104"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1447125508"></a>
                                 <a href="../namespaces/Shmock.html" style="margin-left: 30px; padding-left: 0">Shmock</a>
             </div>
-            <div id="namespace-580323104" class="accordion-body collapse ">
+            <div id="namespace-1447125508" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -230,7 +230,6 @@ on a single invocation of a method on a mock.</em></p>
                                                                     <a href="../classes/Shmock.PHPUnit_Spec.html#method_throw_exception" class="">throw_exception()</a><br />
                                                                     <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_consecutively" class="">return_consecutively()</a><br />
                                                                     <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_shmock" class="">return_shmock()</a><br />
-                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_finalize_expectations" class="">finalize_expectations()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No public properties found</em>
@@ -667,7 +666,7 @@ but possibly more.</em></p>
             <article class="method">
                 <h3 class="public ">return_value_map()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">return_value_map( <span class="argument">$map_of_args_to_values</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">return_value_map( <span class="argument">$map_of_args_to_values</span>) : \Shmock\PHPUnit_Spec</pre>
                 <p><em>An order-agnostic set of return values given a set of inputs.</em></p>
                 
 
@@ -681,7 +680,17 @@ but possibly more.</em></p>
                                             </table>
                 
                 
-                            </article>
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                            &mdash; <p>For example, if you were simulating addition:</p>
+<pre>
+$shmock_calculator->add()->return_value_map([
+    [1, 2, 3], // 1 + 2 = 3
+    [10, 15, 25],
+    [11, 11, 22]
+]);
+</pre>
+                                                </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -851,13 +860,19 @@ but possibly more.</em></p>
             <article class="method">
                 <h3 class="public ">return_this()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">return_this()</pre>
-                <p><em></em></p>
-                
+                <pre class="signature" style="margin-right: 54px;">return_this() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the method will return the invocation target. This is
+useful for mocking other objects that have fluent interfaces.</em></p>
+                <pre>
+ $latte->add_foam()->return_this();
+ $latte->caffeine_free()->return_this();
+</pre>
 
                 
                 
-                            </article>
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -882,21 +897,24 @@ but possibly more.</em></p>
             <article class="method">
                 <h3 class="public ">throw_exception()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">throw_exception( <span class="argument">$e</span>)</pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">throw_exception(\Exception|void <span class="argument">$e</span>) : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Throws an exception on invocation.</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>\Exception|void</td>
                                 <td>$e</td>
-                                <td></td>
+                                <td><p>the exception to throw. If not specified, Shmock will provide an instance of
+the base \Exception.</p></td>
                             </tr>
                                             </table>
                 
                 
-                            </article>
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -921,9 +939,18 @@ but possibly more.</em></p>
             <article class="method">
                 <h3 class="public ">return_consecutively()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">return_consecutively( <span class="argument">$array_of_values</span>,  <span class="argument">$keep_returning_last_value</span>)</pre>
-                <p><em></em></p>
-                
+                <pre class="signature" style="margin-right: 54px;">return_consecutively( <span class="argument">$array_of_values</span>,  <span class="argument">$keep_returning_last_value</span>) : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that each subsequent invocation of this method will take the subsequent value from the array as the return value.</em></p>
+                <p>The sequence of values to return is not affected by ordering constraints on the mock (ie, order_matters()).</p>
+<pre>
+ $shmock->notify()->return_consecutively(["called!", "called again!", "called a third time!"]);
+
+ $mock = $shmock->replay(); // replay is automatically called at the end of \Shmock\Shmock::create()
+
+ $mock->notify(); // called!
+ $mock->notify(); // called again!
+ $mock->notify(); // called a third time!
+</pre>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -940,7 +967,9 @@ but possibly more.</em></p>
                                             </table>
                 
                 
-                            </article>
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -965,16 +994,25 @@ but possibly more.</em></p>
             <article class="method">
                 <h3 class="public ">return_shmock()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">return_shmock( <span class="argument">$class</span>,  <span class="argument">$shmock_closure</span>)</pre>
-                <p><em></em></p>
-                
+                <pre class="signature" style="margin-right: 54px;">return_shmock(string <span class="argument">$class</span>,  <span class="argument">$shmock_closure</span>) : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the return value from this function will be a new mock object, which is
+built and replayed as soon as the invocation has occurred.</em></p>
+                <p>The signature of <code>return_shmock()</code> is similar to <code>\Shmock\Shmock::create()</code>
+except that the test case argument is omitted</p>
+<pre>
+ $user = \Shmock\Shmock::create($this, 'User', function ($user) {
+   $user->supervisor()->return_shmock('Supervisor', function ($supervisor) {
+     $supervisor->send_angry_email("I need you to work this weekend");
+   });
+ });
+</pre>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$class</td>
-                                <td></td>
+                                <td><p>the name of the class to mock.</p></td>
                             </tr>
                                                     <tr>
                                 <td></td>
@@ -984,61 +1022,9 @@ but possibly more.</em></p>
                                             </table>
                 
                 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_finalize_expectations" name="method_finalize_expectations" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">finalize_expectations()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">finalize_expectations(mixed <span class="argument">$mock</span>, \Shmock\Policy[] <span class="argument">$policies</span>, boolean <span class="argument">$static</span>,  <span class="argument">$class</span>)</pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>mixed</td>
-                                <td>$mock</td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td>\Shmock\Policy[]</td>
-                                <td>$policies</td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td>boolean</td>
-                                <td>$static</td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$class</td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                            </article>
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -1107,7 +1093,7 @@ but possibly more.</em></p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on January 19th, 2014 at 19:43.
+                    on January 19th, 2014 at 21:36.
                 </section>
             </section>
         </section>
