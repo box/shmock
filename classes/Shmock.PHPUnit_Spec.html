@@ -139,19 +139,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1733003505"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1331628799"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1733003505" class="accordion-body collapse in">
+            <div id="namespace-1331628799" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1588799744"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-580323104"></a>
                                 <a href="../namespaces/Shmock.html" style="margin-left: 30px; padding-left: 0">Shmock</a>
             </div>
-            <div id="namespace-1588799744" class="accordion-body collapse ">
+            <div id="namespace-580323104" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -190,9 +190,13 @@
                                             </nav>
                     <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
 
-                    <h1><small>\Shmock</small>Shmock_Instance</h1>
-                    <p><em>PHP 5.4 or later</em></p>
-                    
+                    <h1><small>\Shmock</small>PHPUnit_Spec</h1>
+                    <p><em>A spec is used during the build phase of mock creation to configure the expectations
+on a single invocation of a method on a mock.</em></p>
+                    <pre>
+ // return_value() and twice() are defined on PHPUnit_Spec
+ $calc->add(1,2)->return_value(3)->twice();
+</pre>
 
                     <section id="summary">
                         <h2>Summary</h2>
@@ -209,16 +213,24 @@
                         </section>
                         <section class="row-fluid public">
                             <section class="span4">
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method___construct" class="">__construct()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_disable_original_constructor" class="">disable_original_constructor()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_disable_strict_method_checking" class="deprecated">disable_strict_method_checking()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_set_constructor_arguments" class="">set_constructor_arguments()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_dont_preserve_original_methods" class="">dont_preserve_original_methods()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_order_matters" class="">order_matters()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_order_doesnt_matter" class="">order_doesnt_matter()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_replay" class="">replay()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_shmock_class" class="">shmock_class()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method___call" class="">__call()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_times" class="">times()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_once" class="">once()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_twice" class="">twice()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_any" class="">any()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_never" class="">never()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_at_least_once" class="">at_least_once()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_will" class="">will()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_value_map" class="">return_value_map()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_true" class="">return_true()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_false" class="">return_false()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_null" class="">return_null()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_value" class="">return_value()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_this" class="">return_this()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_throw_exception" class="">throw_exception()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_consecutively" class="">return_consecutively()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_return_shmock" class="">return_shmock()</a><br />
+                                                                    <a href="../classes/Shmock.PHPUnit_Spec.html#method_finalize_expectations" class="">finalize_expectations()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No public properties found</em>
@@ -229,20 +241,10 @@
                         </section>
                         <section class="row-fluid protected">
                             <section class="span4">
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_construct_mock" class="">construct_mock()</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#method_do_strict_method_test" class="">do_strict_method_test()</a><br />
+                                                                    <em>No protected methods found</em>
                                                             </section>
                             <section class="span4">
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_test_case" class="">$test_case</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_specs" class="">$specs</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_class" class="">$class</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_preserve_original_methods" class="">$preserve_original_methods</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_disable_original_constructor" class="">$disable_original_constructor</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_shmock_class_closure" class="">$shmock_class_closure</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_order_matters" class="">$order_matters</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_call_index" class="">$call_index</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_constructor_arguments" class="">$constructor_arguments</a><br />
-                                                                    <a href="../classes/Shmock.Shmock_Instance.html#property_methods" class="">$methods</a><br />
+                                                                    <em>No protected properties found</em>
                                                             </section>
                             <section class="span4">
                                 <em>N/A</em>
@@ -266,17 +268,12 @@
                     
                     <dl>
                         <dt>File</dt>
-                            <dd><a href="../files/Shmock.php.html"><div class="path-wrapper">Shmock.php</div></a></dd>
+                            <dd><a href="../files/PHPUnit_Spec.php.html"><div class="path-wrapper">PHPUnit_Spec.php</div></a></dd>
                                                 <dt>Package</dt>
-                            <dd><div class="namespace-wrapper">\Shmock provides a stricter, more fluid interface on top of vanilla PHPUnit mockery. In
-addition to a fluent builder syntax, it will do stricter inspection of mock objects to
-ensure that they meet important criteria. Out of the box, Shmock will enforce that static
-methods cannot be mocked non-statically, that private methods cannot be mocked at all,
-and that the class or interface being mocked must exist. You can even program custom
-checks that will apply to every mock object you create using Shmock Policies.</div></dd>
+                            <dd><div class="namespace-wrapper">\Default</div></dd>
                                                 <dt>Class hierarchy</dt>
                             <dd class="hierarchy">
-                                                                                                                                                                    <div class="namespace-wrapper">\Shmock\Shmock_Instance</div>
+                                                                                                                                                                    <div class="namespace-wrapper">\Shmock\PHPUnit_Spec</div>
                             </dd>
 
                         
@@ -298,301 +295,7 @@ checks that will apply to every mock object you create using Shmock Policies.</d
             </div>
 
                         
-                                    <a id="properties" name="properties"></a>
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <h2>Properties</h2>
-                </div>
-                <aside class="span4 detailsbar"></aside>
-            </div>
-
-                                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_test_case" name="property_test_case" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$test_case</h3>
-                <pre class="signature">$test_case : \PHPUnit_Framework_TestCase</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                \PHPUnit_Framework_TestCase
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_specs" name="property_specs" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$specs</h3>
-                <pre class="signature">$specs</pre>
-                <p><em></em></p>
-                
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_class" name="property_class" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$class</h3>
-                <pre class="signature">$class</pre>
-                <p><em></em></p>
-                
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_preserve_original_methods" name="property_preserve_original_methods" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$preserve_original_methods</h3>
-                <pre class="signature">$preserve_original_methods</pre>
-                <p><em></em></p>
-                
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_disable_original_constructor" name="property_disable_original_constructor" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$disable_original_constructor</h3>
-                <pre class="signature">$disable_original_constructor</pre>
-                <p><em></em></p>
-                
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_shmock_class_closure" name="property_shmock_class_closure" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$shmock_class_closure</h3>
-                <pre class="signature">$shmock_class_closure : callable</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                callable
-                &mdash; If we want to shmock the static context of a shmock&#039;d object
-we need to call get_class() on the final mock, so we save
-any configuration closure until after everything is done.                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_order_matters" name="property_order_matters" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$order_matters</h3>
-                <pre class="signature">$order_matters</pre>
-                <p><em></em></p>
-                
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_call_index" name="property_call_index" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$call_index</h3>
-                <pre class="signature">$call_index</pre>
-                <p><em></em></p>
-                
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_constructor_arguments" name="property_constructor_arguments" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$constructor_arguments</h3>
-                <pre class="signature">$constructor_arguments</pre>
-                <p><em></em></p>
-                
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_methods" name="property_methods" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$methods</h3>
-                <pre class="signature">$methods</pre>
-                <p><em></em></p>
-                
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                            
+                        
                                     <a id="methods" name="methods"></a>
             <div class="row-fluid">
                 <div class="span8 content class"><h2>Methods</h2></div>
@@ -605,7 +308,581 @@ any configuration closure until after everything is done.                       
             <article class="method">
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct( <span class="argument">$test_case</span>,  <span class="argument">$class</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">__construct( <span class="argument">$test</span>,  <span class="argument">$shmock</span>,  <span class="argument">$method</span>,  <span class="argument">$with</span>,  <span class="argument">$order_matters</span>,  <span class="argument">$call_index</span>)</pre>
+                <p><em>This class is not directly instantiated,
+but instead returned every time you invoke a method on a \Shmock\Shmock_Instance or
+\Shmock\Shmock_Class.</em></p>
+                <p>Specs in Shmock make the assumption that because you are mocking the method that it will
+be invoked at least once. This is a default setting on the mock and can be changed by
+specifying a number of times to invoke the method, as done above with the <code>twice()</code> method.
+Callers intending to invoke methods more than once with different arguments are directed to
+the <code>return_value_map</code> facility or to specify <code>$mock->order_matters();</code>.</p>
+<p>A few options on specs can be in conflict with each other. For example, you may elect to
+return a value to the caller via <code>return_value($v)</code>, throw an exception via <code>throw_exception($e)</code>
+or to perform a custom action via <code>will(function () {})</code>. In cases of a conflict, last expectation
+set wins.</p>
+<p>PHPUnit specs also accept standar <code>\PHPUnit_Framework_Constraint</code> instances as arguments,
+so wildcard arguments or other helpers from PHPUnit are available for use:</p>
+<pre>
+ $calc->add($this->greaterThan(1), $this->lessThan(2));
+</pre>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$test</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$shmock</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$method</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$with</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$order_matters</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$call_index</td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_will"><span class="namespace-wrapper">See will() to learn how to trigger arbitrary behavior on invocation.</span></a></dd>
+                                            <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_return_value_map"><span class="namespace-wrapper">See return_value_map() to easily allow order-insensitive invocation of the same method.</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_times" name="method_times" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">times()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">times(int <span class="argument">$times</span>) : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specify that the method will be invoked $times times.</em></p>
+                <pre>
+ // expect notify will be called 5 times
+ $shmock->notify()->times(5);
+</pre>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>int</td>
+                                <td>$times</td>
+                                <td><p>the number of times to expect the given call</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_at_least_once"><span class="namespace-wrapper">See at_least_once()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_once" name="method_once" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">once()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">once() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specify that the method will be invoked once.</em></p>
+                <p>This is a shorthand for <code>times(1)</code></p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_times"><span class="namespace-wrapper">See times()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_twice" name="method_twice" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">twice()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">twice() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specify that the method will be invoked twice.</em></p>
+                <p>This is a shorthand for <code>times(2)</code></p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_times"><span class="namespace-wrapper">See times()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_any" name="method_any" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">any()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">any() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the number of invocations of this method
+is not to be verified by Shmock.</em></p>
+                <pre>
+ $shmock->notify()->any();
+</pre>
+<p>This is a shorthand for <code>times(null)</code></p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_times"><span class="namespace-wrapper">See times()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_never" name="method_never" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">never()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">never() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that this method is never to be invoked.</em></p>
+                <p>This is an alias for <code>times(0)</code></p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_times"><span class="namespace-wrapper">See times()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_at_least_once" name="method_at_least_once" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">at_least_once()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">at_least_once() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the method is to be invoked at least once
+but possibly more.</em></p>
+                <p>This directive is only respected if no other calls to <code>times()</code> have been recorded.</p>
+<pre>
+ $shmock->notify()->at_least_once();
+</pre>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_times"><span class="namespace-wrapper">See times()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_will" name="method_will" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">will()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">will(callable <span class="argument">$will_closure</span>) : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the given closure will be executed on invocation.</em></p>
+                <p>The first argument to the closure is an instance of <code>\PHPUnit_Framework_MockObject_Invocation</code>.</p>
+<pre>
+ // custom action with a closure
+
+ $shmock->notify()->will(function ($invocation) {
+   $this->assertTrue(count($invocation->parameters) > 2);
+ });
+</pre>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>callable</td>
+                                <td>$will_closure</td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_return_value_map" name="method_return_value_map" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">return_value_map()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">return_value_map( <span class="argument">$map_of_args_to_values</span>)</pre>
+                <p><em>An order-agnostic set of return values given a set of inputs.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$map_of_args_to_values</td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_return_true" name="method_return_true" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">return_true()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">return_true() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the method will return true.</em></p>
+                <p>This is a shorthand for <code>return_value(true)</code></p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_return_false" name="method_return_false" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">return_false()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">return_false() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the method will return false.</em></p>
+                <p>This is a shorthand for <code>return_value(false)</code></p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_return_null" name="method_return_null" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">return_null()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">return_null() : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the method will return null.</em></p>
+                <p>This is a shorthand for <code>return_value(null)</code></p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_return_value" name="method_return_value" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">return_value()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">return_value(mixed|null <span class="argument">$value</span>) : \Shmock\PHPUnit_Spec</pre>
+                <p><em>Specifies that the method will return the given value on invocation.</em></p>
+                <pre>
+ $shmock->notify()->return_value("notification!");
+</pre>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed|null</td>
+                                <td>$value</td>
+                                <td><p>The value to return on invocation</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnit_Spec.html">\Shmock\PHPUnit_Spec</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">If you wish to specify multiple return values and the order is important, look at Shmock_Instance::order_matters()</span></a></dd>
+                                            <dd><a href="../classes/Shmock.PHPUnit_Spec.html#method_return_value_map"><span class="namespace-wrapper">If you wish to specify multiple return values contingent on the parameters, but otherwise insensitive to the order, look at return_value_map()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_return_this" name="method_return_this" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">return_this()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">return_this()</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_throw_exception" name="method_throw_exception" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">throw_exception()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">throw_exception( <span class="argument">$e</span>)</pre>
                 <p><em></em></p>
                 
 
@@ -613,7 +890,144 @@ any configuration closure until after everything is done.                       
                     <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td></td>
-                                <td>$test_case</td>
+                                <td>$e</td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_return_consecutively" name="method_return_consecutively" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">return_consecutively()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">return_consecutively( <span class="argument">$array_of_values</span>,  <span class="argument">$keep_returning_last_value</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$array_of_values</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$keep_returning_last_value</td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_return_shmock" name="method_return_shmock" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">return_shmock()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">return_shmock( <span class="argument">$class</span>,  <span class="argument">$shmock_closure</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$shmock_closure</td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_finalize_expectations" name="method_finalize_expectations" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">finalize_expectations()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">finalize_expectations(mixed <span class="argument">$mock</span>, \Shmock\Policy[] <span class="argument">$policies</span>, boolean <span class="argument">$static</span>,  <span class="argument">$class</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$mock</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>\Shmock\Policy[]</td>
+                                <td>$policies</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$static</td>
                                 <td></td>
                             </tr>
                                                     <tr>
@@ -643,398 +1057,16 @@ any configuration closure until after everything is done.                       
         </aside>
     </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_disable_original_constructor" name="method_disable_original_constructor" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">disable_original_constructor()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">disable_original_constructor() : \Shmock\Shmock_Instance</pre>
-                <p><em>Prevent the original constructor from being called when
-the replay phase begins. This can be important if the
-constructor of the class being mocked takes complex arguments or
-performs work that cannot be intercepted.</em></p>
-                
-
-                
-                
-                                    <h4>Returns</h4>
-                    <a href="../classes/Shmock.Shmock_Instance.html">\Shmock\Shmock_Instance</a>
-                                                </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                                            <dt>See also</dt>
-                                                                <dd><a href="../classes/Shmock.Shmock_Instance.html#method_set_constructor_arguments"><span class="namespace-wrapper"></span></a></dd>
-                                                                </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_disable_strict_method_checking" name="method_disable_strict_method_checking" class="anchor"></a>
-            <article class="method">
-                <h3 class="public deprecated">disable_strict_method_checking()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">disable_strict_method_checking()</pre>
-                <p><em></em></p>
-                
-
-                
-                                    <h4>Throws</h4>
-                    <dl>
-                                                    <dt>\BadMethodCallException</dt>
-                            <dd></dd>
-                                                                    </dl>
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                                <aside class="alert alert-block alert-error">
-                    <h4>Deprecated</h4>
-                    
-                </aside>
-                        <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_set_constructor_arguments" name="method_set_constructor_arguments" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">set_constructor_arguments()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">set_constructor_arguments() : void</pre>
-                <p><em>Any arguments passed in here will be included in the
-constructor call for the mocked class.</em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                                            <dt>See also</dt>
-                                                                <dd><a href=""><span class="namespace-wrapper"></span></a></dd>
-                                                                </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_dont_preserve_original_methods" name="method_dont_preserve_original_methods" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">dont_preserve_original_methods()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">dont_preserve_original_methods()</pre>
-                <p><em></em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_order_matters" name="method_order_matters" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">order_matters()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">order_matters()</pre>
-                <p><em></em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_order_doesnt_matter" name="method_order_doesnt_matter" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">order_doesnt_matter()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">order_doesnt_matter()</pre>
-                <p><em></em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_replay" name="method_replay" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">replay()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">replay()</pre>
-                <p><em></em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_shmock_class" name="method_shmock_class" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">shmock_class()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">shmock_class( <span class="argument">$closure</span>)</pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$closure</td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method___call" name="method___call" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">__call()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__call( <span class="argument">$method</span>,  <span class="argument">$with</span>)</pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$method</td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$with</td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_construct_mock" name="method_construct_mock" class="anchor"></a>
-            <article class="method">
-                <h3 class="protected ">construct_mock()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">construct_mock()</pre>
-                <p><em></em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_do_strict_method_test" name="method_do_strict_method_test" class="anchor"></a>
-            <article class="method">
-                <h3 class="protected ">do_strict_method_test()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">do_strict_method_test( <span class="argument">$method</span>,  <span class="argument">$with</span>)</pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$method</td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$with</td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                                    </div>
+                                                                    </div>
     </section>
 
     <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="source-view-label">Shmock.php</h3>
+            <h3 id="source-view-label">PHPUnit_Spec.php</h3>
         </div>
         <div class="modal-body">
-            <pre data-src="../files/Shmock.php.txt" class="language-php line-numbers"></pre>
+            <pre data-src="../files/PHPUnit_Spec.php.txt" class="language-php line-numbers"></pre>
         </div>
     </div>
 

@@ -53,15 +53,10 @@
 <path fill="none" stroke="black" d="M595.929,-348C540.473,-348 459.636,-348 407.678,-348"/>
 <polygon fill="none" stroke="black" points="407.368,-344.5 397.368,-348 407.368,-351.5 407.368,-344.5"/>
 </g>
-<!-- \\Shmock\\Shmock_PHPUnit_Spec -->
-<g id="node6" class="node"><title>\\Shmock\\Shmock_PHPUnit_Spec</title>
-<polygon fill="none" stroke="black" points="720.5,-312 595.5,-312 595.5,-276 720.5,-276 720.5,-312"/>
-<text text-anchor="middle" x="658" y="-291.2" font-family="Times,serif" font-size="11.00">Shmock_PHPUnit_Spec</text>
-</g>
 <!-- \\Shmock\\Shmock_Closure_Invoker -->
-<g id="node7" class="node"><title>\\Shmock\\Shmock_Closure_Invoker</title>
-<polygon fill="none" stroke="black" points="724,-258 592,-258 592,-222 724,-222 724,-258"/>
-<text text-anchor="middle" x="658" y="-237.2" font-family="Times,serif" font-size="11.00">Shmock_Closure_Invoker</text>
+<g id="node6" class="node"><title>\\Shmock\\Shmock_Closure_Invoker</title>
+<polygon fill="none" stroke="black" points="724,-312 592,-312 592,-276 724,-276 724,-312"/>
+<text text-anchor="middle" x="658" y="-291.2" font-family="Times,serif" font-size="11.00">Shmock_Closure_Invoker</text>
 </g>
 <!-- \\PHPUnit_Framework_MockObject_Stub -->
 <g id="node10" class="node"><title>\\PHPUnit_Framework_MockObject_Stub</title>
@@ -70,13 +65,13 @@
 </g>
 <!-- \\Shmock\\Shmock_Closure_Invoker&#45;&gt;\\PHPUnit_Framework_MockObject_Stub -->
 <g id="edge3" class="edge"><title>\\Shmock\\Shmock_Closure_Invoker&#45;&gt;\\PHPUnit_Framework_MockObject_Stub</title>
-<path fill="none" stroke="black" stroke-dasharray="1,5" d="M604.941,-221.828C600.342,-219.218 595.943,-216.285 592,-213 546.819,-175.365 568.904,-134.652 520,-102 511.022,-96.006 501.176,-91.1245 490.907,-87.1582"/>
-<polygon fill="none" stroke="black" points="491.966,-83.82 481.371,-83.7673 489.62,-90.4154 491.966,-83.82"/>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M603.394,-275.888C599.272,-273.289 595.4,-270.34 592,-267 534.923,-210.928 582.681,-151.728 520,-102 512.471,-96.0272 504.133,-91.1023 495.324,-87.0534"/>
+<polygon fill="none" stroke="black" points="496.564,-83.7782 485.988,-83.144 493.86,-90.2349 496.564,-83.7782"/>
 </g>
 <!-- \\Shmock\\Shmock_Exception -->
-<g id="node8" class="node"><title>\\Shmock\\Shmock_Exception</title>
-<polygon fill="none" stroke="black" points="709.5,-204 606.5,-204 606.5,-168 709.5,-168 709.5,-204"/>
-<text text-anchor="middle" x="658" y="-183.2" font-family="Times,serif" font-size="11.00">Shmock_Exception</text>
+<g id="node7" class="node"><title>\\Shmock\\Shmock_Exception</title>
+<polygon fill="none" stroke="black" points="709.5,-258 606.5,-258 606.5,-222 709.5,-222 709.5,-258"/>
+<text text-anchor="middle" x="658" y="-237.2" font-family="Times,serif" font-size="11.00">Shmock_Exception</text>
 </g>
 <!-- \\Exception -->
 <g id="node11" class="node"><title>\\Exception</title>
@@ -85,8 +80,13 @@
 </g>
 <!-- \\Shmock\\Shmock_Exception&#45;&gt;\\Exception -->
 <g id="edge4" class="edge"><title>\\Shmock\\Shmock_Exception&#45;&gt;\\Exception</title>
-<path fill="none" stroke="black" d="M606.216,-168.617C601.149,-165.817 596.297,-162.624 592,-159 546.189,-120.368 569.934,-78.1318 520,-45 489.458,-24.7353 448.795,-17.9737 415.724,-16.2841"/>
-<polygon fill="none" stroke="black" points="415.847,-12.7863 405.724,-15.9132 415.588,-19.7815 415.847,-12.7863"/>
+<path fill="none" stroke="black" d="M606.258,-223.66C601.062,-220.651 596.171,-217.124 592,-213 534.238,-155.881 583.924,-95.1286 520,-45 490.646,-21.981 449.052,-15.3815 415.228,-14.4597"/>
+<polygon fill="none" stroke="black" points="415.042,-10.9575 405.003,-14.344 414.963,-17.957 415.042,-10.9575"/>
+</g>
+<!-- \\Shmock\\PHPUnit_Spec -->
+<g id="node8" class="node"><title>\\Shmock\\PHPUnit_Spec</title>
+<polygon fill="none" stroke="black" points="699.5,-204 616.5,-204 616.5,-168 699.5,-168 699.5,-204"/>
+<text text-anchor="middle" x="658" y="-183.2" font-family="Times,serif" font-size="11.00">PHPUnit_Spec</text>
 </g>
 <!-- \\Shmock\\Shmockers -->
 <g id="node9" class="node"><title>\\Shmock\\Shmockers</title>
