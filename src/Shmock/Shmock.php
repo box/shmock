@@ -118,7 +118,9 @@ class Shmock
 }
 
 /**
-* PHP 5.4 or later
+* Shmock_Instance is the receiver for all method invocations during the build phase.
+*
+*
 */
 class Shmock_Instance
 {
