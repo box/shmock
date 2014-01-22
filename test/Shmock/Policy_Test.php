@@ -2,7 +2,7 @@
 
 namespace Shmock;
 
-require_once 'src/Shmock/Shmock.php';
+require_once 'vendor/autoload.php';
 
 class Policy_Test extends \PHPUnit_Framework_TestCase
 {
