@@ -114,7 +114,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">63</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">13</span>
                                 </a>
                             </li>
                             <li>
@@ -139,19 +139,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1378134629"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1942686347"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1378134629" class="accordion-body collapse in">
+            <div id="namespace-1942686347" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1447125508"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1339031076"></a>
                                 <a href="../namespaces/Shmock.html" style="margin-left: 30px; padding-left: 0">Shmock</a>
             </div>
-            <div id="namespace-1447125508" class="accordion-body collapse ">
+            <div id="namespace-1339031076" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -307,7 +307,7 @@ on a single invocation of a method on a mock.</em></p>
             <article class="method">
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct( <span class="argument">$test</span>,  <span class="argument">$shmock</span>,  <span class="argument">$method</span>,  <span class="argument">$with</span>,  <span class="argument">$order_matters</span>,  <span class="argument">$call_index</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">__construct(\Shmock\PHPUnit_Framework_TestCase <span class="argument">$test</span>, \Shmock\Shmock_Instance <span class="argument">$shmock</span>, string <span class="argument">$method</span>, array <span class="argument">$with</span>, bool <span class="argument">$order_matters</span>, int <span class="argument">$call_index</span>)</pre>
                 <p><em>This class is not directly instantiated,
 but instead returned every time you invoke a method on a \Shmock\Shmock_Instance or
 \Shmock\Shmock_Class.</em></p>
@@ -329,32 +329,32 @@ so wildcard arguments or other helpers from PHPUnit are available for use:</p>
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>\Shmock\PHPUnit_Framework_TestCase</td>
                                 <td>$test</td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td><a href="../classes/Shmock.Shmock_Instance.html">\Shmock\Shmock_Instance</a></td>
                                 <td>$shmock</td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$method</td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>array</td>
                                 <td>$with</td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>bool</td>
                                 <td>$order_matters</td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>int</td>
                                 <td>$call_index</td>
                                 <td></td>
                             </tr>
@@ -666,16 +666,17 @@ but possibly more.</em></p>
             <article class="method">
                 <h3 class="public ">return_value_map()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">return_value_map( <span class="argument">$map_of_args_to_values</span>) : \Shmock\PHPUnit_Spec</pre>
+                <pre class="signature" style="margin-right: 54px;">return_value_map(mixed[][] <span class="argument">$map_of_args_to_values</span>) : \Shmock\PHPUnit_Spec</pre>
                 <p><em>An order-agnostic set of return values given a set of inputs.</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>mixed[][]</td>
                                 <td>$map_of_args_to_values</td>
-                                <td></td>
+                                <td><p>an array of arrays of arguments with the final value
+of the array being the return value.</p></td>
                             </tr>
                                             </table>
                 
@@ -939,7 +940,7 @@ the base \Exception.</p></td>
             <article class="method">
                 <h3 class="public ">return_consecutively()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">return_consecutively( <span class="argument">$array_of_values</span>,  <span class="argument">$keep_returning_last_value</span>) : \Shmock\PHPUnit_Spec</pre>
+                <pre class="signature" style="margin-right: 54px;">return_consecutively(mixed[] <span class="argument">$array_of_values</span>, boolean|void <span class="argument">$keep_returning_last_value</span>) : \Shmock\PHPUnit_Spec</pre>
                 <p><em>Specifies that each subsequent invocation of this method will take the subsequent value from the array as the return value.</em></p>
                 <p>The sequence of values to return is not affected by ordering constraints on the mock (ie, order_matters()).</p>
 <pre>
@@ -955,14 +956,15 @@ the base \Exception.</p></td>
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>mixed[]</td>
                                 <td>$array_of_values</td>
-                                <td></td>
+                                <td><p>the sequence of values to return.</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>boolean|void</td>
                                 <td>$keep_returning_last_value</td>
-                                <td></td>
+                                <td><p>whether to continue returning the last element in the sequence
+or to fail the count expectation after every sequence element has been used. Defaults to false.</p></td>
                             </tr>
                                             </table>
                 
@@ -994,7 +996,7 @@ the base \Exception.</p></td>
             <article class="method">
                 <h3 class="public ">return_shmock()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">return_shmock(string <span class="argument">$class</span>,  <span class="argument">$shmock_closure</span>) : \Shmock\PHPUnit_Spec</pre>
+                <pre class="signature" style="margin-right: 54px;">return_shmock(string <span class="argument">$class</span>, callable <span class="argument">$shmock_closure</span>) : \Shmock\PHPUnit_Spec</pre>
                 <p><em>Specifies that the return value from this function will be a new mock object, which is
 built and replayed as soon as the invocation has occurred.</em></p>
                 <p>The signature of <code>return_shmock()</code> is similar to <code>\Shmock\Shmock::create()</code>
@@ -1015,9 +1017,9 @@ except that the test case argument is omitted</p>
                                 <td><p>the name of the class to mock.</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>callable</td>
                                 <td>$shmock_closure</td>
-                                <td></td>
+                                <td><p>a closure that will act as the class's build phase.</p></td>
                             </tr>
                                             </table>
                 
@@ -1093,7 +1095,7 @@ except that the test case argument is omitted</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on January 19th, 2014 at 21:36.
+                    on January 22nd, 2014 at 11:41.
                 </section>
             </section>
         </section>

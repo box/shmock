@@ -114,7 +114,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">63</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">13</span>
                                 </a>
                             </li>
                             <li>
@@ -139,19 +139,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1496036450"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1434136515"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1496036450" class="accordion-body collapse in">
+            <div id="namespace-1434136515" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-446055806"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-514014425"></a>
                                 <a href="../namespaces/Shmock.html" style="margin-left: 30px; padding-left: 0">Shmock</a>
             </div>
-            <div id="namespace-446055806" class="accordion-body collapse ">
+            <div id="namespace-514014425" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -194,21 +194,7 @@
                     <p><em>The Shmock\Shmock class is the entry point to the fluent Shmock interface. You may use this class
 directly to create mocks. Alternatively, use the Shmockers trait to include shorthand versions
 of create() and create_class() in your test cases.</em></p>
-                    <p>Sample usage:</p>
-<pre>
-// build a mock of MyCalculator, expecting a call to add
-// with arguments [1,2] and return the value 3, exactly once.
-
-$mock = \Shmock\Shmock::create($this, 'MyCalculator', function ($calc) {
-  $calc->add(1,2)->return_value(3);
-});
-</pre>
-<p>In the example above, the invocation target of the method <code>add(1,2)</code>
-is an of \Shmock\Shmock_Instance. This instance will allow you to mock any
-instance method on the class MyCalculator, so it might allow <code>add</code> or <code>subtract</code>,
-but not <code>openFileStream()</code> or <code>sbutract</code>. The result of the method
-is an instance of \Shmock\PHPUnit_Spec, which contains many of the familiar
-expectation-setting methods for mock frameworks.</p>
+                    
 
                     <section id="summary">
                         <h2>Summary</h2>
@@ -282,9 +268,7 @@ checks that will apply to every mock object you create using Shmock Policies.</d
                         
                         
                         
-                                                                            <dt>See also</dt>
-                                                                                    <dd><a href=""><div class="namespace-wrapper">See \Shmock\PHPUnit_Spec to get a sense of what methods are available for setting expectations.</div></a></dd>
-                                                    
+                        
                                                                         </dl>
                     <h2>Tags</h2>
                     <table class="table table-condensed">
@@ -354,8 +338,24 @@ checks that will apply to every mock object you create using Shmock Policies.</d
                 <pre class="signature" style="margin-right: 54px;">create(\PHPUnit_Framework_TestCase <span class="argument">$test_case</span>, string <span class="argument">$class</span>, callable <span class="argument">$closure</span>) : mixed</pre>
                 <p><em>Create an instance of a mock object. Shmock uses a build / replay model for building mock objects.</em></p>
                 <p>The third argument to the create method is a callable that acts as the mock's build phase. The resulting
-object from the create method is the object in the replay phase. You may easily design your own
-build / replay lifecycle to meet your needs by using the Shmock_Instance and Shmock_Class classes directly.</p>
+object from the create method is the object in the replay phase.</p>
+<p>Sample usage:</p>
+<pre>
+// build a mock of MyCalculator, expecting a call to add
+// with arguments [1,2] and return the value 3, exactly once.
+
+$mock = \Shmock\Shmock::create($this, 'MyCalculator', function ($calc) {
+  $calc->add(1,2)->return_value(3);
+});
+</pre>
+<p>In the example above, the invocation target of the method <code>add(1,2)</code>
+is an of \Shmock\Shmock_Instance. This instance will allow you to mock any
+instance method on the class MyCalculator, so it might allow <code>add</code> or <code>subtract</code>,
+but not <code>openFileStream()</code> or <code>sbutract</code>. The result of the method
+is an instance of \Shmock\PHPUnit_Spec, which contains many of the familiar
+expectation-setting methods for mock frameworks.</p>
+<p>You may easily design your own build / replay lifecycle to meet your needs by
+using the Shmock_Instance and Shmock_Class classes directly.</p>
 <pre>
 $shmock = new \Shmock\Shmock_Instance($this, 'MyCalculator');
 $shmock->add(1,2)->return_value(3);
@@ -396,6 +396,8 @@ will fail if the class is final.</p>
                                                                                             <dt>See also</dt>
                                                                 <dd><a href="../classes/Shmock.Shmock_Instance.html"><span class="namespace-wrapper">\Shmock\Shmock_Instance</span></a></dd>
                                             <dd><a href="../classes/Shmock.Shmock_Class.html"><span class="namespace-wrapper">\Shmock\Shmock_Class</span></a></dd>
+                                            <dd><a href="../classes/Shmock.PHPUnit_Spec.html"><span class="namespace-wrapper">See \Shmock\PHPUnit_Spec to get a sense of what methods are available for setting expectations.</span></a></dd>
+                                            <dd><a href="../classes/Shmock.Shmockers.html"><span class="namespace-wrapper">See the Shmockers trait for a shorthand helper to use in test cases.</span></a></dd>
                                                                 </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
@@ -525,7 +527,9 @@ allow you to highly customize the behavior of Shmock.</em></p>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
                                                             <dl>
-                                                                            </dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.Policy.html"><span class="namespace-wrapper">See \Shmock\Policy for documentation on how to create custom policies.</span></a></dd>
+                                                                </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
                                     <tr>
@@ -589,7 +593,7 @@ allow you to highly customize the behavior of Shmock.</em></p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on January 19th, 2014 at 21:36.
+                    on January 22nd, 2014 at 11:41.
                 </section>
             </section>
         </section>

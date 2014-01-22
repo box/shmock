@@ -106,6 +106,13 @@ class PHPUnit_Spec
      * </pre>
      * @see PHPUnit_Spec::will() See will() to learn how to trigger arbitrary behavior on invocation.
      * @see PHPUnit_Spec::return_value_map() See return_value_map() to easily allow order-insensitive invocation of the same method.
+     *
+     * @param PHPUnit_Framework_TestCase $test
+     * @param \Shmock\Shmock_Instance $shmock
+     * @param string $method
+     * @param array $with
+     * @param bool $order_matters
+     * @param int $call_index
      */
     public function __construct($test, $shmock, $method, $with, $order_matters, $call_index)
     {
@@ -231,7 +238,7 @@ class PHPUnit_Spec
     /**
     * An order-agnostic set of return values given a set of inputs.
     *
-    * @param mixed[][] an array of arrays of arguments with the final value
+    * @param mixed[][] $map_of_args_to_values an array of arrays of arguments with the final value
     * of the array being the return value.
     * @return \Shmock\PHPUnit_Spec
     * For example, if you were simulating addition:
@@ -337,9 +344,6 @@ class PHPUnit_Spec
         $this->thrown_exceptions[] = $e ?: new \Exception();
 
         return $this->will(function () use ($e) {
-            if (!$e) {
-                $e = new Shmock_Exception();
-            }
             throw $e;
         });
     }
@@ -358,8 +362,8 @@ class PHPUnit_Spec
      *  $mock->notify(); // called again!
      *  $mock->notify(); // called a third time!
      * </pre>
-     * @param mixed[] the sequence of values to return.
-     * @param boolean|void whether to continue returning the last element in the sequence
+     * @param mixed[] $array_of_values the sequence of values to return.
+     * @param boolean|void $keep_returning_last_value whether to continue returning the last element in the sequence
      * or to fail the count expectation after every sequence element has been used. Defaults to false.
      * @return \Shmock\PHPUnit_Spec
      */
@@ -398,7 +402,7 @@ class PHPUnit_Spec
      *  });
      * </pre>
      * @param string $class the name of the class to mock.
-     * @param callable a closure that will act as the class's build phase.
+     * @param callable $shmock_closure a closure that will act as the class's build phase.
      * @return \Shmock\PHPUnit_Spec
      */
     public function return_shmock($class, $shmock_closure)
