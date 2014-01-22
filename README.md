@@ -90,10 +90,6 @@ Alternatively you can download Shmock.php and Shmockers.php into your test direc
 ```
 PHPUnit should already be on the load path for this to work.
 
-## 5.3 compatible, 5.4 approved
-
-For users of PHP 5.3, you will need to use the static methods `Shmock::create` and `Shmock::create_class` directly and write your own helper functions. >=5.4 users should use the Shmockers trait for optimal helperness. 
-
 ## Type Safety
 
 Shmock is typesafe by default and will attempt to tell you when you're using the wrong mocking approach. Shmock will throw errors in cases where:
