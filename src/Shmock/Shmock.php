@@ -9,10 +9,6 @@
  */
 namespace Shmock;
 
-require_once __DIR__ . '/PHPUnit_Spec.php';
-require_once __DIR__ . '/Shmockers.php';
-require_once __DIR__ . '/Policy.php';
-
 /**
  * The Shmock\Shmock class is the entry point to the fluent Shmock interface. You may use this class
  * directly to create mocks. Alternatively, use the Shmockers trait to include shorthand versions
@@ -44,7 +40,7 @@ class Shmock
      * is an of \Shmock\Shmock_Instance. This instance will allow you to mock any
      * instance method on the class MyCalculator, so it might allow <code>add</code> or <code>subtract</code>,
      * but not <code>openFileStream()</code> or <code>sbutract</code>. The result of the method
-     * is an instance of \Shmock\PHPUnit_Spec, which contains many of the familiar
+     * is an instance of \Shmock\PHPUnitSpec, which contains many of the familiar
      * expectation-setting methods for mock frameworks.
      *
      * You may easily design your own build / replay lifecycle to meet your needs by
@@ -64,7 +60,7 @@ class Shmock
      * will fail if the class is final.
      * @see \Shmock\Shmock_Instance \Shmock\Shmock_Instance
      * @see \Shmock\Shmock_Class \Shmock\Shmock_Class
-     * @see \Shmock\PHPUnit_Spec See \Shmock\PHPUnit_Spec to get a sense of what methods are available for setting expectations.
+     * @see \Shmock\PHPUnitSpec See \Shmock\PHPUnitSpec to get a sense of what methods are available for setting expectations.
      * @see \Shmock\Shmockers See the Shmockers trait for a shorthand helper to use in test cases.
      */
     public static function create(\PHPUnit_Framework_TestCase $test_case, $class, callable $closure)
@@ -434,16 +430,16 @@ class Shmock_Instance
      * </ol>
      *
      * Additionally, any expectations set by Shmock policies may trigger an exception when replay() is invoked.
-     * @param  string               $method the method on the target class
-     * @param  array                $with   the arguments to the mocked method
-     * @return \Shmock\PHPUnit_Spec a spec that can add additional constraints to the invocation.
-     * @see \Shmock\PHPUnit_Spec See \Shmock\PHPUnit_Spec for additional constraints that can be placed on an invocation
+     * @param  string              $method the method on the target class
+     * @param  array               $with   the arguments to the mocked method
+     * @return \Shmock\PHPUnitSpec a spec that can add additional constraints to the invocation.
+     * @see \Shmock\PHPUnitSpec See \Shmock\PHPUnitSpec for additional constraints that can be placed on an invocation
      */
     public function __call($method, $with)
     {
         $this->do_strict_method_test($method, $with);
         $this->methods[] = $method;
-        $spec = new PHPUnit_Spec($this->test_case, $this, $method, $with, $this->order_matters, $this->call_index);
+        $spec = new PHPUnitSpec($this->test_case, $this, $method, $with, $this->order_matters, $this->call_index);
         $this->specs[] = $spec;
         $this->call_index++;
 

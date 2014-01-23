@@ -6,11 +6,11 @@ namespace Shmock;
  * on a single invocation of a method on a mock.
  *
  * <pre>
- *  // return_value() and twice() are defined on PHPUnit_Spec
+ *  // return_value() and twice() are defined on PHPUnitSpec
  *  $calc->add(1,2)->return_value(3)->twice();
  * </pre>
  */
-class PHPUnit_Spec
+class PHPUnitSpec
 {
 
     /**
@@ -104,8 +104,8 @@ class PHPUnit_Spec
      * <pre>
      *  $calc->add($this->greaterThan(1), $this->lessThan(2));
      * </pre>
-     * @see PHPUnit_Spec::will() See will() to learn how to trigger arbitrary behavior on invocation.
-     * @see PHPUnit_Spec::return_value_map() See return_value_map() to easily allow order-insensitive invocation of the same method.
+     * @see PHPUnitSpec::will() See will() to learn how to trigger arbitrary behavior on invocation.
+     * @see PHPUnitSpec::return_value_map() See return_value_map() to easily allow order-insensitive invocation of the same method.
      *
      * @param PHPUnit_Framework_TestCase $test
      * @param \Shmock\Shmock_Instance    $shmock
@@ -133,9 +133,9 @@ class PHPUnit_Spec
      *  $shmock->notify()->times(5);
      * </pre>
      *
-     * @param  int                  $times the number of times to expect the given call
-     * @return \Shmock\PHPUnit_Spec
-     * @see \Shmock\PHPUnit_Spec::at_least_once() See at_least_once()
+     * @param  int                 $times the number of times to expect the given call
+     * @return \Shmock\PHPUnitSpec
+     * @see \Shmock\PHPUnitSpec::at_least_once() See at_least_once()
      */
     public function times($times)
     {
@@ -148,8 +148,8 @@ class PHPUnit_Spec
      * Specify that the method will be invoked once.
      *
      * This is a shorthand for <code>times(1)</code>
-     * @return \Shmock\PHPUnit_Spec
-     * @see \Shmock\PHPUnit_Spec::times() See times()
+     * @return \Shmock\PHPUnitSpec
+     * @see \Shmock\PHPUnitSpec::times() See times()
      */
     public function once()
     {
@@ -160,8 +160,8 @@ class PHPUnit_Spec
      * Specify that the method will be invoked twice.
      *
      * This is a shorthand for <code>times(2)</code>
-     * @return \Shmock\PHPUnit_Spec
-     * @see \Shmock\PHPUnit_Spec::times() See times()
+     * @return \Shmock\PHPUnitSpec
+     * @see \Shmock\PHPUnitSpec::times() See times()
      */
     public function twice()
     {
@@ -175,8 +175,8 @@ class PHPUnit_Spec
      *  $shmock->notify()->any();
      * </pre>
      * This is a shorthand for <code>times(null)</code>
-     * @return \Shmock\PHPUnit_Spec
-     * @see \Shmock\PHPUnit_Spec::times() See times()
+     * @return \Shmock\PHPUnitSpec
+     * @see \Shmock\PHPUnitSpec::times() See times()
      */
     public function any()
     {
@@ -187,8 +187,8 @@ class PHPUnit_Spec
      * Specifies that this method is never to be invoked.
      *
      * This is an alias for <code>times(0)</code>
-     * @return \Shmock\PHPUnit_Spec
-     * @see \Shmock\PHPUnit_Spec::times() See times()
+     * @return \Shmock\PHPUnitSpec
+     * @see \Shmock\PHPUnitSpec::times() See times()
      */
     public function never()
     {
@@ -203,8 +203,8 @@ class PHPUnit_Spec
      *  $shmock->notify()->at_least_once();
      * </pre>
      *
-     * @return \Shmock\PHPUnit_Spec
-     * @see \Shmock\PHPUnit_Spec::times() See times()
+     * @return \Shmock\PHPUnitSpec
+     * @see \Shmock\PHPUnitSpec::times() See times()
      */
     public function at_least_once()
     {
@@ -225,8 +225,8 @@ class PHPUnit_Spec
      *  });
      * </pre>
      *
-     * @param  callable             $will_closure
-     * @return \Shmock\PHPUnit_Spec
+     * @param  callable            $will_closure
+     * @return \Shmock\PHPUnitSpec
      */
     public function will($will_closure)
     {
@@ -240,7 +240,7 @@ class PHPUnit_Spec
     *
     * @param mixed[][] $map_of_args_to_values an array of arrays of arguments with the final value
     * of the array being the return value.
-    * @return \Shmock\PHPUnit_Spec
+    * @return \Shmock\PHPUnitSpec
     * For example, if you were simulating addition:
     * <pre>
     * $shmock_calculator->add()->return_value_map([
@@ -271,7 +271,7 @@ class PHPUnit_Spec
     /**
      * Specifies that the method will return true.
      * This is a shorthand for <code>return_value(true)</code>
-     * @return \Shmock\PHPUnit_Spec
+     * @return \Shmock\PHPUnitSpec
      */
     public function return_true()
     {
@@ -281,7 +281,7 @@ class PHPUnit_Spec
     /**
      * Specifies that the method will return false.
      * This is a shorthand for <code>return_value(false)</code>
-     * @return \Shmock\PHPUnit_Spec
+     * @return \Shmock\PHPUnitSpec
      */
     public function return_false()
     {
@@ -291,7 +291,7 @@ class PHPUnit_Spec
     /**
     * Specifies that the method will return null.
     * This is a shorthand for <code>return_value(null)</code>
-    * @return \Shmock\PHPUnit_Spec
+    * @return \Shmock\PHPUnitSpec
     */
     public function return_null()
     {
@@ -303,10 +303,10 @@ class PHPUnit_Spec
      * <pre>
      *  $shmock->notify()->return_value("notification!");
      * </pre>
-     * @param  mixed|null           $value The value to return on invocation
-     * @return \Shmock\PHPUnit_Spec
+     * @param  mixed|null          $value The value to return on invocation
+     * @return \Shmock\PHPUnitSpec
      * @see \Shmock\Shmock_Instance::order_matters() If you wish to specify multiple return values and the order is important, look at Shmock_Instance::order_matters()
-     * @see \Shmock\PHPUnit_Spec::return_value_map() If you wish to specify multiple return values contingent on the parameters, but otherwise insensitive to the order, look at return_value_map()
+     * @see \Shmock\PHPUnitSpec::return_value_map() If you wish to specify multiple return values contingent on the parameters, but otherwise insensitive to the order, look at return_value_map()
      */
     public function return_value($value)
     {
@@ -324,7 +324,7 @@ class PHPUnit_Spec
      *  $latte->add_foam()->return_this();
      *  $latte->caffeine_free()->return_this();
      * </pre>
-     * @return \Shmock\PHPUnit_Spec
+     * @return \Shmock\PHPUnitSpec
      */
     public function return_this()
     {
@@ -337,7 +337,7 @@ class PHPUnit_Spec
      * Throws an exception on invocation.
      * @param \Exception|void $e the exception to throw. If not specified, Shmock will provide an instance of
      * the base \Exception.
-     * @return \Shmock\PHPUnit_Spec
+     * @return \Shmock\PHPUnitSpec
      */
     public function throw_exception($e=null)
     {
@@ -365,7 +365,7 @@ class PHPUnit_Spec
      * @param mixed[]      $array_of_values           the sequence of values to return.
      * @param boolean|void $keep_returning_last_value whether to continue returning the last element in the sequence
      * or to fail the count expectation after every sequence element has been used. Defaults to false.
-     * @return \Shmock\PHPUnit_Spec
+     * @return \Shmock\PHPUnitSpec
      */
     public function return_consecutively($array_of_values, $keep_returning_last_value=false)
     {
@@ -401,9 +401,9 @@ class PHPUnit_Spec
      *    });
      *  });
      * </pre>
-     * @param  string               $class          the name of the class to mock.
-     * @param  callable             $shmock_closure a closure that will act as the class's build phase.
-     * @return \Shmock\PHPUnit_Spec
+     * @param  string              $class          the name of the class to mock.
+     * @param  callable            $shmock_closure a closure that will act as the class's build phase.
+     * @return \Shmock\PHPUnitSpec
      */
     public function return_shmock($class, $shmock_closure)
     {
