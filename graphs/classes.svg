@@ -83,10 +83,10 @@
 <path fill="none" stroke="black" d="M606.258,-223.66C601.062,-220.651 596.171,-217.124 592,-213 534.238,-155.881 583.924,-95.1286 520,-45 490.646,-21.981 449.052,-15.3815 415.228,-14.4597"/>
 <polygon fill="none" stroke="black" points="415.042,-10.9575 405.003,-14.344 414.963,-17.957 415.042,-10.9575"/>
 </g>
-<!-- \\Shmock\\PHPUnit_Spec -->
-<g id="node8" class="node"><title>\\Shmock\\PHPUnit_Spec</title>
-<polygon fill="none" stroke="black" points="699.5,-204 616.5,-204 616.5,-168 699.5,-168 699.5,-204"/>
-<text text-anchor="middle" x="658" y="-183.2" font-family="Times,serif" font-size="11.00">PHPUnit_Spec</text>
+<!-- \\Shmock\\PHPUnitSpec -->
+<g id="node8" class="node"><title>\\Shmock\\PHPUnitSpec</title>
+<polygon fill="none" stroke="black" points="697,-204 619,-204 619,-168 697,-168 697,-204"/>
+<text text-anchor="middle" x="658" y="-183.2" font-family="Times,serif" font-size="11.00">PHPUnitSpec</text>
 </g>
 <!-- \\Shmock\\Shmockers -->
 <g id="node9" class="node"><title>\\Shmock\\Shmockers</title>
