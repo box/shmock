@@ -161,7 +161,18 @@ These checks can be disabled by calling `$mock_object->disable_strict_method_che
 12. If you want to mock static functions, you call `shmock_class` which will give you all the same Shmock semantics as instances (where it makes sense). This is particularly useful when you want to partially mock an object, keeping some of the original behavior, but mocking out static / protected methods that may exist that the method you are testing is dependent on.
 13. You can also mock a class independently of a mock instance.
 
-## License
+## Copyright and License
 
-Shmock is licensed under the [Apache 2 License](http://www.apache.org/licenses/LICENSE-2.0)
+Copyright 2014 Box, Inc. All rights reserved.
 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
