@@ -108,7 +108,7 @@ class Shmock
      * @return void
      * @see \Shmock\Policy See \Shmock\Policy for documentation on how to create custom policies.
      */
-    public function clear_policies()
+    public static function clear_policies()
     {
         self::$policies = [];
     }
