@@ -59,6 +59,15 @@ class Shmock_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(5, $foo::weewee());
     }
 
+    public function test_mock_can_be_made_of_abstract_class_if_all_methods_are_defined()
+    {
+        $foo = Shmock::create($this, '\Shmock\AbstractFoo', function ($foo) {
+            $foo->bar()->return_value(1);
+        });
+
+        $this->assertSame(1, $foo->bar());
+    }
+
 }
 
 class Shmock_Foo
@@ -78,4 +87,9 @@ class Shmock_Foo
         return 5;
     }
 
+}
+
+abstract class AbstractFoo
+{
+    abstract public function bar();
 }
