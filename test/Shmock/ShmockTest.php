@@ -1,7 +1,6 @@
 <?php
 namespace Shmock;
 
-require_once 'vendor/autoload.php';
 /**
  * :D
  */

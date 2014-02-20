@@ -107,12 +107,12 @@ class PHPUnitSpec
      * @see PHPUnitSpec::will() See will() to learn how to trigger arbitrary behavior on invocation.
      * @see PHPUnitSpec::return_value_map() See return_value_map() to easily allow order-insensitive invocation of the same method.
      *
-     * @param PHPUnit_Framework_TestCase $test
-     * @param \Shmock\Shmock_Instance    $shmock
-     * @param string                     $method
-     * @param array                      $with
-     * @param bool                       $order_matters
-     * @param int                        $call_index
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Shmock\Shmock_Instance     $shmock
+     * @param string                      $method
+     * @param array                       $with
+     * @param bool                        $order_matters
+     * @param int                         $call_index
      */
     public function __construct($test, $shmock, $method, $with, $order_matters, $call_index)
     {
@@ -417,6 +417,8 @@ class PHPUnitSpec
     * @param mixed $mock
     * @param \Shmock\Policy[] $policies
     * @param boolean $static
+    * @param string the name of the class being mocked
+    * @return void
     */
     public function finalize_expectations($mock, array $policies, $static, $class)
     {

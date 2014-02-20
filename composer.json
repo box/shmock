@@ -14,17 +14,19 @@
   ],
   "require": {
     "php": ">=5.4.0",
-    "phpunit/phpunit": "~3.7"
+    "phpunit/phpunit": "~3.7",
+    "nicmart/string-template": "dev-master"
   },
   "require-dev": {
-    "phpdocumentor/phpdocumentor": "2.*"
+    "phpdocumentor/phpdocumentor": "2.*",
+    "ext-augmented_types": "*"
   },
   "autoload": {
     "psr-0": {"Shmock": "src/"}
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.0.0-dev"
+      "dev-master": "1.1.x-dev"
     }
   }
 }

@@ -196,8 +196,8 @@ class Shmock_Instance
     /**
      * The Shmock_Instance is active during the build phase of a mock of an instance. This object acts
      * as a receiver for methods you wish to mock by implementing __call.
-     * @param PHPUnit_Framework_TestCase $test_case
-     * @param string                     $class     the class being mocked
+     * @param \PHPUnit_Framework_TestCase $test_case
+     * @param string                      $class     the class being mocked
      */
     public function __construct($test_case, $class)
     {
@@ -346,8 +346,9 @@ class Shmock_Instance
 
     /**
      * @internal
-     * @param string $method
-     * @param array  $with
+     * @param  string $method
+     * @param  array  $with
+     * @return void
      */
     protected function do_strict_method_test($method, $with)
     {
@@ -410,7 +411,8 @@ class Shmock_Instance
      *      });
      *   });
      * </pre>
-     * @param callable $closure
+     * @param  callable $closure
+     * @return void
      */
     public function shmock_class($closure)
     {
@@ -459,6 +461,9 @@ class Shmock_Class extends Shmock_Instance
 
     /**
      * @internal
+     * @param string $method
+     * @param array the arguments
+     * @return void
      */
     protected function do_strict_method_test($method, $with)
     {
@@ -476,6 +481,7 @@ class Shmock_Class extends Shmock_Instance
     /**
     * @internal
     * Since you can't use the builder paradigm for mock classes, we have to play dirty here.
+    * @return string the name of the mock class
     */
     public function replay()
     {
@@ -502,6 +508,8 @@ class Shmock_Instance_Class extends Shmock_Class
 
     /**
      * @internal
+     * @param mixed
+     * @return void
      */
     public function set_mock($mock)
     {
@@ -510,6 +518,7 @@ class Shmock_Instance_Class extends Shmock_Class
 
     /**
      * @internal
+     * @return mixed
      */
     protected function construct_mock()
     {
@@ -528,6 +537,7 @@ class Shmock_Closure_Invoker implements \PHPUnit_Framework_MockObject_Stub
 
     /**
      * @internal
+     * @param callable
      */
     public function __construct($closure)
     {
@@ -536,6 +546,8 @@ class Shmock_Closure_Invoker implements \PHPUnit_Framework_MockObject_Stub
 
     /**
      * @internal
+     * @param  \PHPUnit_Framework_MockObject_Invocation $invocation
+     * @return mixed|null                               the result of the invocation
      */
     public function invoke(\PHPUnit_Framework_MockObject_Invocation $invocation)
     {
@@ -546,6 +558,7 @@ class Shmock_Closure_Invoker implements \PHPUnit_Framework_MockObject_Stub
 
     /**
      * @internal
+     * @return string
      */
     public function toString()
     {
