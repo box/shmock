@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                    <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/Shmock.html">\Shmock</a></li>
+                                                    </ul>
+                    </li>
+                    <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">59</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1750870785"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1750870785" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-612666867"></a>
+                                <a href="../namespaces/Shmock.html" style="margin-left: 30px; padding-left: 0">Shmock</a>
+            </div>
+            <div id="namespace-612666867" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1992910"></a>
+                                <a href="../namespaces/Shmock.ClassBuilder.html" style="margin-left: 30px; padding-left: 0">ClassBuilder</a>
+            </div>
+            <div id="namespace-1992910" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Shmock.ClassBuilder.Decorator.html">Decorator</a></li>
+                                                    <li class="interface"><a href="../classes/Shmock.ClassBuilder.JoinPoint.html">JoinPoint</a></li>
+                                                                                                    <li class="class"><a href="../classes/Shmock.ClassBuilder.DecoratorJoinPoint.html">DecoratorJoinPoint</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.ClassBuilder.ClassBuilder.html">ClassBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.ClassBuilder.Method.html">Method</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.ClassBuilder.CallableDecorator.html">CallableDecorator</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Shmock.Shmockers.html">Shmockers</a></li>
+                                                                            <li class="class"><a href="../classes/Shmock.Policy.html">Policy</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.PHPUnitSpec.html">PHPUnitSpec</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.Shmock.html">Shmock</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.Shmock_Closure_Invoker.html">Shmock_Closure_Invoker</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.Shmock_Exception.html">Shmock_Exception</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.Instance.html">Instance</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.InstanceClass.html">InstanceClass</a></li>
+                                                    <li class="class"><a href="../classes/Shmock.StaticClass.html">StaticClass</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/Shmock.html">\Shmock</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\Shmock</small>Instance</h1>
+                    <p><em></em></p>
+                    
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/Shmock.Instance.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#method_disable_original_constructor" class="">disable_original_constructor()</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#method_set_constructor_arguments" class="">set_constructor_arguments()</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#method_dont_preserve_original_methods" class="">dont_preserve_original_methods()</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#method_order_matters" class="">order_matters()</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#method_order_doesnt_matter" class="">order_doesnt_matter()</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#method_replay" class="">replay()</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#method_shmock_class" class="">shmock_class()</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#method___call" class="">__call()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Shmock.Instance.html#property_preserve_original_methods" class="">$preserve_original_methods</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#property_disable_original_constructor" class="">$disable_original_constructor</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#property_order_matters" class="">$order_matters</a><br />
+                                                                    <a href="../classes/Shmock.Instance.html#property_constructor_arguments" class="">$constructor_arguments</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Instance.php.html"><div class="path-wrapper">Instance.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\Shmock
+Instance can be used to build mock instances of a class.
+Instance is the receiver for all method invocations during the build phase.</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\Shmock\Instance</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                todo
+                            </th>
+                            <td>
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_preserve_original_methods" name="property_preserve_original_methods" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$preserve_original_methods</h3>
+                <pre class="signature">$preserve_original_methods : bool</pre>
+                <p><em>Whether or not to preserve the original
+methods on the mock object or stub them out.</em></p>
+                <p>Default is to preserve original methods.</p>
+
+                                <h4>Type</h4>
+                bool
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">Call dont_preserve_original_methods() to disable the preservation behavior</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_disable_original_constructor" name="property_disable_original_constructor" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$disable_original_constructor</h3>
+                <pre class="signature">$disable_original_constructor : bool</pre>
+                <p><em>Whether or not to disable the constructor belonging to the class
+being mocked. By default Shmock will create a mock object that
+invokes the constructor.</em></p>
+                
+
+                                <h4>Type</h4>
+                bool
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">Call disable_original_constructor() to prevent invocation of the original constructor</span></a></dd>
+                                            <dd><a href="../classes/Shmock.Instance.html#method_set_constructor_arguments"><span class="namespace-wrapper">Call set_constructor_arguments() to call the original constructor with specific args.</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_order_matters" name="property_order_matters" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$order_matters</h3>
+                <pre class="signature">$order_matters : bool</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                bool
+                &mdash; Indicates whether the order of invocations should be tracked.                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">Call order_matters() to trigger order enforcement</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_constructor_arguments" name="property_constructor_arguments" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$constructor_arguments</h3>
+                <pre class="signature">$constructor_arguments : array</pre>
+                <p><em>Arguments that will be passed to the original constructor.</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.Instance.html#method_set_constructor_arguments"><span class="namespace-wrapper">Call set_constructor_arguments() to call the original constructor with specific args.</span></a></dd>
+                                            <dd><a href=""><span class="namespace-wrapper">Call disable_original_constructor() to disable the original constructor</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\PHPUnit_Framework_TestCase <span class="argument">$test_case</span>, string <span class="argument">$class</span>)</pre>
+                <p><em>The Instance is active during the build phase of a mock of an instance. This object acts
+as a receiver for methods you wish to mock by implementing __call.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PHPUnit_Framework_TestCase</td>
+                                <td>$test_case</td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$class</td>
+                                <td><p>the class being mocked</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_disable_original_constructor" name="method_disable_original_constructor" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">disable_original_constructor()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">disable_original_constructor() : \Shmock\Instance</pre>
+                <p><em>Prevent the original constructor from being called when
+the replay phase begins. This can be important if the
+constructor of the class being mocked takes complex arguments or
+performs work that cannot be intercepted.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.Instance.html">\Shmock\Instance</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.Instance.html#method_set_constructor_arguments"><span class="namespace-wrapper"></span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set_constructor_arguments" name="method_set_constructor_arguments" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set_constructor_arguments()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set_constructor_arguments() : void</pre>
+                <p><em>Any arguments passed in here will be included in the
+constructor call for the mocked class.</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper"></span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_dont_preserve_original_methods" name="method_dont_preserve_original_methods" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">dont_preserve_original_methods()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">dont_preserve_original_methods() : \Shmock\Instance</pre>
+                <p><em>When this is called, Shmock will disable any of the original implementations
+of methods on the mocked class. This can be useful when no expectations are set
+on a particular method but the original implementation cannot be called in
+testing.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.Instance.html">\Shmock\Instance</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_order_matters" name="method_order_matters" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">order_matters()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">order_matters() : \Shmock\Instance</pre>
+                <p><em>When this is called, Shmock will begin keeping track of the order of calls made on this
+mock. This is implemented by using the PHPUnit at() feature and keeping an internal
+counter to track order.</em></p>
+                <pre>
+ $shmock->order_matters();
+ $shmock->notify('first notification');
+ $shmock->notify('second notification');
+</pre>
+<p>In this example, the string "first notification" is expected to be sent to notify first during replay. If
+any other string, including "second notification" is received, it will fail the expectation.</p>
+<p>Shmock does not expose the at() feature directly.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.Instance.html">\Shmock\Instance</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_order_doesnt_matter" name="method_order_doesnt_matter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">order_doesnt_matter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">order_doesnt_matter() : \Shmock\Instance</pre>
+                <p><em>Disables order checking. Note that order is already disabled by default, so this does not need
+to be invoked unless order_matters was previously invoked</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.Instance.html">\Shmock\Instance</a>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">See order_matters() to trigger order enforcement</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_replay" name="method_replay" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">replay()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">replay() : mixed</pre>
+                <p><em>When this is invoked, Shmock concludes this instance&#039;s build phase, runs
+any policies that may have been registered, and creates a mock object in the
+replay phase.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>an instance of a subclass of the mocked class.</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_shmock_class" name="method_shmock_class" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">shmock_class()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">shmock_class(callable <span class="argument">$closure</span>) : void</pre>
+                <p><em>When mocking an object instance, it may be desirable to mock static methods as well. Because
+Shmock has strict rules that mock instances may only mock instance methods, to mock a static method
+requires dropping into the mock class context.</em></p>
+                <p>This is made simple by the shmock_class() method on Instance.</p>
+<pre>
+  // User is an ActiveRecord-style class with finders and data members
+  // (this is just an example, this is probably not a good way to organize this code)
+  class User {
+     private $id;
+     private $userName;
+
+     public function updateUserName($userName) {
+        /// persist to db
+        $this->userName = $userName;
+        $handle = static::dbHandle();
+        $handle->update(['userName' => $this->userName]);
+        $this->fireEvent('/users/username');
+     }
+
+     public function fireEvent($eventType) {
+        Notifications::fire($this->id, $eventType);
+     }
+
+     public static function dbHandle() {
+       return new DbHandle('schema.users');
+     }
+  }
+
+  // In a test we want to ensure that save() will fire notifications
+  // and correctly persist to the database.
+  $mock = $this->shmock('User', function ($user) {
+
+     // ensure that the user will fire the event
+     $user->fireEvent('/users/username')->once();
+
+     // use shmock_class to mock the static method dbHandle()
+     $user->shmock_class(function ($user_class) {
+        $user_class->dbHandle()->return_value(new FakeDBHandle());
+     });
+  });
+</pre>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>callable</td>
+                                <td>$closure</td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___call" name="method___call" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__call()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__call(string <span class="argument">$method</span>, array <span class="argument">$with</span>) : \Shmock\PHPUnitSpec</pre>
+                <p><em>Shmock intercepts all non-shmock methods here.</em></p>
+                <p>Shmock will fail the test if any of the following are true:</p>
+<ol>
+<li> The class being mocked doesn't exist. </li>
+<li> The method being mocked doesn't exist AND there is no __call handler on the class. </li>
+<li> The method is private. </li>
+<li> The method is static. (or non-static if using a StaticClass ) </li>
+</ol>
+<p>Additionally, any expectations set by Shmock policies may trigger an exception when replay() is invoked.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$method</td>
+                                <td><p>the method on the target class</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$with</td>
+                                <td><p>the arguments to the mocked method</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Shmock.PHPUnitSpec.html">\Shmock\PHPUnitSpec</a>
+                                            &mdash; <p>a spec that can add additional constraints to the invocation.</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/Shmock.PHPUnitSpec.html"><span class="namespace-wrapper">See \Shmock\PHPUnitSpec for additional constraints that can be placed on an invocation</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Instance.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Instance.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/Shmock.html">\Shmock</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on February 20th, 2014 at 12:58.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

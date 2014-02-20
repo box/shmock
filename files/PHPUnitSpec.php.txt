@@ -84,8 +84,8 @@ class PHPUnitSpec
 
     /**
      * This class is not directly instantiated,
-     * but instead returned every time you invoke a method on a \Shmock\Shmock_Instance or
-     * \Shmock\Shmock_Class.
+     * but instead returned every time you invoke a method on a \Shmock\Instance or
+     * \Shmock\StaticClass.
      *
      * Specs in Shmock make the assumption that because you are mocking the method that it will
      * be invoked at least once. This is a default setting on the mock and can be changed by
@@ -107,12 +107,12 @@ class PHPUnitSpec
      * @see PHPUnitSpec::will() See will() to learn how to trigger arbitrary behavior on invocation.
      * @see PHPUnitSpec::return_value_map() See return_value_map() to easily allow order-insensitive invocation of the same method.
      *
-     * @param PHPUnit_Framework_TestCase $test
-     * @param \Shmock\Shmock_Instance    $shmock
-     * @param string                     $method
-     * @param array                      $with
-     * @param bool                       $order_matters
-     * @param int                        $call_index
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Shmock\Instance     $shmock
+     * @param string                      $method
+     * @param array                       $with
+     * @param bool                        $order_matters
+     * @param int                         $call_index
      */
     public function __construct($test, $shmock, $method, $with, $order_matters, $call_index)
     {
@@ -133,7 +133,7 @@ class PHPUnitSpec
      *  $shmock->notify()->times(5);
      * </pre>
      *
-     * @param  int                  $times the number of times to expect the given call
+     * @param  int                 $times the number of times to expect the given call
      * @return \Shmock\PHPUnitSpec
      * @see \Shmock\PHPUnitSpec::at_least_once() See at_least_once()
      */
@@ -225,7 +225,7 @@ class PHPUnitSpec
      *  });
      * </pre>
      *
-     * @param  callable             $will_closure
+     * @param  callable            $will_closure
      * @return \Shmock\PHPUnitSpec
      */
     public function will($will_closure)
@@ -303,9 +303,9 @@ class PHPUnitSpec
      * <pre>
      *  $shmock->notify()->return_value("notification!");
      * </pre>
-     * @param  mixed|null           $value The value to return on invocation
+     * @param  mixed|null          $value The value to return on invocation
      * @return \Shmock\PHPUnitSpec
-     * @see \Shmock\Shmock_Instance::order_matters() If you wish to specify multiple return values and the order is important, look at Shmock_Instance::order_matters()
+     * @see \Shmock\Instance::order_matters() If you wish to specify multiple return values and the order is important, look at Instance::order_matters()
      * @see \Shmock\PHPUnitSpec::return_value_map() If you wish to specify multiple return values contingent on the parameters, but otherwise insensitive to the order, look at return_value_map()
      */
     public function return_value($value)
@@ -401,8 +401,8 @@ class PHPUnitSpec
      *    });
      *  });
      * </pre>
-     * @param  string               $class          the name of the class to mock.
-     * @param  callable             $shmock_closure a closure that will act as the class's build phase.
+     * @param  string              $class          the name of the class to mock.
+     * @param  callable            $shmock_closure a closure that will act as the class's build phase.
      * @return \Shmock\PHPUnitSpec
      */
     public function return_shmock($class, $shmock_closure)
@@ -417,6 +417,8 @@ class PHPUnitSpec
     * @param mixed $mock
     * @param \Shmock\Policy[] $policies
     * @param boolean $static
+    * @param string the name of the class being mocked
+    * @return void
     */
     public function finalize_expectations($mock, array $policies, $static, $class)
     {
