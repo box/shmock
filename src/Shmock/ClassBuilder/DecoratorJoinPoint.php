@@ -41,6 +41,12 @@ class DecoratorJoinPoint implements JoinPoint
 
     /**
      * @internal
+     * @var callable
+     */
+    private $actualCallable;
+
+    /**
+     * @internal
      * @var array
      */
     private $arguments;
@@ -51,7 +57,7 @@ class DecoratorJoinPoint implements JoinPoint
     public function execute()
     {
         if ($this->index >= count($this->decorators)) {
-            return call_user_func_array([$this->target, $this->methodName], $this->arguments);
+            return call_user_func_array($this->actualCallable, $this->arguments);
         } else {
             $nextDecorator = $this->decorators[$this->index];
             $this->index++;
@@ -66,11 +72,18 @@ class DecoratorJoinPoint implements JoinPoint
      * @param string|object The method receiver, which may be a class or
      * instance.
      * @param string $methodName the method to invoke
+     * @param callable|void pass the callable specifically for the given
+     * target and methodName. This is useful when you wish a Decorator
+     * to decorate according to the target/method but need another layer
+     * of indirection (via a proxy potentially). If not specified, it
+     * will be composed from [$target, $callable]
      */
-    public function __construct($target, $methodName)
+    public function __construct($target, $methodName, $callable=null)
     {
         $this->target = $target;
         $this->methodName = $methodName;
+        $this->actualCallable = $callable ?: [$target, $methodName];
+
         if (!method_exists($target, $methodName)) {
             throw new \InvalidArgumentException("$methodName is not a method on the given target");
         }

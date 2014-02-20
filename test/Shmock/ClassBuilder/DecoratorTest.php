@@ -35,6 +35,17 @@ class DecoratorTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testAlternateCallableCanBeSpecified()
+    {
+        $joinPoint = new DecoratorJoinPoint(new Calculator(), "multiply", function ($a, $b) {
+            return $a * $b * $b;
+        });
+        $joinPoint->setDecorators([new CalculatorDecorator()]);
+        $joinPoint->setArguments([2,3]);
+        $val = $joinPoint->execute();
+        $this->assertEquals(64, $val);
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */

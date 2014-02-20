@@ -6,7 +6,7 @@ use \StringTemplate\SprintfEngine;
 
 /**
  * @package ClassBuilder
- *
+ * Provides an abstraction for building classes
  */
 class ClassBuilder
 {
@@ -66,6 +66,8 @@ class <className> <extends> <implements>
     /* method implementations */
     private static \$__implementations__ = [];
 
+    private static \$__decorators__ = [];
+
     /**
      * @param string
      * @param callable
@@ -74,6 +76,15 @@ class <className> <extends> <implements>
     public static function __add_implementation__(\$name, \$fn)
     {
         self::\$__implementations__[\$name] = \$fn;
+    }
+
+    /**
+     * @param \Shmock\ClassBuilder\Decorator \$decorator
+     * @return void
+     */
+    public static function __add_decorator__(\Shmock\ClassBuilder\Decorator \$decorator)
+    {
+        self::\$__decorators__[] = \$decorator;
     }
 
     <methods>
@@ -213,7 +224,11 @@ class Method
     {
         \$fn = self::\$__implementations__["<methodName>"];
 
-        return call_user_func_array(\$fn, func_get_args());
+        \$joinPoint = new \Shmock\ClassBuilder\DecoratorJoinPoint(\$this,"<methodName>",\$fn);
+        \$joinPoint->setArguments(func_get_args());
+        \$joinPoint->setDecorators(self::\$__decorators__);
+
+        return \$joinPoint->execute();
     }
 
 EOF;
