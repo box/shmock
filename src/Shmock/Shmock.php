@@ -65,7 +65,7 @@ class Shmock
      */
     public static function create(\PHPUnit_Framework_TestCase $test_case, $class, callable $closure)
     {
-        $shmock = new Instance($test_case, $class);
+        $shmock = new PHPUnitMockInstance($test_case, $class);
         if ($closure) {
             $closure($shmock);
         }

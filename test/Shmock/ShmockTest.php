@@ -4,9 +4,9 @@ namespace Shmock;
 /**
  * :D
  */
-class Shmock_Test extends \PHPUnit_Framework_TestCase
+class ShmockTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_foo_class_should_be_able_to_statically_mock_weewee_from_within_lala()
+    public function testFooClassShouldBeAbleToStaticallyMockWeeweeFromWithinLala()
     {
         $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($foo) {
             $foo->shmock_class(function ($Shmock_Foo) {
@@ -16,7 +16,7 @@ class Shmock_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $foo->lala());
     }
 
-    public function test_foo_class_should_be_able_to_statically_mock_weewee()
+    public function testFooClassShouldBeAbleToStaticallyMockWeewee()
     {
         $Shmock_Foo = Shmock::create_class($this, '\Shmock\Shmock_Foo', function ($Shmock_Foo) {
             $Shmock_Foo->weewee()->return_value(6);
@@ -24,7 +24,7 @@ class Shmock_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(6, $Shmock_Foo::weewee());
     }
 
-    public function ignore_test_return_value_map_stubbed_twice_called_once()
+    public function ignoreTestReturnValueMapStubbedTwiceCalledOnce()
     {
         $this->markTestSkipped('Not sure how to find out that it should have thrown an exception');
         $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($foo) {
@@ -37,7 +37,7 @@ class Shmock_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $foo->for_value_map(2, 2), 'value map busted');
     }
 
-    public function test_return_value_map_stubbed_and_called_twice()
+    public function testReturnValueMapStubbedAndCalledTwice()
     {
         $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($foo) {
             $foo->for_value_map()->return_value_map(array(
@@ -50,7 +50,7 @@ class Shmock_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $foo->for_value_map(2, 2), 'value map busted');
     }
 
-    public function test_mocking_no_methods_at_all_should_preserve_original_methods()
+    public function testMockingNoMethodsAtAllShouldPreserveOriginalMethods()
     {
         $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($foo) {
             $foo->disable_original_constructor();
@@ -58,13 +58,22 @@ class Shmock_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(5, $foo::weewee());
     }
 
-    public function test_mock_can_be_made_of_abstract_class_if_all_methods_are_defined()
+    public function testMockCanBeMadeOfAbstractClassIfAllMethodsAreDefined()
     {
         $foo = Shmock::create($this, '\Shmock\AbstractFoo', function ($foo) {
             $foo->bar()->return_value(1);
         });
 
         $this->assertSame(1, $foo->bar());
+    }
+
+    public function testClassMocksAndBeCreatedUsingCreateClassMethod()
+    {
+        $fooClass = Shmock::create_class($this, '\Shmock\Shmock_Foo', function ($fooClass) {
+            $fooClass->weewee()->return_value(10);
+        });
+
+        $this->assertEquals(10, $fooClass::weewee());
     }
 
 }

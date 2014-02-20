@@ -10,7 +10,7 @@ namespace Shmock;
  *  $calc->add(1,2)->return_value(3)->twice();
  * </pre>
  */
-class PHPUnitSpec
+class PHPUnitSpec implements Spec
 {
 
     /**
