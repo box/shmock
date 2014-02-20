@@ -6,7 +6,7 @@ namespace Shmock;
 * This class is only used when in the context of mocked instance and the shmock_class function is used.
 * @internal
 */
-class InstanceClass extends Shmock_Class
+class InstanceClass extends StaticClass
 {
     /**
      * @internal

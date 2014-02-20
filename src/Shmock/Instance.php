@@ -4,9 +4,9 @@ namespace Shmock;
 
 /**
 * @package Shmock
-* Shmock_Instance can be used to build mock instances of a class.
+* Instance can be used to build mock instances of a class.
 *
-* Shmock_Instance is the receiver for all method invocations during the build phase.
+* Instance is the receiver for all method invocations during the build phase.
 */
 class Instance
 {
@@ -41,8 +41,8 @@ class Instance
      * being mocked. By default Shmock will create a mock object that
      * invokes the constructor.
      * @var bool
-     * @see \Shmock\Shmock_Instance::disable_original_constructor() Call disable_original_constructor() to prevent invocation of the original constructor
-     * @see \Shmock\Shmock_Instance::set_constructor_arguments() Call set_constructor_arguments() to call the original constructor with specific args.
+     * @see \Shmock\Instance::disable_original_constructor() Call disable_original_constructor() to prevent invocation of the original constructor
+     * @see \Shmock\Instance::set_constructor_arguments() Call set_constructor_arguments() to call the original constructor with specific args.
      */
     protected $disable_original_constructor = false;
 
@@ -58,7 +58,7 @@ class Instance
     /**
      * @var bool
      * Indicates whether the order of invocations should be tracked.
-     * @see \Shmock\Shmock_Instance::order_matters() Call order_matters() to trigger order enforcement
+     * @see \Shmock\Instance::order_matters() Call order_matters() to trigger order enforcement
      */
     protected $order_matters = false;
 
@@ -71,8 +71,8 @@ class Instance
     /**
      * Arguments that will be passed to the original constructor.
      * @var array
-     * @see \Shmock\Shmock_Instance::set_constructor_arguments() Call set_constructor_arguments() to call the original constructor with specific args.
-     * @see \Shmock\Shmock_Instance::disable_original_constructor() Call disable_original_constructor() to disable the original constructor
+     * @see \Shmock\Instance::set_constructor_arguments() Call set_constructor_arguments() to call the original constructor with specific args.
+     * @see \Shmock\Instance::disable_original_constructor() Call disable_original_constructor() to disable the original constructor
      */
     protected $constructor_arguments = [];
 
@@ -83,7 +83,7 @@ class Instance
     protected $methods = [];
 
     /**
-     * The Shmock_Instance is active during the build phase of a mock of an instance. This object acts
+     * The Instance is active during the build phase of a mock of an instance. This object acts
      * as a receiver for methods you wish to mock by implementing __call.
      * @param \PHPUnit_Framework_TestCase $test_case
      * @param string                      $class     the class being mocked
@@ -99,8 +99,8 @@ class Instance
      * the replay phase begins. This can be important if the
      * constructor of the class being mocked takes complex arguments or
      * performs work that cannot be intercepted.
-     * @return \Shmock\Shmock_Instance
-     * @see \Shmock\Shmock_Instance::set_constructor_arguments()
+     * @return \Shmock\Instance
+     * @see \Shmock\Instance::set_constructor_arguments()
      */
     public function disable_original_constructor()
     {
@@ -114,7 +114,7 @@ class Instance
      * constructor call for the mocked class.
      * @param *mixed|null Arguments to the target constructor
      * @return void
-     * @see \Shmock\Shmock_Instance::disable_original_constructor()
+     * @see \Shmock\Instance::disable_original_constructor()
      */
     public function set_constructor_arguments()
     {
@@ -126,7 +126,7 @@ class Instance
      * of methods on the mocked class. This can be useful when no expectations are set
      * on a particular method but the original implementation cannot be called in
      * testing.
-     * @return \Shmock\Shmock_Instance
+     * @return \Shmock\Instance
      */
     public function dont_preserve_original_methods()
     {
@@ -149,7 +149,7 @@ class Instance
      * any other string, including "second notification" is received, it will fail the expectation.
      *
      * Shmock does not expose the at() feature directly.
-     * @return \Shmock\Shmock_Instance
+     * @return \Shmock\Instance
      */
     public function order_matters()
     {
@@ -161,8 +161,8 @@ class Instance
     /**
      * Disables order checking. Note that order is already disabled by default, so this does not need
      * to be invoked unless order_matters was previously invoked
-     * @see \Shmock\Shmock_Instance::order_matters() See order_matters() to trigger order enforcement
-     * @return \Shmock\Shmock_Instance
+     * @see \Shmock\Instance::order_matters() See order_matters() to trigger order enforcement
+     * @return \Shmock\Instance
      */
     public function order_doesnt_matter()
     {
@@ -214,7 +214,7 @@ class Instance
         if ($this->shmock_class_closure) {
             /** @var callable $s */
             $s = $this->shmock_class_closure;
-            $shmock_instance_class = new Shmock_InstanceClass($this->test_case, $this->class);
+            $shmock_instance_class = new InstanceClass($this->test_case, $this->class);
             $s($shmock_instance_class);
             $this->methods = array_merge($this->methods, $shmock_instance_class->methods);
         }
@@ -261,7 +261,7 @@ class Instance
      * Shmock has strict rules that mock instances may only mock instance methods, to mock a static method
      * requires dropping into the mock class context.
      *
-     * This is made simple by the shmock_class() method on Shmock_Instance.
+     * This is made simple by the shmock_class() method on Instance.
      *
      * <pre>
      *   // User is an ActiveRecord-style class with finders and data members
@@ -317,7 +317,7 @@ class Instance
      * <li> The class being mocked doesn't exist. </li>
      * <li> The method being mocked doesn't exist AND there is no __call handler on the class. </li>
      * <li> The method is private. </li>
-     * <li> The method is static. (or non-static if using a Shmock_Class ) </li>
+     * <li> The method is static. (or non-static if using a StaticClass ) </li>
      * </ol>
      *
      * Additionally, any expectations set by Shmock policies may trigger an exception when replay() is invoked.

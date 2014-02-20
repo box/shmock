@@ -37,17 +37,17 @@ class Shmock
      * </pre>
      *
      * In the example above, the invocation target of the method <code>add(1,2)</code>
-     * is an of \Shmock\Shmock_Instance. This instance will allow you to mock any
+     * is an of \Shmock\Instance. This instance will allow you to mock any
      * instance method on the class MyCalculator, so it might allow <code>add</code> or <code>subtract</code>,
      * but not <code>openFileStream()</code> or <code>sbutract</code>. The result of the method
      * is an instance of \Shmock\PHPUnitSpec, which contains many of the familiar
      * expectation-setting methods for mock frameworks.
      *
      * You may easily design your own build / replay lifecycle to meet your needs by
-     * using the Shmock_Instance and Shmock_Class classes directly.
+     * using the Instance and StaticClass classes directly.
      *
      * <pre>
-     * $shmock = new \Shmock\Shmock_Instance($this, 'MyCalculator');
+     * $shmock = new \Shmock\Instance($this, 'MyCalculator');
      * $shmock->add(1,2)->return_value(3);
      * $mock = $shmock->replay();
      * </pre>
@@ -58,14 +58,14 @@ class Shmock
      * @return mixed                       An instance of a subclass of $class. PHPUnit mocks require that all mocks
      * be subclasses of the target class in order to replace target methods. For this reason, mocking
      * will fail if the class is final.
-     * @see \Shmock\Shmock_Instance \Shmock\Shmock_Instance
-     * @see \Shmock\Shmock_Class \Shmock\Shmock_Class
+     * @see \Shmock\Instance \Shmock\Instance
+     * @see \Shmock\Class \Shmock\StaticClass
      * @see \Shmock\PHPUnitSpec See \Shmock\PHPUnitSpec to get a sense of what methods are available for setting expectations.
      * @see \Shmock\Shmockers See the Shmockers trait for a shorthand helper to use in test cases.
      */
     public static function create(\PHPUnit_Framework_TestCase $test_case, $class, callable $closure)
     {
-        $shmock = new Shmock_Instance($test_case, $class);
+        $shmock = new Instance($test_case, $class);
         if ($closure) {
             $closure($shmock);
         }
@@ -83,7 +83,7 @@ class Shmock
      */
     public static function create_class($test_case, $class, $closure)
     {
-        $shmock_class = new Shmock_Class($test_case, $class);
+        $shmock_class = new StaticClass($test_case, $class);
         if ($closure) {
             $closure($shmock_class);
         }

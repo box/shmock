@@ -3,13 +3,13 @@
 namespace Shmock;
 
 /**
- * Shmock_Class is the static equivalent of Shmock_Instance. Shmock_Class instances can be used
+ * StaticClass is the static equivalent of Instance. StaticClass instances can be used
  * to build a mocked class.
  *
- * Usage of this class is identical to Shmock_Instance, except that methods
- * that are mocked on a Shmock_Class must be static.
+ * Usage of this class is identical to Instance, except that methods
+ * that are mocked on a StaticClass must be static.
  */
-class Class extends Shmock_Instance
+class StaticClass extends Instance
 {
 
     /**

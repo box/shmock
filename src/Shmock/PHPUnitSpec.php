@@ -84,8 +84,8 @@ class PHPUnitSpec
 
     /**
      * This class is not directly instantiated,
-     * but instead returned every time you invoke a method on a \Shmock\Shmock_Instance or
-     * \Shmock\Shmock_Class.
+     * but instead returned every time you invoke a method on a \Shmock\Instance or
+     * \Shmock\StaticClass.
      *
      * Specs in Shmock make the assumption that because you are mocking the method that it will
      * be invoked at least once. This is a default setting on the mock and can be changed by
@@ -108,7 +108,7 @@ class PHPUnitSpec
      * @see PHPUnitSpec::return_value_map() See return_value_map() to easily allow order-insensitive invocation of the same method.
      *
      * @param \PHPUnit_Framework_TestCase $test
-     * @param \Shmock\Shmock_Instance     $shmock
+     * @param \Shmock\Instance            $shmock
      * @param string                      $method
      * @param array                       $with
      * @param bool                        $order_matters
@@ -305,7 +305,7 @@ class PHPUnitSpec
      * </pre>
      * @param  mixed|null          $value The value to return on invocation
      * @return \Shmock\PHPUnitSpec
-     * @see \Shmock\Shmock_Instance::order_matters() If you wish to specify multiple return values and the order is important, look at Shmock_Instance::order_matters()
+     * @see \Shmock\Instance::order_matters() If you wish to specify multiple return values and the order is important, look at Instance::order_matters()
      * @see \Shmock\PHPUnitSpec::return_value_map() If you wish to specify multiple return values contingent on the parameters, but otherwise insensitive to the order, look at return_value_map()
      */
     public function return_value($value)
