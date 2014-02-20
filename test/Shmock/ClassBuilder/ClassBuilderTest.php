@@ -63,6 +63,29 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1,-1], $instance->firstAndLast([1], [-1]));
         $this->assertTrue(is_subclass_of($class, 'Shmock\ClassBuilder\SampleInterface'));
     }
+
+    private $counter = 0;
+
+    public function testAllMockMethodsCanBeDecorated()
+    {
+        $class = $this->buildClass(function ($builder) {
+            $builder->addMethod("multiply", function ($a, $b) {
+                return $a * $b;
+            }, ["",""]);
+            $builder->addMethod("add", function ($a, $b) {
+                return $a + $b;
+            }, ["",""]);
+            $builder->addDecorator(function (JoinPoint $joinPoint) {
+                $this->counter++;
+
+                return $joinPoint->execute();
+            });
+        });
+        $instance = new $class();
+        $this->assertEquals(6, $instance->add(3,3));
+        $this->assertEquals(9, $instance->multiply(3,3));
+        $this->assertEquals(2, $this->counter);
+    }
 }
 
 abstract class SampleExtension

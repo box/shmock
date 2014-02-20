@@ -36,8 +36,9 @@ class ClassBuilder
 
     /**
      * @internal
-     * @var
+     * @var Decorator[]
      */
+    private $decorators = [];
 
     /**
      * @internal
@@ -79,12 +80,12 @@ class <className> <extends> <implements>
     }
 
     /**
-     * @param \Shmock\ClassBuilder\Decorator \$decorator
+     * @param \Shmock\ClassBuilder\Decorator[] \$decorator
      * @return void
      */
-    public static function __add_decorator__(\Shmock\ClassBuilder\Decorator \$decorator)
+    public static function __set_decorators__(array \$decorators)
     {
-        self::\$__decorators__[] = \$decorator;
+        self::\$__decorators__ = \$decorators;
     }
 
     <methods>
@@ -109,6 +110,8 @@ EOF;
         foreach ($this->methods as $method) {
             $method->addToBuiltClass($this->className);
         }
+        $clazz = $this->className;
+        $clazz::__set_decorators__($this->decorators);
 
         return $this->className;
 
@@ -128,10 +131,19 @@ EOF;
     }
 
     /**
-     * @param string the method name
-     * @param callable the implementation of the method
-     * @param string[] the type hints for each argument. Use empty string for no typehint
-     * @param string|void the access type, defaults to public
+     * @param  callable $decorator the decorator for all functions on this class
+     * @return void
+     */
+    public function addDecorator(callable $decorator)
+    {
+        $this->decorators[] = new CallableDecorator($decorator);
+    }
+
+    /**
+     * @param  string      $methodName  the method name
+     * @param  callable    $fn          the implementation of the method
+     * @param  string[]    $typeList    the type hints for each argument. Use empty string for no typehint
+     * @param  string|void $accessLevel the access type, defaults to public
      * @return void
      */
     public function addMethod($methodName, $fn, $typeList, $accessLevel = "public")
@@ -190,8 +202,8 @@ class Method
     /**
      * @param string   $accessLevel must be public, protected or private
      * @param string   $methodName  must be [a-zA-Z\_][a-zA-Z\_\d]* and unique to the class
-     * @param string[] $argList     describes the expected types defined on the method signature
-     * @param callable $fn          the implementation of the method
+     * @param string[] $typeList    describes the expected types defined on the method signature
+     * @param callable $callable    the implementation of the method
      */
     public function __construct($accessLevel, $methodName, $typeList, $callable)
     {

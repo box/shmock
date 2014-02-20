@@ -69,10 +69,10 @@ class DecoratorJoinPoint implements JoinPoint
     }
 
     /**
-     * @param string|object The method receiver, which may be a class or
+     * @param string|object $target The method receiver, which may be a class or
      * instance.
-     * @param string $methodName the method to invoke
-     * @param callable|void pass the callable specifically for the given
+     * @param string        $methodName the method to invoke
+     * @param callable|void $callable   specifically for the given
      * target and methodName. This is useful when you wish a Decorator
      * to decorate according to the target/method but need another layer
      * of indirection (via a proxy potentially). If not specified, it
