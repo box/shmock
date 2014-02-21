@@ -83,7 +83,7 @@ class Shmock
      */
     public static function create_class($test_case, $class, $closure)
     {
-        $shmock_class = new StaticClass($test_case, $class);
+        $shmock_class = new PHPUnitStaticClass($test_case, $class);
         if ($closure) {
             $closure($shmock_class);
         }

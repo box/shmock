@@ -214,7 +214,7 @@ class PHPUnitMockInstance implements Instance
         if ($this->shmock_class_closure) {
             /** @var callable $s */
             $s = $this->shmock_class_closure;
-            $shmock_instance_class = new InstanceClass($this->test_case, $this->class);
+            $shmock_instance_class = new PHPUnitInstanceClass($this->test_case, $this->class);
             $s($shmock_instance_class);
             $this->methods = array_merge($this->methods, $shmock_instance_class->methods);
         }

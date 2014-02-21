@@ -133,7 +133,7 @@ class PHPUnitSpec implements Spec
      *  $shmock->notify()->times(5);
      * </pre>
      *
-     * @param  int                 $times the number of times to expect the given call
+     * @param  int|null            $times the number of times to expect the given call. null means any number of times
      * @return \Shmock\PHPUnitSpec
      * @see \Shmock\PHPUnitSpec::at_least_once() See at_least_once()
      */

@@ -6,7 +6,7 @@ namespace Shmock;
 * This class is only used when in the context of mocked instance and the shmock_class function is used.
 * @internal
 */
-class InstanceClass extends StaticClass
+class PHPUnitInstanceClass extends PHPUnitStaticClass
 {
     /**
      * @internal

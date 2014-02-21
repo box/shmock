@@ -9,7 +9,7 @@ namespace Shmock;
  * Usage of this class is identical to Instance, except that methods
  * that are mocked on a StaticClass must be static.
  */
-class StaticClass extends PHPUnitMockInstance
+class PHPUnitStaticClass extends PHPUnitMockInstance
 {
 
     /**
