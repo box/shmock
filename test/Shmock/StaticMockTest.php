@@ -7,10 +7,11 @@ namespace Shmock;
  * generates mock class names. Since a failure in a prior test will get tracked
  * through to the next test case, we must run each in a separate process to prevent
  * collision.
- * @runTestsInSeparateProcesses
  */
 class StaticMockTest extends \PHPUnit_Framework_TestCase
 {
+    private static $staticClass = null;
+
     /**
      * plucked from https://github.com/sebastianbergmann/phpunit-mock-objects/blob/master/tests/MockObjectTest.php
      */
@@ -23,9 +24,19 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
         $prop->setValue($this, array());
     }
 
-    public function getPHPUnitStaticClass($tc, $clazz)
+    public function getPHPUnitStaticClass($clazz)
     {
-        return new PHPUnitStaticClass($tc, $clazz);
+        self::$staticClass = new PHPUnitStaticClass($this, $clazz);
+
+        return self::$staticClass;
+    }
+
+    public function getClassBuilderStaticClass($clazz)
+    {
+        self::$staticClass = new ClassBuilderStaticClass($this, $clazz);
+
+        return self::$staticClass;
+
     }
 
     /**
@@ -35,8 +46,8 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
     public function instanceProviders()
     {
         return [
-          [[$this, "getPHPUnitStaticClass"]],
-          // [new ClassBuilderStaticClass()]
+          // [[$this, "getPHPUnitStaticClass"]],
+          [[$this, "getClassBuilderStaticClass"]]
         ];
     }
 
@@ -53,6 +64,7 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
             $this->fail("Expected callable to throw phpunit failure: $message");
         }
         $this->resetMockObjects();
+        self::$staticClass = null;
 
     }
 
@@ -61,6 +73,7 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
         $threw = true;
         try {
             $this->verifyMockObjects();
+            self::$staticClass->verify();
             $threw = false;
         } catch ( \PHPUnit_Framework_AssertionFailedError $e) {
 
@@ -73,7 +86,7 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
 
     private function buildMockClass(callable $getClass, callable $setup)
     {
-        $staticClass = $getClass($this, "\Shmock\ClassToMockStatically");
+        $staticClass = $getClass("\Shmock\ClassToMockStatically");
         $setup($staticClass);
 
         return $staticClass->replay();
@@ -178,10 +191,10 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
     public function testPassingCallableToWillCausesInvocationWhenMockIsUsed(callable $getClass)
     {
         $mock = $this->buildMockClass($getClass, function ($staticClass) {
-            $staticClass->getAnInt()->will(function () { return 1000; });
+            $staticClass->getAnInt()->will(function ($i) { return 999 + $i; });
         });
 
-        $this->assertEquals(1000, $mock::getAnInt());
+        $this->assertEquals(1000, $mock::getAnInt(1));
     }
 
     /**
@@ -287,6 +300,11 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
     public function testOrderMattersWillEnforceCorrectOrderingOfCalls($getClass)
     {
         $mock = $this->buildMockClass($getClass, function ($staticClass) {
+            if (strpos("PHPUnit", get_class($staticClass)) !== 0) {
+                $this->markTestSkipped("ordering not supported yet");
+
+                return;
+            }
             $staticClass->order_matters();
             $staticClass->getAnInt()->return_value(2);
             $staticClass->getAnInt()->return_value(4);

@@ -227,7 +227,7 @@ class PHPUnitMockInstance implements Instance
         }
 
         foreach ($this->specs as $spec) {
-            $spec->finalize_expectations($mock, Shmock::$policies, false, $this->class);
+            $spec->__shmock_finalize_expectations($mock, Shmock::$policies, false, $this->class);
         }
 
         return $mock;

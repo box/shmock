@@ -208,6 +208,17 @@ interface Spec
     * @param string the name of the class being mocked
     * @return void
     */
-    public function finalize_expectations($mock, array $policies, $static, $class);
+    public function __shmock_finalize_expectations($mock, array $policies, $static, $class);
 
+    /**
+     * @return string the name of the specification
+     */
+    public function __shmock_name();
+
+    /**
+     * Verifies that the mock object had all expectations met
+     * @throws \PHPUnit_Framework_AssertionFailedError
+     * @return void
+     */
+    public function __shmock_verify();
 }

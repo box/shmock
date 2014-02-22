@@ -420,7 +420,7 @@ class PHPUnitSpec implements Spec
     * @param string the name of the class being mocked
     * @return void
     */
-    public function finalize_expectations($mock, array $policies, $static, $class)
+    public function __shmock_finalize_expectations($mock, array $policies, $static, $class)
     {
         $test_case = $this->test_case;
 
@@ -481,5 +481,21 @@ class PHPUnitSpec implements Spec
         if ($this->will) {
             $builder->will(new Shmock_Closure_Invoker($this->will));
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function __shmock_name()
+    {
+        return "Expectation on {$this->method}";
+    }
+
+    /**
+     * @return void
+     */
+    public function __shmock_verify()
+    {
+        // no-op: PHPUnit mocks handle this for us
     }
 }

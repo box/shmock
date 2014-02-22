@@ -49,15 +49,18 @@ class ClassBuilder
         return substr(md5(microtime()),rand(0,26),12);
     }
 
+    public function __construct()
+    {
+        while (!$this->className || class_exists($this->className)) {
+            $this->className = "ClassBuilder" . $this->randStr();
+        }
+    }
+
     /**
      * @return string the name of the class that is being created
      */
     public function create()
     {
-        while (!$this->className || class_exists($this->className)) {
-            $this->className = "ClassBuilder" . $this->randStr();
-        }
-
         $classTemplate = <<<EOF
 class <className> <extends> <implements>
 {
@@ -140,15 +143,41 @@ EOF;
     }
 
     /**
-     * @param  string      $methodName  the method name
-     * @param  callable    $fn          the implementation of the method
-     * @param  string[]    $typeList    the type hints for each argument. Use empty string for no typehint
-     * @param  string|void $accessLevel the access type, defaults to public
+     * @param  string             $methodName  the method name
+     * @param  callable           $fn          the implementation of the method
+     * @param  string[]|null|void $hints       the hints for the method. If null, will attempt to detect the hints on $fn
+     * @param  string|void        $accessLevel the access type, defaults to public
      * @return void
      */
-    public function addMethod($methodName, $fn, $typeList, $accessLevel = "public")
+    public function addMethod($methodName, callable $fn, array $hints = null, $accessLevel = "public")
     {
-        $this->methods[] = new Method($accessLevel, $methodName, $typeList, $fn);
+        if (!$hints) {
+            $functionInspector = new ClosureInspector($fn);
+            $hints = $functionInspector->typeHints();
+        }
+        $this->methods[] = new Method($accessLevel, $methodName, $hints, $fn, function () {
+            throw new \BadMethodCallException("return_this is not supported");
+        });
+    }
+
+    /**
+     * @param string             $methodName the method name
+     * @param callable           $fn         the implementation of the method
+     * @param string[]|null|void $hints      the hints for the method. If null, will attempt to detect the hints on $fn
+     * @param string|void the access level, defaults to public
+     * @return void
+     */
+    public function addStaticMethod($methodName, callable $fn, array $hints = null, $accessLevel = "public")
+    {
+        if (!$hints) {
+            $functionInspector = new ClosureInspector($fn);
+            $hints = $functionInspector->typeHints();
+        }
+        $method = new Method($accessLevel, $methodName, $hints, $fn, function () {
+            return $this->className;
+        });
+        $method->setStatic(true);
+        $this->methods[] = $method;
     }
 
     /**
@@ -185,6 +214,7 @@ EOF;
     {
         $this->interfaces[] = $interfaceName;
     }
+
 }
 
 /**
@@ -197,15 +227,18 @@ class Method
     private $methodName;
     private $argList;
     private $callable;
+    private $thisCallback;
     private $isStatic = false;
 
     /**
-     * @param string   $accessLevel must be public, protected or private
-     * @param string   $methodName  must be [a-zA-Z\_][a-zA-Z\_\d]* and unique to the class
-     * @param string[] $typeList    describes the expected types defined on the method signature
-     * @param callable $callable    the implementation of the method
+     * @param string   $accessLevel  must be public, protected or private
+     * @param string   $methodName   must be [a-zA-Z\_][a-zA-Z\_\d]* and unique to the class
+     * @param string[] $typeList     describes the expected types defined on the method signature
+     * @param callable $callable     the implementation of the method
+     * @param callable $thisCallback get the value of this. This is important during the build phase
+     * as the value may not exist at the moment when this is build
      */
-    public function __construct($accessLevel, $methodName, $typeList, $callable)
+    public function __construct($accessLevel, $methodName, $typeList, $callable, $thisCallback)
     {
         if (!in_array($accessLevel, ["private", "protected", "public"])) {
             throw new InvalidArgumentException("$accessLevel is not a valid level");
@@ -218,6 +251,7 @@ class Method
             return "$v \$arg" . $i++;
         }, $typeList);
         $this->callable = $callable;
+        $this->thisCallback = $thisCallback;
     }
 
     /**
@@ -236,7 +270,7 @@ class Method
     {
         \$fn = self::\$__implementations__["<methodName>"];
 
-        \$joinPoint = new \Shmock\ClassBuilder\DecoratorJoinPoint(\$this,"<methodName>",\$fn);
+        \$joinPoint = new \Shmock\ClassBuilder\DecoratorJoinPoint(<execTarget>,"<methodName>",\$fn);
         \$joinPoint->setArguments(func_get_args());
         \$joinPoint->setDecorators(self::\$__decorators__);
 
@@ -251,6 +285,7 @@ EOF;
             "methodName" => $this->methodName,
             "typeList" => implode($this->typeList, ","),
             "static" => $this->isStatic ? "static" : "",
+            "execTarget" => $this->isStatic ? "get_called_class()" : "\$this",
         ]);
     }
 

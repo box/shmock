@@ -16,7 +16,7 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testClassesCanBeBuilt()
     {
-        $this->assertTrue(class_exists($this->buildClass()), "The $clazz should have been created");
+        $this->assertTrue(class_exists($this->buildClass()), "The class should have been created");
     }
 
     public function testClassesCanBeMarkedAsSubclassesOfOtherClasses()
@@ -32,7 +32,7 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
         $class = $this->buildClass(function ($builder) {
             $builder->addMethod("add", function ($a, $b) {
                 return $a + $b;
-            }, ["", ""]);
+            });
         });
 
         $this->assertEquals(2, (new $class)->add(1,1));
@@ -43,7 +43,7 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
         $class = $this->buildClass(function ($builder) {
             $builder->addMethod("add", function ($a, $b) {
                 return $a + $b;
-            }, ["", ""]);
+            });
             $builder->setExtends("Shmock\ClassBuilder\SampleExtension");
         });
 
@@ -57,7 +57,7 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
             $builder->addInterface("Shmock\ClassBuilder\SampleInterface");
             $builder->addMethod("firstAndLast", function (array $a, array $b) {
                 return array_merge($a,$b);
-            }, ["array", "array"]);
+            });
         });
         $instance = new $class();
         $this->assertEquals([1,-1], $instance->firstAndLast([1], [-1]));
@@ -71,10 +71,10 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
         $class = $this->buildClass(function ($builder) {
             $builder->addMethod("multiply", function ($a, $b) {
                 return $a * $b;
-            }, ["",""]);
+            });
             $builder->addMethod("add", function ($a, $b) {
                 return $a + $b;
-            }, ["",""]);
+            });
             $builder->addDecorator(function (JoinPoint $joinPoint) {
                 $this->counter++;
 
@@ -85,6 +85,17 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(6, $instance->add(3,3));
         $this->assertEquals(9, $instance->multiply(3,3));
         $this->assertEquals(2, $this->counter);
+    }
+
+    public function testMethodsCanBeSpecifiedAsStatic()
+    {
+        $class = $this->buildClass(function ($builder) {
+            $builder->addStaticMethod("multiply", function ($a, $b) {
+                return $a * $b;
+            });
+        });
+
+        $this->assertEquals(10, $class::multiply(2, 5));
     }
 }
 

@@ -41,7 +41,7 @@ class PHPUnitStaticClass extends PHPUnitMockInstance
         $mock_class = get_class($this->construct_mock());
 
         foreach ($this->specs as $spec) {
-            $spec->finalize_expectations($mock_class, Shmock::$policies, true, $this->class);
+            $spec->__shmock_finalize_expectations($mock_class, Shmock::$policies, true, $this->class);
         }
 
         return $mock_class;
