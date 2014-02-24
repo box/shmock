@@ -22,6 +22,13 @@ class Shmock
     public static $policies = [];
 
     /**
+     * @var \Shmock\Instance This is the set of all outstanding mock objects that have not been verified.
+     * Call `Shmock::verify()` to assert that all expectations for mock objects have been met.
+     * This function will not exist in version 2.x of Shmock
+     */
+    private static $outstanding_shmocks = [];
+
+    /**
      * Create an instance of a mock object. Shmock uses a build / replay model for building mock objects.
      * The third argument to the create method is a callable that acts as the mock's build phase. The resulting
      * object from the create method is the object in the replay phase.
@@ -83,7 +90,8 @@ class Shmock
      */
     public static function create_class($test_case, $class, $closure)
     {
-        $shmock_class = new PHPUnitStaticClass($test_case, $class);
+        $shmock_class = new ClassBuilderStaticClass($test_case, $class);
+        self::$outstanding_shmocks[] = $shmock_class;
         if ($closure) {
             $closure($shmock_class);
         }
@@ -112,6 +120,21 @@ class Shmock
     {
         self::$policies = [];
     }
+
+    /**
+     * This will verify that all mocks so far have been satisfied. It will clear
+     * the set of outstanding mocks, regardless if any have failed.
+     * @return void
+     */
+    public static function verify()
+    {
+        $mocks = self::$outstanding_shmocks;
+        self::$outstanding_shmocks = [];
+        foreach ($mocks as $mock) {
+            $mock->verify();
+        }
+    }
+
 }
 
 /**

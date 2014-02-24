@@ -76,6 +76,24 @@ class ShmockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $fooClass::weewee());
     }
 
+    public function testShmockVerifyWillAssertThatAllMocksCreatedHaveMetExpectations()
+    {
+        $fooClass = Shmock::create_class($this, '\Shmock\Shmock_Foo', function ($fooClass) {
+            $fooClass->weewee()->twice()->return_value(10);
+        });
+
+        try {
+            Shmock::verify();
+            $this->fail("Expected verify to fail after failing to call the mock method");
+        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
+        }
+
+    }
+
+    public function tearDown()
+    {
+        Shmock::verify();
+    }
 }
 
 class Shmock_Foo

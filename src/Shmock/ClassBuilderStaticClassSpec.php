@@ -457,7 +457,7 @@ class ClassBuilderStaticClassSpec implements Spec
                     }
                 } else {
                     if ($argument !== $args[$i]) {
-                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s to method %s", $i, print_r($args[$i], true), $this->methodName));
+                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method %s", $i, print_r($args[$i], true), gettype($args[$i]), $this->methodName));
                     }
                 }
                 $i++;

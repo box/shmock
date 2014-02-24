@@ -40,7 +40,7 @@ class CountOfTimes implements Frequency
     public function verify()
     {
         if ($this->actualCount != $this->expectedCount) {
-            throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Expected %s to be called exactly %s times", $this->methodName, $this->expectedCount));
+            throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Expected %s to be called exactly %s times, called %s times", $this->methodName, $this->expectedCount, $this->actualCount));
         }
     }
 }
