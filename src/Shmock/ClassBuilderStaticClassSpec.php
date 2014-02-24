@@ -442,8 +442,29 @@ class ClassBuilderStaticClassSpec implements Spec
         $inspector = new MethodInspector($this->className, $this->methodName);
         $builder->addStaticMethod($this->methodName, function () {
             $this->frequency->addCall();
+
+            $args = func_get_args();
+
+            if (count($args) != count($this->arguments) && count($this->arguments) !== 0) {
+                throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Expected %s arguments to %s, got %s", count($this->arguments), $this->methodName, count($args)));
+            }
+
+            $i = 0;
+            foreach ($this->arguments as $argument) {
+                if (is_a($argument, '\PHPUnit_Framework_Constraint')) {
+                    if (!$argument->evaluate($args[$i],"", true)) {
+                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s to method %s", $i, print_r($args[$i], true), $this->methodName));
+                    }
+                } else {
+                    if ($argument !== $args[$i]) {
+                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s to method %s", $i, print_r($args[$i], true), $this->methodName));
+                    }
+                }
+                $i++;
+            }
+
             if ($this->will) {
-                return call_user_func_array($this->will, func_get_args());
+                return call_user_func_array($this->will, $args);
             }
 
             return $this->returnValue;

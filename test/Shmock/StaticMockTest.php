@@ -331,6 +331,37 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
         }, "Expected the multiply call to be out of order");
     }
 
+    /**
+     * @dataProvider instanceProviders
+     */
+    public function testArgumentsShouldBeEnforced($getClass)
+    {
+        $mock = $this->buildMockClass($getClass, function ($staticClass) {
+            $staticClass->multiply(2,2)->return_value(4);
+        });
+
+        $this->assertFailsMockExpectations(function () use ($mock) {
+            $mock::multiply(2,3);
+        }, "Expected the multiply call to err due to bad args");
+    }
+
+    /**
+     * @dataProvider instanceProviders
+     */
+    public function testPHPUnitConstraintsAllowed($getClass)
+    {
+        $mock = $this->buildMockClass($getClass, function ($staticClass) {
+            $staticClass->multiply($this->isType("integer"), $this->greaterThan(2))->any()->return_value(10);
+        });
+
+        // just bare with me here...
+        $this->assertSame(10, $mock::multiply(2, 4));
+        $this->assertSame(10, $mock::multiply(10, 5));
+
+        $this->assertFailsMockExpectations(function () use ($mock) {
+            $mock::multiply(2.0, 1);
+        }, "expected the underlying constraints to fail");
+    }
 }
 
 class ClassToMockStatically
