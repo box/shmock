@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7610834bc6cbc9ca3d0e74705d5c2970",
+    "hash": "5f18e28f5a7295186713ce565f3c1832",
     "packages": [
         {
             "name": "nicmart/string-template",

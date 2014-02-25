@@ -15,7 +15,7 @@
   "require": {
     "php": ">=5.4.0",
     "phpunit/phpunit": "~3.7",
-    "nicmart/string-template": "dev-master"
+    "nicmart/string-template": "dev-master@dev"
   },
   "require-dev": {
     "phpdocumentor/phpdocumentor": "2.*",
