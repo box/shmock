@@ -24,7 +24,7 @@ class Shmock
     /**
      * @var \Shmock\Instance This is the set of all outstanding mock objects that have not been verified.
      * Call `Shmock::verify()` to assert that all expectations for mock objects have been met.
-     * This function will not exist in version 2.x of Shmock
+     * This function will not exist in version 3.x of Shmock
      */
     private static $outstanding_shmocks = [];
 
