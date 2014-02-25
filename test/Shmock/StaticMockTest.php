@@ -245,6 +245,25 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider instanceProviders
      */
+    public function testThrowExceptionWillUseADefaultExceptionTypeIfNonePassed(callable $getClass)
+    {
+        $mock = $this->buildMockClass($getClass, function ($staticClass) {
+            $staticClass->getAnInt()->throw_exception();
+        });
+
+        try {
+            $mock::getAnInt();
+            $this->fail("There should have been a logic exception thrown");
+        } catch (\Exception $e) {
+            if (preg_match('/PHPUnit.*/', get_class($e))) {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * @dataProvider instanceProviders
+     */
     public function testReturnConsecutivelyReturnsValuesInASequence(callable $getClass)
     {
         $mock = $this->buildMockClass($getClass, function ($staticClass) {

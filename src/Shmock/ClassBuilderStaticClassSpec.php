@@ -322,7 +322,7 @@ class ClassBuilderStaticClassSpec implements Spec
     {
 
         $this->will(function () use ($e) {
-            throw $e ?: new Exception();
+            throw $e ?: new \Exception();
         });
 
         return $this;
