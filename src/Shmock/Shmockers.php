@@ -17,6 +17,8 @@ trait Shmockers
      */
     public function shmock($clazz, $closure=null)
     {
+        if (!$closure) $closure = function () {};
+
         return Shmock::create($this, $clazz, $closure);
     }
 
@@ -27,6 +29,8 @@ trait Shmockers
      */
     public function shmock_class($clazz, $closure=null)
     {
+        if (!$closure) $closure = function () {};
+
         return Shmock::create_class($this, $clazz, $closure);
     }
 }
