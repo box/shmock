@@ -153,7 +153,7 @@ EOF;
     {
         if (!$hints) {
             $functionInspector = new ClosureInspector($fn);
-            $hints = $functionInspector->typeHints();
+            $hints = $functionInspector->signatureArgs();
         }
         $this->methods[] = new Method($accessLevel, $methodName, $hints, $fn, function () {
             throw new \BadMethodCallException("return_this is not supported");
@@ -171,7 +171,7 @@ EOF;
     {
         if (!$hints) {
             $functionInspector = new ClosureInspector($fn);
-            $hints = $functionInspector->typeHints();
+            $hints = $functionInspector->signatureArgs();
         }
         $method = new Method($accessLevel, $methodName, $hints, $fn, function () {
             return $this->className;
@@ -233,7 +233,7 @@ class Method
     /**
      * @param string   $accessLevel  must be public, protected or private
      * @param string   $methodName   must be [a-zA-Z\_][a-zA-Z\_\d]* and unique to the class
-     * @param string[] $typeList     describes the expected types defined on the method signature
+     * @param string[] $typeList     describes the arguments defined on the method signature
      * @param callable $callable     the implementation of the method
      * @param callable $thisCallback get the value of this. This is important during the build phase
      * as the value may not exist at the moment when this is build
@@ -245,11 +245,7 @@ class Method
         }
         $this->accessLevel = $accessLevel;
         $this->methodName = $methodName;
-        $this->typeList = array_map(function ($v) {
-            static $i = 0;
-
-            return "$v \$arg" . $i++;
-        }, $typeList);
+        $this->typeList = $typeList;
         $this->callable = $callable;
         $this->thisCallback = $thisCallback;
     }

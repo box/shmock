@@ -468,6 +468,6 @@ class ClassBuilderStaticClassSpec implements Spec
             }
 
             return $this->returnValue;
-        }, $inspector->typeHints());
+        }, $inspector->signatureArgs());
     }
 }

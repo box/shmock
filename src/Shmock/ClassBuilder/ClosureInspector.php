@@ -20,21 +20,25 @@ class ClosureInspector
     /**
      * @return string[] the string representations of the type hints
      */
-    public function typeHints()
+    public function signatureArgs()
     {
         $reflMethod = new \ReflectionFunction($this->func);
         $parameters = $reflMethod->getParameters();
         $result = [];
         foreach ($parameters as $parameter) {
+            $arg = [];
             if ($parameter->isArray()) {
-                $result[] = "array";
+                $arg []= "array";
             } elseif ($parameter->isCallable()) {
-                $result[] = "callable";
+                $arg []= "callable";
             } elseif ($parameter->getClass()) {
-                $result[] = $parameter->getClass()->getName();
-            } else {
-                $result[] = "";
+                $arg []=  "\\". $parameter->getClass()->getName();
             }
+            $arg[]= "$" . $parameter->getName();
+            if ($parameter->isDefaultValueAvailable()) {
+                $arg[] = "= " . var_export($parameter->getDefaultValue(), true);
+            }
+            $result[] = implode($arg, " ");
         }
 
         return $result;

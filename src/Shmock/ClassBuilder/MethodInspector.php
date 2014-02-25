@@ -25,28 +25,33 @@ class MethodInspector
     {
         $this->className = $className;
         $this->methodName = $methodName;
+        $this->reflMethod = new \ReflectionMethod($this->className, $this->methodName);
     }
 
     /**
-     * @return string[] the string representations of the type hints
+     * @return string[] the string representations of function's arguments
      */
-    public function typeHints()
+    public function signatureArgs()
     {
-        $reflMethod = new \ReflectionMethod($this->className, $this->methodName);
-        $parameters = $reflMethod->getParameters();
+        $parameters = $this->reflMethod->getParameters();
         $result = [];
         foreach ($parameters as $parameter) {
+            $arg = [];
             if ($parameter->isArray()) {
-                $result[] = "array";
+                $arg []= "array";
             } elseif ($parameter->isCallable()) {
-                $result[] = "callable";
+                $arg []= "callable";
             } elseif ($parameter->getClass()) {
-                $result[] = $parameter->getClass()->getName();
-            } else {
-                $result[] = "";
+                $arg []=  "\\". $parameter->getClass()->getName();
             }
+            $arg[]= "$" . $parameter->getName();
+            if ($parameter->isDefaultValueAvailable()) {
+                $arg[] = "= " . var_export($parameter->getDefaultValue(), true);
+            }
+            $result[] = implode($arg, " ");
         }
 
         return $result;
     }
+
 }
