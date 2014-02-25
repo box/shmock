@@ -320,7 +320,6 @@ class ClassBuilderStaticClassSpec implements Spec
      */
     public function throw_exception($e=null)
     {
-
         $this->will(function () use ($e) {
             throw $e ?: new \Exception();
         });

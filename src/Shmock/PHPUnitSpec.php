@@ -341,7 +341,8 @@ class PHPUnitSpec implements Spec
      */
     public function throw_exception($e=null)
     {
-        $this->thrown_exceptions[] = $e ?: new \Exception();
+        $e = $e ?: new \Exception();
+        $this->thrown_exceptions[] = $e;
 
         return $this->will(function () use ($e) {
             throw $e;
