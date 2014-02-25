@@ -397,6 +397,22 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
             $mock::multiply(2.0, 1);
         }, "expected the underlying constraints to fail");
     }
+
+    /**
+     * @dataProvider instanceProviders
+     */
+    public function testShmockCanSubclassFunctionsWithReferenceArgs($getClass)
+    {
+        $a = 5;
+        $mock = $this->buildMockClass($getClass, function ($staticClass) {
+            $staticClass->reference(5)->will(function ($inv) {
+                return $inv->parameters[0] + 1;
+            });
+        });
+
+        $a = $mock::reference($a);
+        $this->assertSame(6, $a, "expected shmock to preserve reference semantics");
+    }
 }
 
 class ClassToMockStatically
@@ -421,5 +437,10 @@ class ClassToMockStatically
     public static function multiply($a, $b)
     {
         return $a * $b;
+    }
+
+    public static function reference(& $a)
+    {
+        $a++;
     }
 }

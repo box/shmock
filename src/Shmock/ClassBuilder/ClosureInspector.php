@@ -34,6 +34,9 @@ class ClosureInspector
             } elseif ($parameter->getClass()) {
                 $arg []=  "\\". $parameter->getClass()->getName();
             }
+            if ($parameter->isPassedByReference()) {
+                $arg[] = "&";
+            }
             $arg[]= "$" . $parameter->getName();
             if ($parameter->isDefaultValueAvailable()) {
                 $arg[] = "= " . var_export($parameter->getDefaultValue(), true);

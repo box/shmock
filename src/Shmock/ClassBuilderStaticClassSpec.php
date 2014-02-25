@@ -424,6 +424,7 @@ class ClassBuilderStaticClassSpec implements Spec
     }
 
     /**
+     * This function adds new
      * @param  \Shmock\ClassBuilder\ClassBuilder $builder
      * @return void
      */
@@ -482,8 +483,8 @@ class InvocationImpl implements \PHPUnit_Framework_MockObject_Invocation
     /**
      * @param array
      */
-    public function __construct($parameters)
+    public function __construct(array &$parameters)
     {
-        $this->parameters = $parameters;
+        $this->parameters = &$parameters;
     }
 }

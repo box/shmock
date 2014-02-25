@@ -11,6 +11,8 @@ class MethodInspectorTest extends \PHPUnit_Framework_TestCase
             ["digitalWitness", ["\$annie = 1", "\$clark = 2"]],
             ["glassHandedKites", ["\$special = 'hey'", "\$apocalypso = NULL"]],
             ["halcyonDigest", ["array \$thing", "\Shmock\ClassBuilder\MethodInspectorTest \$test = NULL"]],
+            ["yanquiUXO", ["array & \$thing"]],
+
         ];
     }
 
@@ -37,6 +39,10 @@ class MethodInspectorTest extends \PHPUnit_Framework_TestCase
     }
 
     public function halcyonDigest(array $thing, MethodInspectorTest $test = null)
+    {
+    }
+
+    public function yanquiUXO(array &$thing)
     {
 
     }
