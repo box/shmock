@@ -367,6 +367,22 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider instanceProviders
      */
+    public function testArrayArgumentsShouldBeEnforced($getClass)
+    {
+        $mock = $this->buildMockClass($getClass, function ($staticClass) {
+            $staticClass->multiply([2,2],2)->any()->return_value([4,4]);
+        });
+
+        $this->assertSame([4,4], $mock::multiply([2,2],2));
+
+        $this->assertFailsMockExpectations(function () use ($mock) {
+            $mock::multiply([2,3],3);
+        }, "Expected the multiply call to err due to bad args");
+    }
+
+    /**
+     * @dataProvider instanceProviders
+     */
     public function testPHPUnitConstraintsAllowed($getClass)
     {
         $mock = $this->buildMockClass($getClass, function ($staticClass) {
