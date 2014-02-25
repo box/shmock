@@ -191,7 +191,7 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
     public function testPassingCallableToWillCausesInvocationWhenMockIsUsed(callable $getClass)
     {
         $mock = $this->buildMockClass($getClass, function ($staticClass) {
-            $staticClass->getAnInt()->will(function ($i) { return 999 + $i; });
+            $staticClass->getAnInt()->will(function ($i) { return 999 + $i->parameters[0]; });
         });
 
         $this->assertEquals(1000, $mock::getAnInt(1));

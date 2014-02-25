@@ -229,7 +229,8 @@ class ClassBuilderStaticClassSpec implements Spec
         }
 
         $this->will = function () use ($mapping) {
-            $args = func_get_args();
+            $invocation = func_get_args()[0];
+            $args = $invocation->parameters;
             foreach ($mapping as $map) {
                 list($possibleArgs, $possibleRet) = $map;
                 if ($possibleArgs == $args) {
@@ -464,10 +465,26 @@ class ClassBuilderStaticClassSpec implements Spec
             }
 
             if ($this->will) {
-                return call_user_func_array($this->will, $args);
+                return call_user_func($this->will, new InvocationImpl($args));
             }
 
             return $this->returnValue;
         }, $inspector->signatureArgs());
+    }
+}
+
+class InvocationImpl implements \PHPUnit_Framework_MockObject_Invocation
+{
+    /**
+     * @var array
+     */
+    public $parameters;
+
+    /**
+     * @param array
+     */
+    public function __construct($parameters)
+    {
+        $this->parameters = $parameters;
     }
 }
