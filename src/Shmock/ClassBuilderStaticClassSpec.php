@@ -446,19 +446,20 @@ class ClassBuilderStaticClassSpec implements Spec
 
             $args = func_get_args();
 
-            if (count($args) != count($this->arguments) && count($this->arguments) !== 0) {
-                throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Expected %s arguments to %s, got %s", count($this->arguments), $this->methodName, count($args)));
-            }
-
             $i = 0;
             foreach ($this->arguments as $argument) {
+                $argi = null;
+                if ($i < count($args)) {
+                    $argi = $args[$i];
+                }
+
                 if (is_a($argument, '\PHPUnit_Framework_Constraint')) {
-                    if (!$argument->evaluate($args[$i],"", true)) {
-                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s to method %s", $i, print_r($args[$i], true), $this->methodName));
+                    if (!$argument->evaluate($argi,"", true)) {
+                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s'", $i, print_r($argi, true), gettype($argi), $this->methodName));
                     }
                 } else {
-                    if ($argument !== $args[$i]) {
-                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method %s", $i, print_r($args[$i], true), gettype($args[$i]), $this->methodName));
+                    if ($argument !== $argi) {
+                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s'", $i, print_r($argi, true), gettype($argi), $this->methodName));
                     }
                 }
                 $i++;
