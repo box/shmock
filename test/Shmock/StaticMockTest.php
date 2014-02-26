@@ -413,6 +413,18 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(6, $a, "expected shmock to preserve reference semantics");
     }
 
+    /**
+     * @dataProvider instanceProviders
+     */
+    public function testJuggledTypesAreConsideredMatches($getClass)
+    {
+        $mock = $this->buildMockClass($getClass, function ($staticClass) {
+            $staticClass->multiply("1", "2")->return_value(2);
+        });
+
+        $this->assertSame(2, $mock::multiply(1, 2.0));
+
+    }
 }
 
 class ClassToMockStatically

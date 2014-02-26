@@ -232,7 +232,7 @@ class ClassBuilderStaticClassSpec implements Spec
             $args = $invocation->parameters;
             foreach ($mapping as $map) {
                 list($possibleArgs, $possibleRet) = $map;
-                if ($possibleArgs === $args) {
+                if ($possibleArgs == $args) {
                     return $possibleRet;
                 }
             }
@@ -457,7 +457,7 @@ class ClassBuilderStaticClassSpec implements Spec
                         throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s'", $i, print_r($argi, true), gettype($argi), $this->methodName));
                     }
                 } else {
-                    if ($argument !== $argi) {
+                    if ($argument != $argi) {
                         throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s', was expecting %s", $i, print_r($argi, true), gettype($argi), $this->methodName, print_r($argument, true)));
                     }
                 }
