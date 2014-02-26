@@ -228,12 +228,11 @@ class ClassBuilderStaticClassSpec implements Spec
             $mapping[] = [$parameterSet, $returnVal];
         }
 
-        $this->will = function () use ($mapping) {
-            $invocation = func_get_args()[0];
+        $this->will = function ($invocation) use ($mapping) {
             $args = $invocation->parameters;
             foreach ($mapping as $map) {
                 list($possibleArgs, $possibleRet) = $map;
-                if ($possibleArgs == $args) {
+                if ($possibleArgs === $args) {
                     return $possibleRet;
                 }
             }
@@ -384,11 +383,11 @@ class ClassBuilderStaticClassSpec implements Spec
      * @param  callable     $shmock_closure a closure that will act as the class's build phase.
      * @return \Shmock\Spec
      */
-    public function return_shmock($class, $shmock_closure)
+    public function return_shmock($class, $shmockClosure)
     {
         // use PHPUnit instances for now...
         $phpunitInstance = new PHPUnitMockInstance($this->testCase, $class);
-        $shmock_closure($phpunitInstance);
+        $shmockClosure($phpunitInstance);
         $this->returnValue = $phpunitInstance->replay();
 
         return $this;
@@ -459,7 +458,7 @@ class ClassBuilderStaticClassSpec implements Spec
                     }
                 } else {
                     if ($argument !== $argi) {
-                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s'", $i, print_r($argi, true), gettype($argi), $this->methodName));
+                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s', was expecting %s", $i, print_r($argi, true), gettype($argi), $this->methodName, print_r($argument, true)));
                     }
                 }
                 $i++;

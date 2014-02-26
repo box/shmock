@@ -46,7 +46,7 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
     public function instanceProviders()
     {
         return [
-          // [[$this, "getPHPUnitStaticClass"]],
+          // [[$this, "getPHPUnitStaticClass"]], // requires process isolation
           [[$this, "getClassBuilderStaticClass"]]
         ];
     }
@@ -318,12 +318,11 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
      */
     public function testOrderMattersWillEnforceCorrectOrderingOfCalls($getClass)
     {
-        $mock = $this->buildMockClass($getClass, function ($staticClass) {
-            if (strpos("PHPUnit", get_class($staticClass)) !== 0) {
-                $this->markTestSkipped("ordering not supported yet");
+        if (strpos("PHPUnit", get_class($getClass[0])) !== 0) {
+            $this->markTestSkipped("ordering not supported yet");
+        }
 
-                return;
-            }
+        $mock = $this->buildMockClass($getClass, function ($staticClass) {
             $staticClass->order_matters();
             $staticClass->getAnInt()->return_value(2);
             $staticClass->getAnInt()->return_value(4);
@@ -413,6 +412,7 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
         $a = $mock::reference($a);
         $this->assertSame(6, $a, "expected shmock to preserve reference semantics");
     }
+
 }
 
 class ClassToMockStatically
