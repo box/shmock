@@ -206,11 +206,15 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
             $staticClass->multiply()->return_value_map([
                [10, 20, 30],
                [1, 2, 3],
-            ]);
+            ])->any();
         });
 
         $this->assertEquals(3, $mock::multiply(1,2));
         $this->assertEquals(30, $mock::multiply(10, 20));
+
+        $this->assertFailsMockExpectations(function () use ($mock) {
+            $mock::multiply(10, 2);
+        }, "Expected no match on the passed arguments");
     }
 
     /**

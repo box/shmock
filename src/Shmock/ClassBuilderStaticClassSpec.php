@@ -230,13 +230,20 @@ class ClassBuilderStaticClassSpec implements Spec
 
         $this->will = function ($invocation) use ($mapping) {
             $args = $invocation->parameters;
+            $differ = new \SebastianBergmann\Diff\Differ();
+            $diffSoFar = null;
             foreach ($mapping as $map) {
                 list($possibleArgs, $possibleRet) = $map;
-                if ($possibleArgs == $args) {
+                if ($possibleArgs === $args) {
                     return $possibleRet;
+                } else {
+                    $nextDiff = $differ->diff(print_r($possibleArgs, true), print_r($args, true));
+                    if ($diffSoFar === null || strlen($nextDiff) < strlen($diffSoFar)) {
+                        $diffSoFar = $nextDiff;
+                    }
                 }
             }
-            throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Did not expect to be called with args %s", print_r($possibleArgs, true)));
+            throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Did not expect to be called with args %s, diff with closest match is\n%s", print_r($possibleArgs, true), $diffSoFar));
         };
 
         return $this;
