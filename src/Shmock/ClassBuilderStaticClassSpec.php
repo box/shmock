@@ -242,7 +242,7 @@ class ClassBuilderStaticClassSpec implements Spec
                     }
                 }
             }
-            throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Did not expect to be called with args %s, diff with closest match is\n%s", print_r($possibleArgs, true), $diffSoFar));
+            throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Did not expect to be called with args %s, diff with closest match is\n%s", print_r($args, true), $diffSoFar));
         };
 
         return $this;
