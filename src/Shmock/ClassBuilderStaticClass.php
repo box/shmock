@@ -104,6 +104,7 @@ class ClassBuilderStaticClass implements Instance
      */
     public function replay()
     {
+        // build the mock class
         $builder = new ClassBuilder();
         if (class_exists($this->className)) {
             $builder->setExtends($this->className);
@@ -111,6 +112,8 @@ class ClassBuilderStaticClass implements Instance
             $builder->addImplements($this->className);
         }
 
+        // every mocked method goes through this invocation, which delegates
+        // the retrieval of the correct Spec to this Instance's Ordering constraint.
         $resolveCall = function (Invocation $inv) {
             $spec = $this->ordering->nextSpec($inv->getMethodName());
 

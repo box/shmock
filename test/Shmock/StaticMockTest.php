@@ -322,10 +322,6 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
      */
     public function testOrderMattersWillEnforceCorrectOrderingOfCalls($getClass)
     {
-        if (strpos("PHPUnit", get_class($getClass[0])) !== 0) {
-            $this->markTestSkipped("ordering not supported yet");
-        }
-
         $mock = $this->buildMockClass($getClass, function ($staticClass) {
             $staticClass->order_matters();
             $staticClass->getAnInt()->return_value(2);
@@ -341,7 +337,6 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
      */
     public function testOrderMattersWillPreventOutOfOrderCalls($getClass)
     {
-        $this->markTestSkipped("This does not work on classes");
         $mock = $this->buildMockClass($getClass, function ($staticClass) {
             $staticClass->order_matters();
             $staticClass->getAnInt()->return_value(2);
