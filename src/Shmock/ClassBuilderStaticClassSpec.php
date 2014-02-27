@@ -2,8 +2,7 @@
 namespace Shmock;
 
 use \Shmock\ClassBuilder\ClassBuilder;
-use \Shmock\ClassBuilder\JoinPoint;
-use \Shmock\ClassBuilder\MethodInspector;
+use \Shmock\ClassBuilder\Invocation;
 
 use \Shmock\Constraints\CountOfTimes;
 use \Shmock\Constraints\AnyTimes;
@@ -430,53 +429,52 @@ class ClassBuilderStaticClassSpec implements Spec
     }
 
     /**
-     * This function adds new
-     * @param  \Shmock\ClassBuilder\ClassBuilder $builder
-     * @return void
+     * @param mixed|null
+     * @param mixed|null
+     * @return bool
      */
-    public function __shmock_configureClassBuilder(ClassBuilder $builder)
+    private function argumentMatches($expected, $actual)
     {
-        if ($this->returnThis) {
-            $builder->addDecorator(function (JoinPoint $point) {
-                $ret = $point->execute();
-                if ($point->methodName() === $this->methodName) {
-                    $ret = $point->target();
-                }
-
-                return $ret;
-            });
+        if (is_a($expected, '\PHPUnit_Framework_Constraint')) {
+            return $expected->evaluate($actual,"", true);
+        } else {
+            return $expected == $actual;
         }
-        $inspector = new MethodInspector($this->className, $this->methodName);
-        $builder->addStaticMethod($this->methodName, function () {
-            $this->frequency->addCall();
+    }
 
-            $args = func_get_args();
 
-            $i = 0;
-            foreach ($this->arguments as $argument) {
-                $argi = null;
-                if ($i < count($args)) {
-                    $argi = $args[$i];
-                }
+    /**
+     * @param \Shmock\ClassBuilder\Invocation
+     * @return mixed|null
+     */
+    public function doInvocation(Invocation $invocation)
+    {
+        $this->frequency->addCall();
 
-                if (is_a($argument, '\PHPUnit_Framework_Constraint')) {
-                    if (!$argument->evaluate($argi,"", true)) {
-                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s'", $i, print_r($argi, true), gettype($argi), $this->methodName));
-                    }
-                } else {
-                    if ($argument != $argi) {
-                        throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s', was expecting %s", $i, print_r($argi, true), gettype($argi), $this->methodName, print_r($argument, true)));
-                    }
-                }
-                $i++;
+        $args = $invocation->getArguments();
+
+        $i = 0;
+        foreach ($this->arguments as $expected) {
+            $argi = null;
+            if ($i < count($args)) {
+                $argi = $args[$i];
+            }
+            if (!$this->argumentMatches($expected, $argi)) {
+                throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s', was expecting %s (%s)", $i, print_r($argi, true), gettype($argi), $this->methodName, print_r($expected, true), print_r(gettype($expected), true)));
             }
 
-            if ($this->will) {
-                return call_user_func($this->will, new InvocationImpl($args));
-            }
+            $i++;
+        }
 
-            return $this->returnValue;
-        }, $inspector->signatureArgs());
+        if ($this->will) {
+            return call_user_func($this->will, new InvocationImpl($args));
+        }
+
+        if ($this->returnThis) {
+            return $invocation->getTarget();
+        }
+
+        return $this->returnValue;
     }
 }
 

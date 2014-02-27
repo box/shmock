@@ -57,7 +57,9 @@ class DecoratorJoinPoint implements JoinPoint
     public function execute()
     {
         if ($this->index >= count($this->decorators)) {
-            return call_user_func_array($this->actualCallable, $this->arguments);
+            $invocation = new Invocation($this->target, $this->methodName, $this->arguments);
+
+            return call_user_func($this->actualCallable, $invocation);
         } else {
             $nextDecorator = $this->decorators[$this->index];
             $this->index++;

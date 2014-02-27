@@ -30,9 +30,11 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
     public function testClassesCanHaveFunctionsAttached()
     {
         $class = $this->buildClass(function ($builder) {
-            $builder->addMethod("add", function ($a, $b) {
+            $builder->addMethod("add", function (Invocation $invocation) {
+                list($a, $b) = $invocation->getArguments();
+
                 return $a + $b;
-            });
+            }, ['$a', '$b']);
         });
 
         $this->assertEquals(2, (new $class)->add(1,1));
@@ -41,9 +43,11 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
     public function testClassBuilderCanExtendOtherClasses()
     {
         $class = $this->buildClass(function ($builder) {
-            $builder->addMethod("add", function ($a, $b) {
+            $builder->addMethod("add", function (Invocation $invocation) {
+                list($a, $b) = $invocation->getArguments();
+
                 return $a + $b;
-            });
+            }, ['$a', '$b']);
             $builder->setExtends("Shmock\ClassBuilder\SampleExtension");
         });
 
@@ -55,9 +59,11 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $class = $this->buildClass(function ($builder) {
             $builder->addInterface("Shmock\ClassBuilder\SampleInterface");
-            $builder->addMethod("firstAndLast", function (array $a, array $b) {
+            $builder->addMethod("firstAndLast", function (Invocation $invocation) {
+                list($a, $b) = $invocation->getArguments();
+
                 return array_merge($a,$b);
-            });
+            }, ['array $a', 'array $b']);
         });
         $instance = new $class();
         $this->assertEquals([1,-1], $instance->firstAndLast([1], [-1]));
@@ -69,12 +75,16 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
     public function testAllMockMethodsCanBeDecorated()
     {
         $class = $this->buildClass(function ($builder) {
-            $builder->addMethod("multiply", function ($a, $b) {
+            $builder->addMethod("multiply", function (Invocation $invocation) {
+                list($a, $b) = $invocation->getArguments();
+
                 return $a * $b;
-            });
-            $builder->addMethod("add", function ($a, $b) {
+            }, ['$x', '$y']);
+            $builder->addMethod("add", function (Invocation $invocation) {
+                list($a, $b) = $invocation->getArguments();
+
                 return $a + $b;
-            });
+            }, ['$a', '$b']);
             $builder->addDecorator(function (JoinPoint $joinPoint) {
                 $this->counter++;
 
@@ -90,9 +100,11 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
     public function testMethodsCanBeSpecifiedAsStatic()
     {
         $class = $this->buildClass(function ($builder) {
-            $builder->addStaticMethod("multiply", function ($a, $b) {
+            $builder->addStaticMethod("multiply", function (Invocation $invocation) {
+                list($a, $b) = $invocation->getArguments();
+
                 return $a * $b;
-            });
+            }, ['$a', '$b']);
         });
 
         $this->assertEquals(10, $class::multiply(2, 5));

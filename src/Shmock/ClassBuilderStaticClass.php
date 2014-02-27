@@ -2,6 +2,12 @@
 
 namespace Shmock;
 use \Shmock\ClassBuilder\ClassBuilder;
+use \Shmock\ClassBuilder\MethodInspector;
+use \Shmock\ClassBuilder\Invocation;
+
+use \Shmock\Constraints\Ordering;
+use \Shmock\Constraints\Unordered;
+use \Shmock\Constraints\MethodNameOrdering;
 
 class ClassBuilderStaticClass implements Instance
 {
@@ -11,14 +17,19 @@ class ClassBuilderStaticClass implements Instance
     private $className;
 
     /**
-     * @var ClassBuilderStaticClassSpec[]
+     * @var string[]
      */
-    private $expectations = [];
+    private $expectedMethodCalls = [];
 
     /**
      * @var \PHPUnit_Framework_TestCase
      */
     private $testCase;
+
+    /**
+     * @var Ordering
+     */
+    private $ordering = null;
 
     /**
      * @param \PHPUnit_Framework_TestCase $testCase
@@ -35,9 +46,7 @@ class ClassBuilderStaticClass implements Instance
      */
     public function verify()
     {
-        foreach ($this->expectations as $expectation) {
-            $expectation->__shmock_verify();
-        }
+        $this->ordering->verify();
     }
 
     /**
@@ -76,7 +85,10 @@ class ClassBuilderStaticClass implements Instance
      */
     public function order_matters()
     {
-        throw new \BadMethodCallException("ordering is not supported yet");
+        if ($this->ordering !== null) {
+            throw new \InvalidArgumentException("You cannot set the ordering constraint more than once. (It is implicitly set to 'unordered' after the first method is specified)");
+        }
+        $this->ordering = new MethodNameOrdering();
     }
 
     /**
@@ -99,8 +111,15 @@ class ClassBuilderStaticClass implements Instance
             $builder->addImplements($this->className);
         }
 
-        foreach ($this->expectations as $expectation) {
-            $expectation->__shmock_configureClassBuilder($builder);
+        $resolveCall = function (Invocation $inv) {
+            $spec = $this->ordering->nextSpec($inv->getMethodName());
+
+            return $spec->doInvocation($inv);
+        };
+
+        foreach (array_unique($this->expectedMethodCalls) as $methodCall) {
+            $inspector = new MethodInspector($this->className, $methodCall);
+            $builder->addStaticMethod($methodCall, $resolveCall, $inspector->signatureArgs());
         }
 
         return $builder->create();
@@ -114,8 +133,12 @@ class ClassBuilderStaticClass implements Instance
      */
     public function __call($methodName, $with)
     {
+        if ($this->ordering === null) {
+            $this->ordering = new Unordered();
+        }
         $spec = new ClassBuilderStaticClassSpec($this->testCase, $this->className, $methodName, $with);
-        $this->expectations[$methodName] = $spec;
+        $this->ordering->addSpec($methodName, $spec);
+        $this->expectedMethodCalls[] = $methodName;
 
         return $spec;
     }

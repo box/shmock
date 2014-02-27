@@ -144,17 +144,13 @@ EOF;
 
     /**
      * @param  string             $methodName  the method name
-     * @param  callable           $fn          the implementation of the method
+     * @param  callable           $fn          the implementation of the method. The first argument to the callable is an Invocation object.
      * @param  string[]|null|void $hints       the hints for the method. If null, will attempt to detect the hints on $fn
      * @param  string|void        $accessLevel the access type, defaults to public
      * @return void
      */
-    public function addMethod($methodName, callable $fn, array $hints = null, $accessLevel = "public")
+    public function addMethod($methodName, callable $fn, array $hints, $accessLevel = "public")
     {
-        if (!$hints) {
-            $functionInspector = new ClosureInspector($fn);
-            $hints = $functionInspector->signatureArgs();
-        }
         $this->methods[] = new Method($accessLevel, $methodName, $hints, $fn, function () {
             throw new \BadMethodCallException("return_this is not supported");
         });
@@ -167,12 +163,8 @@ EOF;
      * @param string|void the access level, defaults to public
      * @return void
      */
-    public function addStaticMethod($methodName, callable $fn, array $hints = null, $accessLevel = "public")
+    public function addStaticMethod($methodName, callable $fn, array $hints, $accessLevel = "public")
     {
-        if (!$hints) {
-            $functionInspector = new ClosureInspector($fn);
-            $hints = $functionInspector->signatureArgs();
-        }
         $method = new Method($accessLevel, $methodName, $hints, $fn, function () {
             return $this->className;
         });

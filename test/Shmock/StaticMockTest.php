@@ -60,9 +60,8 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
         } catch (\PHPUnit_Framework_AssertionFailedError $e) {
 
         }
-        if (!$threw) {
-            $this->fail("Expected callable to throw phpunit failure: $message");
-        }
+        $this->assertTrue($threw, "Expected callable to throw phpunit failure: $message");
+
         $this->resetMockObjects();
         self::$staticClass = null;
 
@@ -206,11 +205,12 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
             $staticClass->multiply()->return_value_map([
                [10, 20, 30],
                [1, 2, 3],
+               [["a" => "b"], ["b" => "c"], 1]
             ])->any();
         });
 
-        $this->assertEquals(3, $mock::multiply(1,2));
         $this->assertEquals(30, $mock::multiply(10, 20));
+        $this->assertSame(1, $mock::multiply(["a"=> "b"], ["b" => "c"]));
 
         $this->assertFailsMockExpectations(function () use ($mock) {
             $mock::multiply(10, 2);
@@ -427,7 +427,18 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
         });
 
         $this->assertSame(2, $mock::multiply(1, 2.0));
+    }
 
+    /**
+     * @dataProvider instanceProviders
+     */
+    public function testExtraArgumentsWithNoExplicitConstraintAreIgnored($getClass)
+    {
+        $mock = $this->buildMockClass($getClass, function ($staticClass) {
+            $staticClass->multiply(1,2)->return_value(2);
+        });
+
+        $this->assertSame(2, $mock::multiply(1,2,3));
     }
 }
 

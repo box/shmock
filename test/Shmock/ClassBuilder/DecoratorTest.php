@@ -37,7 +37,9 @@ class DecoratorTest extends \PHPUnit_Framework_TestCase
 
     public function testAlternateCallableCanBeSpecified()
     {
-        $joinPoint = new DecoratorJoinPoint(new Calculator(), "multiply", function ($a, $b) {
+        $joinPoint = new DecoratorJoinPoint(new Calculator(), "multiply", function (Invocation $invocation) {
+            list($a, $b) = $invocation->getArguments();
+
             return $a * $b * $b;
         });
         $joinPoint->setDecorators([new CalculatorDecorator()]);
@@ -70,13 +72,17 @@ class CalculatorDecorator implements Decorator
 
 class Calculator
 {
-    public function multiply($x, $y)
+    public function multiply(Invocation $inv)
     {
+        list($x, $y) = $inv->getArguments();
+
         return $x * $y;
     }
 
-    public static function subtract($x, $y)
+    public static function subtract(Invocation $inv)
     {
+        list($x, $y) = $inv->getArguments();
+
         return $x - $y;
     }
 
