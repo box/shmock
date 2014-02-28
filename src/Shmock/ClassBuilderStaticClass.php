@@ -46,7 +46,9 @@ class ClassBuilderStaticClass implements Instance
      */
     public function verify()
     {
-        $this->ordering->verify();
+        if ($this->ordering !== null) {
+            $this->ordering->verify();
+        }
     }
 
     /**
