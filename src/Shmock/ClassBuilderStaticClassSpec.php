@@ -460,7 +460,14 @@ class ClassBuilderStaticClassSpec implements Spec
                 $argi = $args[$i];
             }
             if (!$this->argumentMatches($expected, $argi)) {
-                throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s', was expecting %s (%s)", $i, print_r($argi, true), gettype($argi), $this->methodName, print_r($expected, true), print_r(gettype($expected), true)));
+                $expectedStr = print_r($expected, true);
+                $actualStr = print_r($argi, true);
+                $extra = "";
+                if (strlen($expectedStr) > 100) {
+                     $differ = new \SebastianBergmann\Diff\Differ();
+                     $extra = "Diff: \n" . $differ->diff($expectedStr, $actualStr);
+                }
+                throw new \PHPUnit_Framework_AssertionFailedError(sprintf("Unexpected argument#%s %s (%s) to method '%s', was expecting %s (%s). %s", $i, $actualStr, gettype($argi), $this->methodName, $expectedStr, print_r(gettype($expected), true), $extra));
             }
 
             $i++;
