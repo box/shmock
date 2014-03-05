@@ -157,9 +157,7 @@ EOF;
      */
     public function addMethod($methodName, callable $fn, array $hints, $accessLevel = "public")
     {
-        $this->methods[] = new Method($accessLevel, $methodName, $hints, $fn, function () {
-            throw new \BadMethodCallException("return_this is not supported");
-        });
+        $this->methods[] = new Method($accessLevel, $methodName, $hints, $fn);
     }
 
     /**
@@ -171,9 +169,7 @@ EOF;
      */
     public function addStaticMethod($methodName, callable $fn, array $hints, $accessLevel = "public")
     {
-        $method = new Method($accessLevel, $methodName, $hints, $fn, function () {
-            return $this->className;
-        });
+        $method = new Method($accessLevel, $methodName, $hints, $fn);
         $method->setStatic(true);
         $this->methods[] = $method;
     }
@@ -244,14 +240,12 @@ class Method
     private $isStatic = false;
 
     /**
-     * @param string   $accessLevel  must be public, protected or private
-     * @param string   $methodName   must be [a-zA-Z\_][a-zA-Z\_\d]* and unique to the class
-     * @param string[] $typeList     describes the arguments defined on the method signature
-     * @param callable $callable     the implementation of the method
-     * @param callable $thisCallback get the value of this. This is important during the build phase
-     * as the value may not exist at the moment when this is build
+     * @param string   $accessLevel must be public, protected or private
+     * @param string   $methodName  must be [a-zA-Z\_][a-zA-Z\_\d]* and unique to the class
+     * @param string[] $typeList    describes the arguments defined on the method signature
+     * @param callable $callable    the implementation of the method
      */
-    public function __construct($accessLevel, $methodName, $typeList, $callable, $thisCallback)
+    public function __construct($accessLevel, $methodName, $typeList, $callable)
     {
         if (!in_array($accessLevel, ["private", "protected", "public"])) {
             throw new InvalidArgumentException("$accessLevel is not a valid level");
@@ -260,7 +254,6 @@ class Method
         $this->methodName = $methodName;
         $this->typeList = $typeList;
         $this->callable = $callable;
-        $this->thisCallback = $thisCallback;
     }
 
     /**
