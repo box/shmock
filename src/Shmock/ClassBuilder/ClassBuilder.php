@@ -42,6 +42,12 @@ class ClassBuilder
 
     /**
      * @internal
+     * @var string[]
+     */
+    private $traits = [];
+
+    /**
+     * @internal
      * @return string
      */
     private function randStr()
@@ -102,7 +108,7 @@ EOF;
 
         $classDef = $engine->render($classTemplate, [
             "className" => $this->className,
-            "uses" => "",
+            "uses" => implode($this->traits, "\n"),
             "implements" => $this->interfaceStr(),
             "methods" => implode($functions, "\n"),
             "extends" => $this->extends,
@@ -204,7 +210,22 @@ EOF;
      */
     public function addInterface($interfaceName)
     {
+        if (!interface_exists($interfaceName)) {
+            throw new \InvalidArgumentException("$interfaceName is not a valid interface and cannot be implemented");
+        }
         $this->interfaces[] = $interfaceName;
+    }
+
+    /**
+     * @param  string $traitName
+     * @return void
+     */
+    public function addTrait($traitName)
+    {
+        if (!trait_exists($traitName)) {
+            throw new \InvalidArgumentException("$traitName is not a valid trait and cannot be mixed in");
+        }
+        $this->traits[] = "use $traitName;";
     }
 
 }

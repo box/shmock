@@ -109,6 +109,17 @@ class ClassBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(10, $class::multiply(2, 5));
     }
+
+    public function testTraitsCanBeIncludedInNewClasses()
+    {
+        $class = $this->buildClass(function ($builder) {
+            $builder->addTrait('Shmock\ClassBuilder\SampleTrait');
+        });
+
+        $instance = new $class();
+        $this->assertSame("#FF0000", $instance->redHex());
+    }
+
 }
 
 abstract class SampleExtension
@@ -122,4 +133,12 @@ abstract class SampleExtension
 interface SampleInterface
 {
     public function firstAndLast(array $first, array $last);
+}
+
+trait SampleTrait
+{
+    public function redHex()
+    {
+        return "#FF0000";
+    }
 }
