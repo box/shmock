@@ -112,6 +112,8 @@ class ClassBuilderStaticClass implements Instance
             $builder->setExtends($this->className);
         } elseif (interface_exists($this->className)) {
             $builder->addImplements($this->className);
+        } else {
+            throw new \InvalidArgumentException("Class or interface " . $this->className . " does not exist");
         }
 
         // every mocked method goes through this invocation, which delegates
@@ -141,7 +143,7 @@ class ClassBuilderStaticClass implements Instance
         if ($this->ordering === null) {
             $this->ordering = new Unordered();
         }
-        $spec = new ClassBuilderStaticClassSpec($this->testCase, $this->className, $methodName, $with);
+        $spec = new StaticSpec($this->testCase, $this->className, $methodName, $with, Shmock::$policies);
         $this->ordering->addSpec($methodName, $spec);
         $this->expectedMethodCalls[] = $methodName;
 

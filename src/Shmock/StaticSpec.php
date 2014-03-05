@@ -8,7 +8,7 @@ use \Shmock\Constraints\CountOfTimes;
 use \Shmock\Constraints\AnyTimes;
 use \Shmock\Constraints\AtLeastOnce;
 
-class ClassBuilderStaticClassSpec implements Spec
+class StaticSpec implements Spec
 {
     /**
      * @var string The name of the primary class
@@ -52,18 +52,38 @@ class ClassBuilderStaticClassSpec implements Spec
     private $testCase;
 
     /**
+     * @var \Shmock\Policy[] $policies
+     */
+    private $policies;
+
+    /**
      * @param \PHPUnit_Framework_TestCase $testCase
      * @param string                      $className
      * @param string                      $methodName
-     * @param array
+     * @param array                       $arguments
+     * @param Policy[]                    $policies
      */
-    public function __construct($testCase, $className, $methodName, $arguments)
+    public function __construct($testCase, $className, $methodName, $arguments, $policies)
     {
         $this->testCase = $testCase;
         $this->className = $className;
         $this->methodName = $methodName;
         $this->arguments = $arguments;
         $this->frequency = new CountOfTimes(1, $this->methodName);
+        $this->policies = $policies;
+
+        $errMsg = "#$methodName is an instance method on the class {$this->className}, but you expected it to be static.";
+        try {
+            $reflectionMethod = new \ReflectionMethod($this->className, $methodName);
+            $this->testCase->assertTrue($reflectionMethod->isStatic(), $errMsg);
+            $this->testCase->assertFalse($reflectionMethod->isPrivate(), "#$methodName is a private method on {$this->className}, but you cannot mock a private method.");
+        } catch (\ReflectionException $e) {
+            $this->testCase->assertTrue(method_exists($this->className, '__callStatic'), "The method #$methodName does not exist on the class {$this->className}");
+        }
+
+        foreach ($this->policies as $policy) {
+            $policy->check_method_parameters($className, $methodName, $arguments, true);
+        }
     }
 
     /**
@@ -227,6 +247,13 @@ class ClassBuilderStaticClassSpec implements Spec
             $mapping[] = [$parameterSet, $returnVal];
         }
 
+        foreach ($this->policies as $policy) {
+            foreach ($mapping as $paramsWithReturn) {
+                $policy->check_method_parameters($mapping[0]);
+                $policy->check_method_return_value($mapping[1]);
+            }
+        }
+
         $this->will = function ($invocation) use ($mapping) {
             $args = $invocation->parameters;
             $differ = new \SebastianBergmann\Diff\Differ();
@@ -255,9 +282,7 @@ class ClassBuilderStaticClassSpec implements Spec
      */
     public function return_true()
     {
-        $this->returnValue = true;
-
-        return $this;
+        return $this->return_value(true);
     }
 
     /**
@@ -267,9 +292,7 @@ class ClassBuilderStaticClassSpec implements Spec
      */
     public function return_false()
     {
-        $this->returnValue = false;
-
-        return $this;
+        return $this->return_value(false);
     }
 
     /**
@@ -279,9 +302,7 @@ class ClassBuilderStaticClassSpec implements Spec
     */
     public function return_null()
     {
-        $this->returnValue = null;
-
-        return $this;
+        return $this->return_value(null);
     }
 
     /**
@@ -297,6 +318,9 @@ class ClassBuilderStaticClassSpec implements Spec
     public function return_value($value)
     {
         $this->returnValue = $value;
+        foreach ($this->policies as $policy) {
+            $policy->check_method_return_value($this->className, $this->methodName, $value, true);
+        }
 
         return $this;
     }
@@ -325,8 +349,14 @@ class ClassBuilderStaticClassSpec implements Spec
      */
     public function throw_exception($e=null)
     {
+        $e = $e ?: new \Exception();
+
+        foreach ($this->policies as $policy) {
+            $policy->check_method_throws($this->className, $this->methodName, $e, true);
+        }
+
         $this->will(function () use ($e) {
-            throw $e ?: new \Exception();
+            throw $e;
         });
 
         return $this;
@@ -353,6 +383,12 @@ class ClassBuilderStaticClassSpec implements Spec
      */
     public function return_consecutively($array_of_values, $keep_returning_last_value=false)
     {
+        foreach ($this->policies as $policy) {
+            foreach ($array_of_values as $value) {
+                $policy->check_method_return_value($this->className, $this->methodName, $value, true);
+            }
+        }
+
         // $this->returned_values = array_merge($this->returned_values, $array_of_values);
         $this->will = function () use ($array_of_values, $keep_returning_last_value) {
             static $counter = -1;
@@ -394,9 +430,8 @@ class ClassBuilderStaticClassSpec implements Spec
         // use PHPUnit instances for now...
         $phpunitInstance = new PHPUnitMockInstance($this->testCase, $class);
         $shmockClosure($phpunitInstance);
-        $this->returnValue = $phpunitInstance->replay();
 
-        return $this;
+        return $this->return_value($phpunitInstance->replay());
     }
 
     /**
@@ -442,7 +477,6 @@ class ClassBuilderStaticClassSpec implements Spec
         }
     }
 
-
     /**
      * @param \Shmock\ClassBuilder\Invocation
      * @return mixed|null
@@ -478,7 +512,15 @@ class ClassBuilderStaticClassSpec implements Spec
         }
 
         if ($this->returnThis) {
-            return $invocation->getTarget();
+            $target = $invocation->getTarget();
+
+            // as implemented, returnThis can only be verified by policies at
+            // calltime.
+            foreach ($this->policies as $policy) {
+                $this->check_method_return_value($this->className, $this->methodName, $target, true);
+            }
+
+            return $target;
         }
 
         return $this->returnValue;

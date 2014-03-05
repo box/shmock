@@ -57,4 +57,13 @@ class Invocation
     {
         return $this->methodName;
     }
+
+    /**
+     * @param callable
+     * @return mixed|null
+     */
+    public function callWith(callable $fn)
+    {
+        return call_user_func_array($fn, $this->arguments);
+    }
 }
