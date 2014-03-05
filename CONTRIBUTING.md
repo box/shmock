@@ -41,7 +41,21 @@ This will come in useful later.
 
 Create a branch with a descriptive name, such as `add-search`.
 
-### Step 5: Push your feature branch to your fork
+### Step 5: Install and use our preferred pre-commit hook (or you can configure your environment to perform the equivalent as needed)
+
+```bash
+set -e
+vendor/bin/phpunit test/
+vendor/bin/phpdoc.php run -d src/ -t pages
+git diff --cached --name-only --diff-filter=AMRC | grep ".php" | xargs -n 1 -I % sh -c "echo 'formatting %'; php-cs-fixer fix %; git add %"
+exit 0
+```
+The above will:
+1. ensure that all PHPUnit tests pass
+2. generate up-to-date documentation in a gitignored directory called "pages", which should be pushed to the gh-pages branch.
+3. execute php-cs-fixer on every altered non-deleted php file and then git add the change
+
+### Step 6: Push your feature branch to your fork
 
 As you develop code, continue to push code to your remote feature branch. Please make sure to include the issue number you're addressing in your commit message, such as:
 
