@@ -67,7 +67,7 @@ This helps us out by allowing us to track which issue your commit relates to.
 
 Keep a separate feature branch for each issue you want to address.
 
-### Step 6: Rebase
+### Step 7: Rebase
 
 Before sending a pull request, rebase against upstream, such as:
 
@@ -77,10 +77,6 @@ git rebase upstream/master
 ```
 
 This will add your changes on top of what's already in upstream, minimizing merge issues.
-
-### Step 7: Run the tests
-
-Make sure that all tests are passing before submitting a pull request.
 
 ### Step 8: Send the pull request
 
