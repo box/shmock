@@ -72,17 +72,33 @@ class StaticSpec implements Spec
         $this->frequency = new CountOfTimes(1, $this->methodName);
         $this->policies = $policies;
 
-        $errMsg = "#$methodName is an instance method on the class {$this->className}, but you expected it to be static.";
-        try {
-            $reflectionMethod = new \ReflectionMethod($this->className, $methodName);
-            $this->testCase->assertTrue($reflectionMethod->isStatic(), $errMsg);
-            $this->testCase->assertFalse($reflectionMethod->isPrivate(), "#$methodName is a private method on {$this->className}, but you cannot mock a private method.");
-        } catch (\ReflectionException $e) {
-            $this->testCase->assertTrue(method_exists($this->className, '__callStatic'), "The method #$methodName does not exist on the class {$this->className}");
-        }
+        $this->doStrictMethodCheck();
 
         foreach ($this->policies as $policy) {
-            $policy->check_method_parameters($className, $methodName, $arguments, true);
+            $policy->check_method_parameters($className, $methodName, $arguments, $this->isStatic());
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isStatic()
+    {
+        return true;
+    }
+
+    /**
+     * @return void
+     */
+    protected function doStrictMethodCheck()
+    {
+        $errMsg = "#{$this->methodName} is an instance method on the class {$this->className}, but you expected it to be static.";
+        try {
+            $reflectionMethod = new \ReflectionMethod($this->className, $this->methodName);
+            $this->testCase->assertTrue($reflectionMethod->isStatic(), $errMsg);
+            $this->testCase->assertFalse($reflectionMethod->isPrivate(), "#{$this->methodName} is a private method on {$this->className}, but you cannot mock a private method.");
+        } catch (\ReflectionException $e) {
+            $this->testCase->assertTrue(method_exists($this->className, '__callStatic'), "The method #{$this->methodName} does not exist on the class {$this->className}");
         }
     }
 
@@ -249,8 +265,8 @@ class StaticSpec implements Spec
 
         foreach ($this->policies as $policy) {
             foreach ($mapping as $paramsWithReturn) {
-                $policy->check_method_parameters($mapping[0]);
-                $policy->check_method_return_value($mapping[1]);
+                $policy->check_method_parameters($this->className, $this->methodName, $paramsWithReturn[0], $this->isStatic());
+                $policy->check_method_return_value($this->className, $this->methodName, $paramsWithReturn[1], $this->isStatic());
             }
         }
 
@@ -319,7 +335,7 @@ class StaticSpec implements Spec
     {
         $this->returnValue = $value;
         foreach ($this->policies as $policy) {
-            $policy->check_method_return_value($this->className, $this->methodName, $value, true);
+            $policy->check_method_return_value($this->className, $this->methodName, $value, $this->isStatic());
         }
 
         return $this;

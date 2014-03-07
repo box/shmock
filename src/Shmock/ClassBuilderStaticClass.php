@@ -125,11 +125,22 @@ class ClassBuilderStaticClass implements Instance
         };
 
         foreach (array_unique($this->expectedMethodCalls) as $methodCall) {
-            $inspector = new MethodInspector($this->className, $methodCall);
-            $builder->addStaticMethod($methodCall, $resolveCall, $inspector->signatureArgs());
+            $this->addMethodToBuilder($builder, $methodCall, $resolveCall);
         }
 
         return $builder->create();
+    }
+
+    /**
+     * @param  \Shmock\ClassBuilder\ClassBuilder $builder
+     * @param  string                            $methodCall
+     * @param  callable                          $resolveCall
+     * @return void
+     */
+    protected function addMethodToBuilder(ClassBuilder $builder, $methodCall, callable $resolveCall)
+    {
+        $inspector = new MethodInspector($this->className, $methodCall);
+        $builder->addStaticMethod($methodCall, $resolveCall, $inspector->signatureArgs());
     }
 
     /**
@@ -143,11 +154,22 @@ class ClassBuilderStaticClass implements Instance
         if ($this->ordering === null) {
             $this->ordering = new Unordered();
         }
-        $spec = new StaticSpec($this->testCase, $this->className, $methodName, $with, Shmock::$policies);
+        $spec = $this->initSpec($methodName, $with);
         $this->ordering->addSpec($methodName, $spec);
         $this->expectedMethodCalls[] = $methodName;
 
         return $spec;
+    }
+
+    /**
+     * Build a spec object given the method and args
+     * @param  string $methodName
+     * @param  array  $with
+     * @return Spec
+     */
+    protected function initSpec($methodName, array $with)
+    {
+        return new StaticSpec($this->testCase, $this->className, $methodName, $with, Shmock::$policies);
     }
 
     /**

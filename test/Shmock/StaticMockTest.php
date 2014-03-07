@@ -2,6 +2,8 @@
 
 namespace Shmock;
 
+require_once 'MockChecker.php';
+
 /**
  * These tests must be run in separate processes due to the way that PHPUnit
  * generates mock class names. Since a failure in a prior test will get tracked
@@ -10,32 +12,20 @@ namespace Shmock;
  */
 class StaticMockTest extends \PHPUnit_Framework_TestCase
 {
-    private static $staticClass = null;
+    use MockChecker;
 
-    /**
-     * plucked from https://github.com/sebastianbergmann/phpunit-mock-objects/blob/master/tests/MockObjectTest.php
-     */
-    private function resetMockObjects()
+    protected function getPHPUnitStaticClass($clazz)
     {
-        $refl = new \ReflectionObject($this);
-        $refl = $refl->getParentClass();
-        $prop = $refl->getProperty('mockObjects');
-        $prop->setAccessible(true);
-        $prop->setValue($this, array());
+        $this->staticClass = new PHPUnitStaticClass($this, $clazz);
+
+        return $this->staticClass;
     }
 
-    public function getPHPUnitStaticClass($clazz)
+    protected function getClassBuilderStaticClass($clazz)
     {
-        self::$staticClass = new PHPUnitStaticClass($this, $clazz);
+        $this->staticClass = new ClassBuilderStaticClass($this, $clazz);
 
-        return self::$staticClass;
-    }
-
-    public function getClassBuilderStaticClass($clazz)
-    {
-        self::$staticClass = new ClassBuilderStaticClass($this, $clazz);
-
-        return self::$staticClass;
+        return $this->staticClass;
 
     }
 
@@ -51,44 +41,12 @@ class StaticMockTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    private function assertFailsMockExpectations(callable $fn, $message)
-    {
-        $threw = true;
-        try {
-            $fn();
-            $threw = false;
-        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
-
-        }
-        $this->assertTrue($threw, "Expected callable to throw phpunit failure: $message");
-
-        $this->resetMockObjects();
-        self::$staticClass = null;
-
-    }
-
-    private function assertMockObjectsShouldFail($message)
-    {
-        $threw = true;
-        try {
-            $this->verifyMockObjects();
-            self::$staticClass->verify();
-            $threw = false;
-        } catch ( \PHPUnit_Framework_AssertionFailedError $e) {
-
-        }
-        if (!$threw) {
-            $this->fail("Expected mock objects to fail in PHPUnit: $message");
-        }
-        $this->resetMockObjects();
-    }
-
     private function buildMockClass(callable $getClass, callable $setup)
     {
-        $staticClass = $getClass("\Shmock\ClassToMockStatically");
-        $setup($staticClass);
+        $this->staticClass = $getClass("\Shmock\ClassToMockStatically");
+        $setup($this->staticClass);
 
-        return $staticClass->replay();
+        return $this->staticClass->replay();
     }
 
     /**

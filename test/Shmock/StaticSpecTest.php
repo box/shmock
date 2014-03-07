@@ -95,6 +95,28 @@ class StaticSpecTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testReturnValueCorrectlyEvaluatesCorrectnessOfParameters()
+    {
+        $policy = $this->buildPolicy('check_method_parameters', function ($className, $methodName, $parameters, $statc) {
+            if ($parameters != [] && (($parameters[0] + $parameters[1]) % 3 == 1)) {
+                throw new FakeShmockException("Cannot be divisble by 3n+1");
+            }
+        });
+
+        $spec = new StaticSpec($this, get_class($this), 'aStaticMethod', [], [$policy]);
+        $spec->return_value_map([
+           [3,3,6],
+           [2,4,6],
+           [1,2,3],
+        ]);
+
+       $this->assertThrowsShmockException(function () use ($spec) {
+           $spec->return_value_map([
+               [3,4,7]
+           ]);
+       }, "Expected policy to throw on given arguments");
+    }
+
     public static function aStaticMethod()
     {
 
