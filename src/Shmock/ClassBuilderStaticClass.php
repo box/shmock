@@ -14,7 +14,7 @@ class ClassBuilderStaticClass implements Instance
     /**
      * @var string the name of the class being mocked
      */
-    private $className;
+    protected $className;
 
     /**
      * @var string[]
@@ -24,7 +24,7 @@ class ClassBuilderStaticClass implements Instance
     /**
      * @var \PHPUnit_Framework_TestCase
      */
-    private $testCase;
+    protected $testCase;
 
     /**
      * @var Ordering
@@ -65,7 +65,7 @@ class ClassBuilderStaticClass implements Instance
      */
     public function set_constructor_arguments()
     {
-
+        throw new \BadMethodCallException("Cannot instantiate a static mock. Set the constructor arguments on an instance mock.");
     }
 
     /**
@@ -102,7 +102,7 @@ class ClassBuilderStaticClass implements Instance
     }
 
     /**
-     * @return mixed The mock object, now in its replay phase.
+     * @return string The mock object, now in its replay phase.
      */
     public function replay()
     {
@@ -177,7 +177,7 @@ class ClassBuilderStaticClass implements Instance
      * @param callable
      * @return void
      */
-    public function shmock_class($closure)
+    public function shmock_class(callable $closure)
     {
         throw new \BadMethodCallException("you are already mocking the class");
     }

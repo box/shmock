@@ -14,12 +14,12 @@ class StaticSpec implements Spec
      * @var string The name of the primary class
      * or interface being mocked.
      */
-    private $className;
+    protected $className;
 
     /**
      * @var string the name of the method being mocked
      */
-    private $methodName;
+    protected $methodName;
 
     /**
      * @var mixed|null
@@ -49,7 +49,7 @@ class StaticSpec implements Spec
     /**
      * @var \PHPUnit_Framework_TestCase
      */
-    private $testCase;
+    protected $testCase;
 
     /**
      * @var \Shmock\Policy[] $policies
@@ -368,7 +368,7 @@ class StaticSpec implements Spec
         $e = $e ?: new \Exception();
 
         foreach ($this->policies as $policy) {
-            $policy->check_method_throws($this->className, $this->methodName, $e, true);
+            $policy->check_method_throws($this->className, $this->methodName, $e, $this->isStatic());
         }
 
         $this->will(function () use ($e) {
@@ -401,7 +401,7 @@ class StaticSpec implements Spec
     {
         foreach ($this->policies as $policy) {
             foreach ($array_of_values as $value) {
-                $policy->check_method_return_value($this->className, $this->methodName, $value, true);
+                $policy->check_method_return_value($this->className, $this->methodName, $value, $this->isStatic());
             }
         }
 
@@ -533,7 +533,7 @@ class StaticSpec implements Spec
             // as implemented, returnThis can only be verified by policies at
             // calltime.
             foreach ($this->policies as $policy) {
-                $this->check_method_return_value($this->className, $this->methodName, $target, true);
+                $this->check_method_return_value($this->className, $this->methodName, $target, $this->isStatic());
             }
 
             return $target;

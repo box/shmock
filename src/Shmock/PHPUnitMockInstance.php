@@ -303,7 +303,7 @@ class PHPUnitMockInstance implements Instance
      * @param  callable $closure
      * @return void
      */
-    public function shmock_class($closure)
+    public function shmock_class(callable $closure)
     {
         $this->shmock_class_closure = $closure;
     }
