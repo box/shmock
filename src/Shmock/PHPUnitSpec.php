@@ -365,23 +365,27 @@ class PHPUnitSpec implements Spec
      * </pre>
      * @param mixed[]      $array_of_values           the sequence of values to return.
      * @param boolean|void $keep_returning_last_value whether to continue returning the last element in the sequence
-     * or to fail the count expectation after every sequence element has been used. Defaults to false.
+     * or to fail the count expectation after every sequence element has been used. Defaults to false. If this *is*
+     * specified as true, then the caller *must* specify the {@see self::times()} explicitly.
      * @return \Shmock\PHPUnitSpec
      */
     public function return_consecutively($array_of_values, $keep_returning_last_value=false)
     {
         $this->returned_values = array_merge($this->returned_values, $array_of_values);
         $this->will(function () use ($array_of_values, $keep_returning_last_value) {
-            static $counter = -1;
-            $counter++;
-            if ($counter == count($array_of_values)) {
+            static $counter = 0;
+            if ($counter >= count($array_of_values)) {
                 if ($keep_returning_last_value) {
                     return $array_of_values[count($array_of_values)-1];
                 }
+                // else, return null; this should fail expected times() spec
             } else {
-                return $array_of_values[$counter];
+                $counter++;
+
+                return $array_of_values[$counter - 1];
             }
         });
+
         if (!$keep_returning_last_value) {
             $this->times(count($array_of_values));
         }
