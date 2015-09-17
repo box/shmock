@@ -55,6 +55,7 @@ interface Instance
 
     /**
      * Mocks the object's underlying static methods.
+     * @param callable
      * @return void
      */
     public function shmock_class($closure);

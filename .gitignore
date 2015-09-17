@@ -1,2 +1,4 @@
 pages
 vendor
+*.iml
+.idea
