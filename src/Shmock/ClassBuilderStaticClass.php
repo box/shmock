@@ -14,22 +14,22 @@ class ClassBuilderStaticClass implements Instance
     /**
      * @var string the name of the class being mocked
      */
-    private $className;
+    protected $className;
 
     /**
      * @var string[]
      */
-    private $expectedMethodCalls = [];
+    protected $expectedMethodCalls = [];
 
     /**
      * @var \PHPUnit_Framework_TestCase
      */
-    private $testCase;
+    protected $testCase;
 
     /**
      * @var Ordering
      */
-    private $ordering = null;
+    protected $ordering = null;
 
     /**
      * @param \PHPUnit_Framework_TestCase $testCase
@@ -69,14 +69,16 @@ class ClassBuilderStaticClass implements Instance
     }
 
     /**
+     * @param bool|void whether to stub static methods
      * @return void
      */
-    public function dont_preserve_original_methods()
+    public function dont_preserve_original_methods($stubStaticMethods = true)
     {
         $reflectionClass = new \ReflectionClass($this->className);
         $methods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($methods as $method) {
-            if (!$method->isFinal() && $method->isStatic()) {
+            $stubMethod = $stubStaticMethods ? $method->isStatic() : !$method->isStatic();
+            if (!$method->isFinal() && $stubMethod) {
                 $this->__call($method->getName(), [])->any()->return_null();
             }
         }
@@ -102,9 +104,12 @@ class ClassBuilderStaticClass implements Instance
     }
 
     /**
-     * @return mixed The mock object, now in its replay phase.
+     * Helper method to properly initialize a class builder with everything
+     * ready for $builder->create() to be invoked. Has no side effects
+     *
+     * @return \Shmock\ClassBuilder\ClassBuilder
      */
-    public function replay()
+    protected function initializeClassBuilder()
     {
         // build the mock class
         $builder = new ClassBuilder();
@@ -120,7 +125,6 @@ class ClassBuilderStaticClass implements Instance
         // the retrieval of the correct Spec to this Instance's Ordering constraint.
         $resolveCall = function (Invocation $inv) {
             $spec = $this->ordering->nextSpec($inv->getMethodName());
-
             return $spec->doInvocation($inv);
         };
 
@@ -128,7 +132,15 @@ class ClassBuilderStaticClass implements Instance
             $this->addMethodToBuilder($builder, $methodCall, $resolveCall);
         }
 
-        return $builder->create();
+        return $builder;
+    }
+
+    /**
+     * @return mixed The mock object, now in its replay phase.
+     */
+    public function replay()
+    {
+        return $this->initializeClassBuilder()->create();
     }
 
     /**
@@ -145,7 +157,7 @@ class ClassBuilderStaticClass implements Instance
 
     /**
      * @param  string $methodName
-     * @param  array  $arguments
+     * @param  array  $with more args
      * @return Spec   a new spec that will be used when finalizing
      * the expectations of this mock.
      */

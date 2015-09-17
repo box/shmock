@@ -1,6 +1,14 @@
 <?php
 
 namespace Shmock;
+use \Shmock\ClassBuilder\ClassBuilder;
+use \Shmock\ClassBuilder\MethodInspector;
+use \Shmock\InstanceSpec;
+use \Shmock\ClassBuilder\Invocation;
+
+use \Shmock\Constraints\Ordering;
+use \Shmock\Constraints\Unordered;
+use \Shmock\Constraints\MethodNameOrdering;
 
 /**
 * @package Shmock
@@ -8,41 +16,14 @@ namespace Shmock;
 *
 * Instance is the receiver for all method invocations during the build phase.
 */
-class PHPUnitMockInstance implements Instance
+class PHPUnitMockInstance extends ClassBuilderStaticClass
 {
-
-    /**
-    * @var \PHPUnit_Framework_TestCase
-    * @internal
-    */
-    protected $test_case = null;
-
-    /**
-     * @internal
-     */
-    protected $specs = [];
-
-    /**
-     * @internal The class being mocked
-     */
-    protected $class = null;
-
-    /**
-     * Whether or not to preserve the original
-     * methods on the mock object or stub them out.
-     * Default is to preserve original methods.
-     * @var bool
-     * @see \Shmock\Instance::dont_preserve_original_methods() Call dont_preserve_original_methods() to disable the preservation behavior
-     */
-    protected $preserve_original_methods = true;
-
     /**
      * Whether or not to disable the constructor belonging to the class
      * being mocked. By default Shmock will create a mock object that
      * invokes the constructor.
      * @var bool
      * @see \Shmock\Instance::disable_original_constructor() Call disable_original_constructor() to prevent invocation of the original constructor
-     * @see \Shmock\Instance::set_constructor_arguments() Call set_constructor_arguments() to call the original constructor with specific args.
      */
     protected $disable_original_constructor = false;
 
@@ -56,19 +37,6 @@ class PHPUnitMockInstance implements Instance
     protected $shmock_class_closure = null;
 
     /**
-     * @var bool
-     * Indicates whether the order of invocations should be tracked.
-     * @see \Shmock\Instance::order_matters() Call order_matters() to trigger order enforcement
-     */
-    protected $order_matters = false;
-
-    /**
-     * @internal
-     * When invoking the mock builder, will use this value in the at() method
-     */
-    protected $call_index = 0;
-
-    /**
      * Arguments that will be passed to the original constructor.
      * @var array
      * @see \Shmock\Instance::set_constructor_arguments() Call set_constructor_arguments() to call the original constructor with specific args.
@@ -77,21 +45,14 @@ class PHPUnitMockInstance implements Instance
     protected $constructor_arguments = [];
 
     /**
-     * @internal
-     * The methods being mocked
-     */
-    protected $methods = [];
-
-    /**
      * The Instance is active during the build phase of a mock of an instance. This object acts
      * as a receiver for methods you wish to mock by implementing __call.
-     * @param \PHPUnit_Framework_TestCase $test_case
+     * @param \PHPUnit_Framework_TestCase $testCase
      * @param string                      $class     the class being mocked
      */
-    public function __construct($test_case, $class)
+    public function __construct($testCase, $class)
     {
-        $this->test_case = $test_case;
-        $this->class = $class;
+        parent::__construct($testCase, $class);
     }
 
     /**
@@ -104,8 +65,10 @@ class PHPUnitMockInstance implements Instance
      */
     public function disable_original_constructor()
     {
+        if (!empty($this->constructor_arguments)) {
+            throw new \BadMethodCallException("You cannot disable the constructor after you have set constructor arguments!");
+        }
         $this->disable_original_constructor = true;
-
         return $this;
     }
 
@@ -113,12 +76,15 @@ class PHPUnitMockInstance implements Instance
      * Any arguments passed in here will be included in the
      * constructor call for the mocked class.
      * @param *mixed|null Arguments to the target constructor
-     * @return void
-     * @see \Shmock\Instance::disable_original_constructor()
+     * @return \Shmock\Instance
      */
     public function set_constructor_arguments()
     {
+        if ($this->disable_original_constructor) {
+            throw new \BadMethodCallException("You cannot set constructor arguments after you have disabled the constructor!");
+        }
         $this->constructor_arguments = func_get_args();
+        return $this;
     }
 
     /**
@@ -130,8 +96,7 @@ class PHPUnitMockInstance implements Instance
      */
     public function dont_preserve_original_methods()
     {
-        $this->preserve_original_methods = false;
-
+        parent::dont_preserve_original_methods(false);
         return $this;
     }
 
@@ -153,8 +118,7 @@ class PHPUnitMockInstance implements Instance
      */
     public function order_matters()
     {
-        $this->order_matters = true;
-
+        parent::order_matters();
         return $this;
     }
 
@@ -166,40 +130,23 @@ class PHPUnitMockInstance implements Instance
      */
     public function order_doesnt_matter()
     {
-        $this->order_matters = false;
-
+        parent::order_doesnt_matter();
         return $this;
     }
 
     /**
-     * @internal
-     * Finalizes mock creation
-     * @return mixed the mock object
+     * Helper method to properly initialize a class builder with everything
+     * ready for $builder->create() to be invoked. Has no side effects
+     *
+     * @return \Shmock\ClassBuilder\ClassBuilder
      */
-    protected function construct_mock()
+    protected function initializeClassBuilder()
     {
-        $builder = $this->test_case->getMockBuilder($this->class);
-
+        $builder = parent::initializeClassBuilder();
         if ($this->disable_original_constructor) {
-            $builder->disableOriginalConstructor();
+            $builder->disableConstructor();
         }
-        if ($this->preserve_original_methods) {
-            if (count($this->methods) == 0) {
-                /*
-                 * If you pass an empty array of methods to the PHPUnit mock builder,
-                 * it's effectively like saying don't preserve any methods at all. Instead
-                 * we tell the builder to mock a single fake method when necessary.
-                 */
-                $this->methods[] = "__fake_method_for_shmock_to_preserve_methods";
-            }
-            $builder->setMethods(array_unique($this->methods));
-        }
-        if ($this->constructor_arguments) {
-            $builder->setConstructorArgs($this->constructor_arguments);
-        }
-        $mock = $builder->getMock();
-
-        return $mock;
+        return $builder;
     }
 
     /**
@@ -210,50 +157,22 @@ class PHPUnitMockInstance implements Instance
      */
     public function replay()
     {
-        $shmock_instance_class = null;
-        if ($this->shmock_class_closure) {
-            /** @var callable $s */
-            $s = $this->shmock_class_closure;
-            $shmock_instance_class = new PHPUnitInstanceClass($this->test_case, $this->class);
-            $s($shmock_instance_class);
-            $this->methods = array_merge($this->methods, $shmock_instance_class->methods);
-        }
+        $mockClassName = parent::replay();
 
-        $mock = $this->construct_mock();
-
-        if ($shmock_instance_class) {
-            $shmock_instance_class->set_mock($mock);
-            $shmock_instance_class->replay();
-        }
-
-        foreach ($this->specs as $spec) {
-            $spec->__shmock_finalize_expectations($mock, Shmock::$policies, false, $this->class);
-        }
-
-        return $mock;
+        $mockClassReflector = new \ReflectionClass($mockClassName);
+        return $mockClassReflector->newInstanceArgs($this->constructor_arguments);
     }
 
     /**
-     * @internal
-     * @param  string $method
-     * @param  array  $with
+     * @param  \Shmock\ClassBuilder\ClassBuilder $builder
+     * @param  string                            $methodCall
+     * @param  callable                          $resolveCall
      * @return void
      */
-    protected function do_strict_method_test($method, $with)
+    protected function addMethodToBuilder(ClassBuilder $builder, $methodCall, callable $resolveCall)
     {
-        if (!class_exists($this->class) && !interface_exists($this->class)) {
-            $this->test_case->fail("Class {$this->class} not found.");
-        }
-
-        $err_msg = "#$method is a static method on the class {$this->class}, but you expected it to be an instance method.";
-
-        try {
-            $reflection_method = new \ReflectionMethod($this->class, $method);
-            $this->test_case->assertFalse($reflection_method->isStatic(), $err_msg);
-            $this->test_case->assertFalse($reflection_method->isPrivate(), "#$method is a private method on {$this->class}, but you cannot mock a private method.");
-        } catch (\ReflectionException $e) {
-            $this->test_case->assertTrue(method_exists($this->class, '__call'), "The method $method does not exist on the class {$this->class}.");
-        }
+        $inspector = new MethodInspector($this->className, $methodCall);
+        $builder->addMethod($methodCall, $resolveCall, $inspector->signatureArgs());
     }
 
     /**
@@ -323,18 +242,23 @@ class PHPUnitMockInstance implements Instance
      * Additionally, any expectations set by Shmock policies may trigger an exception when replay() is invoked.
      * @param  string              $method the method on the target class
      * @param  array               $with   the arguments to the mocked method
-     * @return \Shmock\PHPUnitSpec a spec that can add additional constraints to the invocation.
+     * @return \Shmock\Spec a spec that can add additional constraints to the invocation.
      * @see \Shmock\PHPUnitSpec See \Shmock\PHPUnitSpec for additional constraints that can be placed on an invocation
      */
     public function __call($method, $with)
     {
-        $this->do_strict_method_test($method, $with);
-        $this->methods[] = $method;
-        $spec = new PHPUnitSpec($this->test_case, $this, $method, $with, $this->order_matters, $this->call_index);
-        $this->specs[] = $spec;
-        $this->call_index++;
+        return parent::__call($method, $with);
+    }
 
-        return $spec;
+    /**
+     * Build a spec object given the method and args
+     * @param  string $methodName
+     * @param  array  $with
+     * @return Spec
+     */
+    protected function initSpec($methodName, array $with)
+    {
+        return new InstanceSpec($this->testCase, $this->className, $methodName, $with, Shmock::$policies);
     }
 
     /**
@@ -342,6 +266,6 @@ class PHPUnitMockInstance implements Instance
      */
     public function verify()
     {
-        // this is a no-op for PHPUnit generated mock objects
+        parent::verify();
     }
 }

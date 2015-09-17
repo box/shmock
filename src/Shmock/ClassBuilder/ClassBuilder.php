@@ -48,6 +48,12 @@ class ClassBuilder
 
     /**
      * @internal
+     * @var string
+     */
+    private $constructor = "";
+
+    /**
+     * @internal
      * @return string
      */
     private function randStr()
@@ -72,6 +78,9 @@ class <className> <extends> <implements>
 {
     /* trait inclusions */
     <uses>
+
+    /* optional constructor implementation */
+    <constructor>
 
     /* method implementations */
     private static \$__implementations__ = [];
@@ -112,6 +121,7 @@ EOF;
             "implements" => $this->interfaceStr(),
             "methods" => implode($functions, "\n"),
             "extends" => $this->extends,
+            "constructor" => $this->constructor,
         ]);
 
         eval($classDef);
@@ -224,6 +234,15 @@ EOF;
         $this->traits[] = "use $traitName;";
     }
 
+    /**
+     * Helper method to disable the constructor of the parent class. This
+     * just creates a no-op constructor in our constructed class.
+     * @return void
+     */
+    public function disableConstructor()
+    {
+        $this->constructor = "public function __construct() { }";
+    }
 }
 
 /**

@@ -252,6 +252,7 @@ class PHPUnitSpec implements Spec
     */
     public function return_value_map($map_of_args_to_values)
     {
+        /*
         $limit = count($map_of_args_to_values);
         $this->test_case->assertGreaterThan(0, $limit, 'Must specify at least one return value');
         $this->times($limit);
@@ -266,6 +267,8 @@ class PHPUnitSpec implements Spec
         return $this->will(function ($invocation) use ($stub) {
             return $stub->invoke($invocation);
         });
+        */
+        return $this;
     }
 
     /**

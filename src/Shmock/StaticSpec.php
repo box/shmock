@@ -1,7 +1,6 @@
 <?php
 namespace Shmock;
 
-use \Shmock\ClassBuilder\ClassBuilder;
 use \Shmock\ClassBuilder\Invocation;
 
 use \Shmock\Constraints\CountOfTimes;
@@ -92,13 +91,19 @@ class StaticSpec implements Spec
      */
     protected function doStrictMethodCheck()
     {
-        $errMsg = "#{$this->methodName} is an instance method on the class {$this->className}, but you expected it to be static.";
+        if ($this->isStatic()) {
+            $errMsg = "#{$this->methodName} is an instance method on the class {$this->className}, but you expected it to be static.";
+        } else {
+            $errMsg = "#{$this->methodName} is a static method on the class {$this->className}, but you expected it to be an instance method.";
+        }
+
         try {
             $reflectionMethod = new \ReflectionMethod($this->className, $this->methodName);
-            $this->testCase->assertTrue($reflectionMethod->isStatic(), $errMsg);
+            $this->testCase->assertTrue($reflectionMethod->isStatic() == $this->isStatic(), $errMsg);
             $this->testCase->assertFalse($reflectionMethod->isPrivate(), "#{$this->methodName} is a private method on {$this->className}, but you cannot mock a private method.");
         } catch (\ReflectionException $e) {
-            $this->testCase->assertTrue(method_exists($this->className, '__callStatic'), "The method #{$this->methodName} does not exist on the class {$this->className}");
+            $necessaryMagicMethod = $this->isStatic() ? '__callStatic' : '__call';
+            $this->testCase->assertTrue(method_exists($this->className, $necessaryMagicMethod), "The method #{$this->methodName} does not exist on the class {$this->className}");
         }
     }
 
