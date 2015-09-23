@@ -529,7 +529,7 @@ class StaticSpec implements Spec
         }
 
         if ($this->will) {
-            return call_user_func($this->will, new InvocationImpl($args));
+            return call_user_func($this->will, $invocation);
         }
 
         if ($this->returnThis) {

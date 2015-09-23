@@ -25,7 +25,11 @@ class MethodInspector
     {
         $this->className = $className;
         $this->methodName = $methodName;
-        $this->reflMethod = new \ReflectionMethod($this->className, $this->methodName);
+        try {
+            $this->reflMethod = new \ReflectionMethod($this->className, $this->methodName);
+        } catch (\ReflectionException $e) {
+            $this->reflMethod = null;
+        }
     }
 
     /**
@@ -33,6 +37,9 @@ class MethodInspector
      */
     public function signatureArgs()
     {
+        if ($this->reflMethod == null) {
+            return [""];
+        }
         $parameters = $this->reflMethod->getParameters();
         $result = [];
         foreach ($parameters as $parameter) {

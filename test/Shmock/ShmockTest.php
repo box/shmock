@@ -91,6 +91,57 @@ class ShmockTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testClassInstanceFieldIsAlwaysSetOnShmocksWithCtorDisabled()
+    {
+        $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($mock) {
+            $mock->disable_original_constructor();
+        });
+
+        $this->assertFalse(property_exists($foo, 'foo'));
+        $this->assertTrue(is_string($foo->class));
+    }
+
+    public function testWillClosureGetsProperParamsOnIt()
+    {
+        $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($mock) {
+            $mock->bar()->any()->will(function ($invocation) {
+                $args = $invocation->parameters;
+                return $args[0] * 4;
+            });
+        });
+
+        $this->assertSame($foo->barPlusTwo(4), 18);
+        $this->assertSame($foo->barPlusTwo(100), 402);
+    }
+
+    public function testUsersCanShmockNonExistentMagicMethods()
+    {
+        $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($mock) {
+            $mock->magic()->return_value(2);
+        });
+        $this->assertSame($foo->doMagic(), 84);
+    }
+
+    public function testShmockCanMockInterfaces()
+    {
+        $foo = Shmock::create($this, '\Shmock\Empty_Foo', function ($mock) {
+            $mock->foo()->return_value(42);
+        });
+        $this->assertSame($foo->foo(), 42);
+    }
+
+    public function testShmockCanHandleOrderMattersNotFirst()
+    {
+        $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($mock) {
+            $mock->doMagic();
+            $mock->magic();
+            $mock->bar(42);
+            $mock->lala();
+            $mock->order_matters();
+        });
+        $foo->sequentialCalls();
+    }
+
     public function tearDown()
     {
         Shmock::verify();
@@ -99,6 +150,11 @@ class ShmockTest extends \PHPUnit_Framework_TestCase
 
 class Shmock_Foo
 {
+    public function __construct()
+    {
+        $this->foo = "42";
+    }
+
     public function lala()
     {
         return static::weewee();
@@ -114,9 +170,44 @@ class Shmock_Foo
         return 5;
     }
 
+    public function barPlusTwo($a)
+    {
+        return $this->bar($a) + 2;
+    }
+
+    public function bar($a)
+    {
+        return $a * 2;
+    }
+
+    public function __call($name, $args)
+    {
+        if ($name == "magic") {
+            return 42;
+        }
+        return null;
+    }
+
+    public function doMagic()
+    {
+        return 42*$this->magic();
+    }
+
+    public function sequentialCalls()
+    {
+        $this->doMagic();
+        $this->magic();
+        $this->bar(42);
+        $this->lala();
+    }
 }
 
 abstract class AbstractFoo
 {
     abstract public function bar();
+}
+
+interface Empty_Foo
+{
+    public function foo();
 }

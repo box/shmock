@@ -242,6 +242,13 @@ EOF;
     public function disableConstructor()
     {
         $this->constructor = "public function __construct() { }";
+
+        /**
+         * NOTE: we set the name of class here to maintain parity with the side-effects of a dirty
+         * hack in the PHPUnit Mock builder, where it made a fake serialized class and unserialized
+         * it, which populates a "class" instance variable with the name of the class
+         */
+        $this->constructor .= "\n\npublic \$class = '".$this->className."';\n";
     }
 }
 

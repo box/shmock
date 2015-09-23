@@ -5,7 +5,7 @@ namespace Shmock\ClassBuilder;
 /**
  * Passed to installed methods.
  */
-class Invocation
+class Invocation extends \PHPUnit_Framework_MockObject_Invocation_Object
 {
     /**
      * @var string|object
@@ -18,11 +18,6 @@ class Invocation
     private $arguments = null;
 
     /**
-     * @var string
-     */
-    private $methodName;
-
-    /**
      * @param string|object
      * @param string
      * @param array
@@ -32,6 +27,15 @@ class Invocation
         $this->target = $target;
         $this->methodName = $methodName;
         $this->arguments = $arguments;
+        $this->parameters = $arguments;
+
+        if (is_object($target)) { // if this is an instance method invocation
+            $this->object = $target;
+            $this->className = get_class($target);
+        } else {
+            $this->object = null;
+            $this->className = $target;
+        }
     }
 
     /**

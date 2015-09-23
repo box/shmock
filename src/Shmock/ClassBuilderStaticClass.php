@@ -89,10 +89,13 @@ class ClassBuilderStaticClass implements Instance
      */
     public function order_matters()
     {
-        if ($this->ordering !== null) {
+        if ($this->ordering === null) {
+            $this->ordering = new MethodNameOrdering();
+        } else if ($this->ordering instanceof Unordered) {
+            $this->ordering = $this->ordering->convertToMethodNameOrdering();
+        } else {
             throw new \InvalidArgumentException("You cannot set the ordering constraint more than once. (It is implicitly set to 'unordered' after the first method is specified)");
         }
-        $this->ordering = new MethodNameOrdering();
     }
 
     /**
@@ -116,7 +119,7 @@ class ClassBuilderStaticClass implements Instance
         if (class_exists($this->className)) {
             $builder->setExtends($this->className);
         } elseif (interface_exists($this->className)) {
-            $builder->addImplements($this->className);
+            $builder->addInterface($this->className);
         } else {
             throw new \InvalidArgumentException("Class or interface " . $this->className . " does not exist");
         }
