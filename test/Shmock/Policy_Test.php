@@ -14,6 +14,7 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         Shmock::clear_policies();
+        Shmock::verify();
     }
 
     /**
@@ -48,7 +49,7 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
     public function test_policy_prevents_odd_return_values()
     {
         $calculator = $this->shmock('Shmock\Even_Calculator', function ($calculator) {
-            $calculator->raise_to_even(5)->return_value(7);
+            $calculator->raise_to_even(5)->any()->return_value(7);
         });
 
         $this->fail("should not reach here");
@@ -60,7 +61,7 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
     public function test_policy_prevents_unexpected_throws()
     {
         $calculator = $this->shmock('Shmock\Even_Calculator', function ($calculator) {
-            $calculator->raise_to_even(5)->throw_exception(new \Exception());
+            $calculator->raise_to_even(5)->any()->throw_exception(new \Exception());
         });
 
         $this->fail("should not reach here");

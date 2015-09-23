@@ -4,6 +4,7 @@ namespace Shmock;
 use \Shmock\ClassBuilder\ClassBuilder;
 use \Shmock\ClassBuilder\MethodInspector;
 use \Shmock\InstanceSpec;
+use \Shmock\StaticSpec;
 use \Shmock\ClassBuilder\Invocation;
 
 use \Shmock\Constraints\Ordering;
@@ -43,6 +44,21 @@ class ClassBuilderInstanceClass extends ClassBuilderStaticClass
      * @see \Shmock\Instance::disable_original_constructor() Call disable_original_constructor() to disable the original constructor
      */
     protected $constructor_arguments = [];
+
+    /**
+     * Array to record the instance method calls we should add to the class builder
+     * @var string[]
+     */
+    protected $expectedInstanceMethodCalls = [];
+
+    /**
+     * A sentinel variable to determine whether we are in 'static' mode,
+     * i.e. whether we are currently executing the closure passed to shmock_class
+     * or not
+     *
+     * @var bool
+     */
+    private $in_static_mode = false;
 
     /**
      * The Instance is active during the build phase of a mock of an instance. This object acts
@@ -96,7 +112,7 @@ class ClassBuilderInstanceClass extends ClassBuilderStaticClass
      */
     public function dont_preserve_original_methods()
     {
-        return parent::dont_preserve_original_methods(false);
+        return parent::dont_preserve_original_methods($this->in_static_mode);
     }
 
     /**
@@ -108,9 +124,11 @@ class ClassBuilderInstanceClass extends ClassBuilderStaticClass
     protected function initializeClassBuilder()
     {
         $builder = parent::initializeClassBuilder();
+
         if ($this->disable_original_constructor) {
             $builder->disableConstructor();
         }
+
         return $builder;
     }
 
@@ -129,15 +147,19 @@ class ClassBuilderInstanceClass extends ClassBuilderStaticClass
     }
 
     /**
+     * Helper function to add all called methods to the class builder
+     *
      * @param  \Shmock\ClassBuilder\ClassBuilder $builder
-     * @param  string                            $methodCall
      * @param  callable                          $resolveCall
-     * @return void
+     * @return \Shmock\ClassBuilder\ClassBuilder
      */
-    protected function addMethodToBuilder(ClassBuilder $builder, $methodCall, callable $resolveCall)
+    protected function addMethodsToBuilder(ClassBuilder $builder, callable $resolveCall)
     {
-        $inspector = new MethodInspector($this->className, $methodCall);
-        $builder->addMethod($methodCall, $resolveCall, $inspector->signatureArgs());
+        foreach (array_unique($this->expectedInstanceMethodCalls) as $methodCall) {
+            $inspector = new MethodInspector($this->className, $methodCall);
+            $builder->addMethod($methodCall, $resolveCall, $inspector->signatureArgs());
+        }
+        return parent::addMethodsToBuilder($builder, $resolveCall);
     }
 
     /**
@@ -189,7 +211,9 @@ class ClassBuilderInstanceClass extends ClassBuilderStaticClass
      */
     public function shmock_class($closure)
     {
-        $this->shmock_class_closure = $closure;
+        $this->in_static_mode = true;
+        $closure($this);
+        $this->in_static_mode = false;
     }
 
     /**
@@ -200,6 +224,25 @@ class ClassBuilderInstanceClass extends ClassBuilderStaticClass
      */
     protected function initSpec($methodName, array $with)
     {
-        return new InstanceSpec($this->testCase, $this->className, $methodName, $with, Shmock::$policies);
+        if ($this->in_static_mode) {
+            return new StaticSpec($this->testCase, $this->className, $methodName, $with, Shmock::$policies);
+        } else {
+            return new InstanceSpec($this->testCase, $this->className, $methodName, $with, Shmock::$policies);
+        }
+    }
+
+    /**
+     * Housekeeping function to record a method invocation
+     *
+     * @param string $methodName
+     * @return void
+     */
+    protected function recordMethodInvocation($methodName)
+    {
+        if ($this->in_static_mode) {
+            $this->expectedStaticMethodCalls[] = $methodName;
+        } else {
+            $this->expectedInstanceMethodCalls[] = $methodName;
+        }
     }
 }

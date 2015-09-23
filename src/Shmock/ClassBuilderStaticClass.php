@@ -19,7 +19,7 @@ class ClassBuilderStaticClass implements Instance
     /**
      * @var string[]
      */
-    protected $expectedMethodCalls = [];
+    protected $expectedStaticMethodCalls = [];
 
     /**
      * @var \PHPUnit_Framework_TestCase
@@ -154,11 +154,7 @@ class ClassBuilderStaticClass implements Instance
             return $spec->doInvocation($inv);
         };
 
-        foreach (array_unique($this->expectedMethodCalls) as $methodCall) {
-            $this->addMethodToBuilder($builder, $methodCall, $resolveCall);
-        }
-
-        return $builder;
+        return $this->addMethodsToBuilder($builder, $resolveCall);
     }
 
     /**
@@ -170,15 +166,19 @@ class ClassBuilderStaticClass implements Instance
     }
 
     /**
+     * Helper function to add all called methods to the class builder
+     *
      * @param  \Shmock\ClassBuilder\ClassBuilder $builder
-     * @param  string                            $methodCall
      * @param  callable                          $resolveCall
-     * @return void
+     * @return \Shmock\ClassBuilder\ClassBuilder
      */
-    protected function addMethodToBuilder(ClassBuilder $builder, $methodCall, callable $resolveCall)
+    protected function addMethodsToBuilder(ClassBuilder $builder, callable $resolveCall)
     {
-        $inspector = new MethodInspector($this->className, $methodCall);
-        $builder->addStaticMethod($methodCall, $resolveCall, $inspector->signatureArgs());
+        foreach (array_unique($this->expectedStaticMethodCalls) as $methodCall) {
+            $inspector = new MethodInspector($this->className, $methodCall);
+            $builder->addStaticMethod($methodCall, $resolveCall, $inspector->signatureArgs());
+        }
+        return $builder;
     }
 
     /**
@@ -206,9 +206,19 @@ class ClassBuilderStaticClass implements Instance
         }
         $spec = $this->initSpec($methodName, $with);
         $this->ordering->addSpec($methodName, $spec);
-        $this->expectedMethodCalls[] = $methodName;
-
+        $this->recordMethodInvocation($methodName);
         return $spec;
+    }
+
+    /**
+     * Housekeeping function to record a method invocation
+     *
+     * @param string $methodName
+     * @return void
+     */
+    protected function recordMethodInvocation($methodName)
+    {
+        $this->expectedStaticMethodCalls[] = $methodName;
     }
 
     /**
