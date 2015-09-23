@@ -243,7 +243,7 @@ class ClassBuilderInstanceClass extends ClassBuilderStaticClass
      * @param  string              $method the method on the target class
      * @param  array               $with   the arguments to the mocked method
      * @return \Shmock\Spec a spec that can add additional constraints to the invocation.
-     * @see \Shmock\PHPUnitSpec See \Shmock\PHPUnitSpec for additional constraints that can be placed on an invocation
+     * @see \Shmock\Spec See \Shmock\Spec for additional constraints that can be placed on an invocation
      */
     public function __call($method, $with)
     {

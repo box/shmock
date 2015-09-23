@@ -47,7 +47,7 @@ class Shmock
      * is an of \Shmock\Instance. This instance will allow you to mock any
      * instance method on the class MyCalculator, so it might allow <code>add</code> or <code>subtract</code>,
      * but not <code>openFileStream()</code> or <code>sbutract</code>. The result of the method
-     * is an instance of \Shmock\PHPUnitSpec, which contains many of the familiar
+     * is an instance of \Shmock\Spec, which contains many of the familiar
      * expectation-setting methods for mock frameworks.
      *
      * You may easily design your own build / replay lifecycle to meet your needs by
@@ -67,7 +67,7 @@ class Shmock
      * will fail if the class is final.
      * @see \Shmock\Instance \Shmock\Instance
      * @see \Shmock\Class \Shmock\StaticClass
-     * @see \Shmock\PHPUnitSpec See \Shmock\PHPUnitSpec to get a sense of what methods are available for setting expectations.
+     * @see \Shmock\Spec See \Shmock\Spec to get a sense of what methods are available for setting expectations.
      * @see \Shmock\Shmockers See the Shmockers trait for a shorthand helper to use in test cases.
      */
     public static function create(\PHPUnit_Framework_TestCase $test_case, $class, callable $closure)
