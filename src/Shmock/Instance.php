@@ -15,28 +15,28 @@ interface Instance
     public function verify();
 
     /**
-     * @return void
+     * @return \Shmock\Instance
      */
     public function disable_original_constructor();
 
     /**
      * @param *mixed|null
-     * @return void
+     * @return \Shmock\Instance
      */
     public function set_constructor_arguments();
 
     /**
-     * @return void
+     * @return \Shmock\Instance
      */
     public function dont_preserve_original_methods();
 
     /**
-     * @return void
+     * @return \Shmock\Instance
      */
     public function order_matters();
 
     /**
-     * @return void
+     * @return \Shmock\Instance
      */
     public function order_doesnt_matter();
 

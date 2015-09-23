@@ -52,25 +52,27 @@ class ClassBuilderStaticClass implements Instance
     }
 
     /**
-     * @return void
+     * @return \Shmock\Instance
      */
     public function disable_original_constructor()
     {
         // no-op
+        return $this;
     }
 
     /**
      * @param *mixed|null
-     * @return void
+     * @return \Shmock\Instance
      */
     public function set_constructor_arguments()
     {
-
+        // no-op
+        return $this;
     }
 
     /**
      * @param bool|void whether to stub static methods
-     * @return void
+     * @return \Shmock\Instance
      */
     public function dont_preserve_original_methods($stubStaticMethods = true)
     {
@@ -82,10 +84,24 @@ class ClassBuilderStaticClass implements Instance
                 $this->__call($method->getName(), [])->any()->return_null();
             }
         }
+        return $this;
     }
 
     /**
-     * @return void
+     * When this is called, Shmock will begin keeping track of the order of calls made on this
+     * mock. This is implemented by using the PHPUnit at() feature and keeping an internal
+     * counter to track order.
+     *
+     * <pre>
+     *  $shmock->order_matters();
+     *  $shmock->notify('first notification');
+     *  $shmock->notify('second notification');
+     * </pre>
+     * In this example, the string "first notification" is expected to be sent to notify first during replay. If
+     * any other string, including "second notification" is received, it will fail the expectation.
+     *
+     * Shmock does not expose the at() feature directly.
+     * @return \Shmock\Instance
      */
     public function order_matters()
     {
@@ -96,14 +112,21 @@ class ClassBuilderStaticClass implements Instance
         } else {
             throw new \InvalidArgumentException("You cannot set the ordering constraint more than once. (It is implicitly set to 'unordered' after the first method is specified)");
         }
+        return $this;
     }
 
     /**
-     * @return void
+     * Disables order checking. Note that order is already disabled by default, so this does not need
+     * to be invoked unless order_matters was previously invoked
+     * @see \Shmock\Instance::order_matters() See order_matters() to trigger order enforcement
+     * @return \Shmock\Instance
      */
     public function order_doesnt_matter()
     {
-        // no-op
+        if ($this->ordering !== null && !($this->ordering instanceof Unordered)) {
+            throw new \InvalidArgumentException("You cannot set the ordering constraint more than once! The ordering constraint is implicity set to 'unordered' after the first method is specified.");
+        }
+        return $this;
     }
 
     /**
@@ -159,10 +182,22 @@ class ClassBuilderStaticClass implements Instance
     }
 
     /**
-     * @param  string $methodName
-     * @param  array  $with more args
-     * @return Spec   a new spec that will be used when finalizing
-     * the expectations of this mock.
+     * Shmock intercepts all non-shmock methods here.
+     *
+     * Shmock will fail the test if any of the following are true:
+     *
+     * <ol>
+     * <li> The class being mocked doesn't exist. </li>
+     * <li> The method being mocked doesn't exist AND there is no __call handler on the class. </li>
+     * <li> The method is private. </li>
+     * <li> The method is static. (or non-static if using a StaticClass ) </li>
+     * </ol>
+     *
+     * Additionally, any expectations set by Shmock policies may trigger an exception when replay() is invoked.
+     * @param  string              $methodName the method on the target class
+     * @param  array               $with   the arguments to the mocked method
+     * @return \Shmock\Spec a spec that can add additional constraints to the invocation.
+     * @see \Shmock\Spec See \Shmock\Spec for additional constraints that can be placed on an invocation
      */
     public function __call($methodName, $with)
     {
