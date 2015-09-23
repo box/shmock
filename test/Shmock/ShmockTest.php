@@ -16,6 +16,19 @@ class ShmockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $foo->lala());
     }
 
+    public function testFooClassCanBeStaticallyMockedWithOrderMatters()
+    {
+        $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($foo) {
+            $foo->order_matters();
+            $foo->shmock_class(function ($Shmock_Foo) {
+                $Shmock_Foo->weewee()->return_value(3);
+            });
+            $foo->bar(3)->return_value(7);
+            $foo->for_value_map(7,3)->return_value(23);
+        });
+        $this->assertEquals(23, $foo->staticSequentialCalls());
+    }
+
     public function testFooClassShouldBeAbleToStaticallyMockWeewee()
     {
         $Shmock_Foo = Shmock::create_class($this, '\Shmock\Shmock_Foo', function ($Shmock_Foo) {
@@ -141,6 +154,32 @@ class ShmockTest extends \PHPUnit_Framework_TestCase
         $foo->sequentialCalls();
     }
 
+    public function testShmockCanHandleOrderMattersAndThrowExceptionWhenWrong()
+    {
+        $foo = Shmock::create($this, '\Shmock\Shmock_Foo', function ($mock) {
+            $mock->magic();
+            $mock->doMagic();
+            $mock->bar(42);
+            $mock->lala();
+            $mock->order_matters();
+        });
+        $thrown = false;
+        try {
+            $foo->sequentialCalls();
+        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
+            $thrown = true;
+        }
+        $this->assertTrue($thrown);
+
+        $thrown = false;
+        try {
+            Shmock::verify();
+        } catch (\Exception $e) {
+            $thrown = true;
+        }
+        $this->assertTrue($thrown);
+    }
+
     public function tearDown()
     {
         Shmock::verify();
@@ -198,6 +237,12 @@ class Shmock_Foo
         $this->magic();
         $this->bar(42);
         $this->lala();
+    }
+
+    public function staticSequentialCalls()
+    {
+        $a = $this->bar(static::weewee());
+        return $this->for_value_map($a, 3);
     }
 }
 
