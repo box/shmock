@@ -16,7 +16,7 @@ use \Shmock\Constraints\MethodNameOrdering;
 *
 * Instance is the receiver for all method invocations during the build phase.
 */
-class PHPUnitMockInstance extends ClassBuilderStaticClass
+class ClassBuilderInstanceClass extends ClassBuilderStaticClass
 {
     /**
      * Whether or not to disable the constructor belonging to the class

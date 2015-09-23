@@ -448,8 +448,7 @@ class StaticSpec implements Spec
      */
     public function return_shmock($class, $shmockClosure)
     {
-        // use PHPUnit instances for now...
-        $phpunitInstance = new PHPUnitMockInstance($this->testCase, $class);
+        $phpunitInstance = new ClassBuilderInstanceClass($this->testCase, $class);
         $shmockClosure($phpunitInstance);
 
         return $this->return_value($phpunitInstance->replay());
