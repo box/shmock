@@ -79,6 +79,25 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
         $calculator->raise_to_even(5);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_arg_policy_throws_when_no_args_passed()
+    {
+        $this->shmock('Shmock\Even_Calculator', function ($calculator) {
+            $calculator->raise_to_even();
+        });
+    }
+
+    public function test_arg_policy_does_not_throw_when_no_args_passed_and_escape_flag_set()
+    {
+        Shmock::$check_args_for_policy_on_instance_method_when_no_args_passed = false;
+        $calc = $this->shmock('Shmock\Even_Calculator', function ($calculator) {
+            $calculator->raise_to_even()->return_value(6);
+        });
+        Shmock::$check_args_for_policy_on_instance_method_when_no_args_passed = true;
+        $this->assertEquals($calc->raise_to_even(13), 6);
+    }
 }
 
 class Even_Calculator
@@ -107,6 +126,10 @@ class Even_Number_Policy extends Policy
 {
     public function check_method_parameters($class, $method, $parameters, $static)
     {
+        if (count($parameters) == 0) {
+            throw new \InvalidArgumentException("No args passed!");
+        }
+
         if (!is_integer($parameters[0])) {
             throw new Shmock_Exception();
         }

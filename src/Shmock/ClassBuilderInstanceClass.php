@@ -29,15 +29,6 @@ class ClassBuilderInstanceClass extends ClassBuilderStaticClass
     protected $disable_original_constructor = false;
 
     /**
-    * @var callable
-    * @internal
-    * If we want to shmock the static context of a shmock'd object
-    * we need to call get_class() on the final mock, so we save
-    * any configuration closure until after everything is done.
-    */
-    protected $shmock_class_closure = null;
-
-    /**
      * Arguments that will be passed to the original constructor.
      * @var array
      * @see \Shmock\Instance::set_constructor_arguments() Call set_constructor_arguments() to call the original constructor with specific args.

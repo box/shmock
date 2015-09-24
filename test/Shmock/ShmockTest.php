@@ -180,6 +180,43 @@ class ShmockTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($thrown);
     }
 
+    public function testShmockCannotMockStaticPrivateMethodsNormally()
+    {
+        $testCaseShmock = Shmock::create(
+                $this,
+                '\PHPUnit_Framework_TestCase',
+                function ($mock) {
+                    $mock->shmock_class(function ($smock) {
+                        $smock->assertFalse(true); // this would normally cause the test to fail, this ensures that it normally would happen
+                    });
+                }
+        );
+
+        $foo = Shmock::create_class(
+                $testCaseShmock,
+                '\Shmock\Shmock_Foo',
+                function ($mock) {
+                    $mock->sBar()->return_value(2);
+                }
+        );
+
+        $foo::sFoo();
+    }
+
+    public function testShmockCanMockStaticPrivateMethodsWithEscapeFlag()
+    {
+        Shmock::$disable_strict_method_checks_for_static_methods = true;
+        $foo = Shmock::create_class(
+                $this,
+                '\Shmock\Shmock_Foo',
+                function ($mock) {
+                    $mock->sBar()->return_value(2);
+                }
+        );
+        Shmock::$disable_strict_method_checks_for_static_methods = false;
+
+        $this->assertEquals($foo::sFoo(), 2);
+    }
     public function tearDown()
     {
         Shmock::verify();
@@ -191,6 +228,16 @@ class Shmock_Foo
     public function __construct()
     {
         $this->foo = "42";
+    }
+
+    public static function sFoo()
+    {
+        return static::sBar();
+    }
+
+    private static function sBar()
+    {
+        return 42;
     }
 
     public function lala()

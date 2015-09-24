@@ -33,7 +33,7 @@ class StaticSpec implements Spec
     /**
      * @var array arguments
      */
-    private $arguments;
+    protected $arguments;
 
     /**
      * @var callable
@@ -71,11 +71,33 @@ class StaticSpec implements Spec
         $this->frequency = new CountOfTimes(1, $this->methodName);
         $this->policies = $policies;
 
-        $this->doStrictMethodCheck();
-
-        foreach ($this->policies as $policy) {
-            $policy->check_method_parameters($className, $methodName, $arguments, $this->isStatic());
+        if ($this->shouldDoStrictMethodCheck()) {
+            $this->doStrictMethodCheck();
         }
+
+        if ($this->shouldCheckArgsAgainstPolicies()) {
+            foreach ($this->policies as $policy) {
+                $policy->check_method_parameters($className, $methodName, $arguments, $this->isStatic());
+            }
+        }
+    }
+
+    /**
+     * This is a backwards compatability escape valve to prevent strict method checks when
+     * a user requests it for static methods. See the comment in the Shmock class for more context
+     * @return bool
+     */
+    private function shouldDoStrictMethodCheck()
+    {
+        return !($this->isStatic() && Shmock::$disable_strict_method_checks_for_static_methods);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function shouldCheckArgsAgainstPolicies()
+    {
+        return true;
     }
 
     /**

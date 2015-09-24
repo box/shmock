@@ -29,6 +29,21 @@ class Shmock
     private static $outstanding_shmocks = [];
 
     /**
+     * @deprecated - this is only included for backwards compatability reasons. Before Shmock v2, shmock
+     * policies on instance method arguments used to not be checked if no method arguments were passed.
+     * Please only change this sparingly!
+     * @var bool
+     */
+    public static $check_args_for_policy_on_instance_method_when_no_args_passed = true;
+
+    /**
+     * @deprecated - this is only included for backwards compatability reasons. Before Shmock 2.0.0-alpha6,
+     * 'strict' method checking did not happen on mocked static methods. Please only change this sparingly!
+     * @var bool
+     */
+    public static $disable_strict_method_checks_for_static_methods = false;
+
+    /**
      * Create an instance of a mock object. Shmock uses a build / replay model for building mock objects.
      * The third argument to the create method is a callable that acts as the mock's build phase. The resulting
      * object from the create method is the object in the replay phase.
