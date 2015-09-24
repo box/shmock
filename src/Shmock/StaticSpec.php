@@ -559,7 +559,7 @@ class StaticSpec implements Spec
             // as implemented, returnThis can only be verified by policies at
             // calltime.
             foreach ($this->policies as $policy) {
-                $this->check_method_return_value($this->className, $this->methodName, $target, true);
+                $policy->check_method_return_value($this->className, $this->methodName, $target, true);
             }
 
             return $target;

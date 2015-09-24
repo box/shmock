@@ -98,6 +98,17 @@ class Policy_Test extends \PHPUnit_Framework_TestCase
         Shmock::$check_args_for_policy_on_instance_method_when_no_args_passed = true;
         $this->assertEquals($calc->raise_to_even(13), 6);
     }
+
+    /**
+     * @expectedException \UnexpectedValueException
+     */
+    public function test_return_this_works_with_policies()
+    {
+        $calc = $this->shmock('Shmock\Even_Calculator', function ($calculator) {
+            $calculator->raise_to_even(7)->return_this();
+        });
+        $calc->raise_to_even(7);
+    }
 }
 
 class Even_Calculator
@@ -137,6 +148,9 @@ class Even_Number_Policy extends Policy
 
     public function check_method_return_value($class, $method, $return_value, $static)
     {
+        if (is_object($return_value)) {
+            throw new \UnexpectedValueException("object returned?!?");
+        }
         if ($return_value % 2 === 1) {
             throw new Shmock_Exception();
         }

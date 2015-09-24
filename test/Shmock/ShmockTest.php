@@ -217,6 +217,7 @@ class ShmockTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($foo::sFoo(), 2);
     }
+
     public function tearDown()
     {
         Shmock::verify();
