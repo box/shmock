@@ -568,19 +568,3 @@ class StaticSpec implements Spec
         return $this->returnValue;
     }
 }
-
-class InvocationImpl implements \PHPUnit_Framework_MockObject_Invocation
-{
-    /**
-     * @var array
-     */
-    public $parameters;
-
-    /**
-     * @param array
-     */
-    public function __construct(array &$parameters)
-    {
-        $this->parameters = &$parameters;
-    }
-}
